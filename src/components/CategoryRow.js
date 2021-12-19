@@ -11,6 +11,7 @@ export default function CategoryRow(props) {
 	// https://api.trivia.willfry.co.uk/questions?categories=food_and_drink,geography,general_knowledge,history,literature,movies,music,science,society_and_culture,sport_and_leisure&limit=1
 
 	function newQuestion(player, category, gameState) {
+		gameState.currentCategory = category;
 		const categoryTitle = category.title
 		console.log(`Player ${player} requests a ${categoryTitle} question`);
 		var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`

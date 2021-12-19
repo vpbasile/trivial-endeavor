@@ -39,6 +39,9 @@ export default function AnswerButton(props) {
 	const buttonID = `choice-${props.buttonIndex}`;
 	const buttonClass = `btn w-100 my-2 blackandwhite`;
 	return (
-		<input type="button" className={buttonClass} id={buttonID} value="" onClick={() => alert("hi!")} disabled={true} ></input>
-	)
+		<div>
+			<input className={buttonClass} type="button" value="" id={buttonID} disabled={true} 
+				onClick={() => console.log(`Button clicked: ${buttonID}`)} />
+		</div>
+	);
 }
