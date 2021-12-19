@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+#custom ignores
+/ignoreStuff
+
 # dependencies
 /node_modules
 /.pnp
@@ -21,3 +24,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+src/fonts/glyphicons-halflings-regular.eot
+src/fonts/glyphicons-halflings-regular.svg
+src/fonts/glyphicons-halflings-regular.ttf
+src/fonts/glyphicons-halflings-regular.woff
+src/fonts/glyphicons-halflings-regular.woff2
+src/components/Question.js
+src/components/Player.js
