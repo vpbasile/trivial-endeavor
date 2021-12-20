@@ -1,14 +1,14 @@
+// API info:
+// https://trivia.willfry.co.uk/
+
+// https://api.trivia.willfry.co.uk/questions?categories=food_and_drink,geography,general_knowledge,history,literature,movies,music,science,society_and_culture,sport_and_leisure&limit=1
+
 import React from "react";
 
 export default function CategoryRow(props) {
+	var gameState = props.gameState;
 	const currentCategory = props.category;
 	const cssClass = currentCategory.cssClass + " w-100";
-	const title = currentCategory.title;
-
-	// API info:
-	// https://trivia.willfry.co.uk/
-
-	// https://api.trivia.willfry.co.uk/questions?categories=food_and_drink,geography,general_knowledge,history,literature,movies,music,science,society_and_culture,sport_and_leisure&limit=1
 
 	function newQuestion(player, category, gameState) {
 		gameState.currentCategory = category;
@@ -58,9 +58,9 @@ export default function CategoryRow(props) {
 			var button = document.getElementById(`choice-${i}`);
 			button.classList.remove("btn-success", "btn-danger", "btn-secondary");
 			// Set the button text
-			if(choices[i] !== undefined) {
+			if (choices[i] !== undefined) {
 				button.value = choices[i];
-			button.disabled = false;
+				button.disabled = false;
 			} else {
 				button.value = "";
 				button.disabled = true;
@@ -73,12 +73,26 @@ export default function CategoryRow(props) {
 
 	// Choose a random integer between 0 and 3
 	function randomAnswer() { return Math.floor(Math.random() * 4) }
-	const playerColumns = props.gameState.players.map((player,index) => {
-		return (
-			<td className="col-sm-3" key={index}>
-				<input className={cssClass} type="button" value={`Get question`} onClick={() => newQuestion(index, currentCategory, props.gameState)} />
-			</td>
-		);
+
+	// <> Build the buttons
+	const playerColumns = gameState.players.map((player, index) => {
+		if (player.correctCategories.includes(currentCategory.queryTag)) {
+			// If the player has already completed this category, show the category as completed
+			return(<td key={index}>Complete!</td>);
+		} else {
+			// Else,
+			// If this is the current player, show the button
+			if (index === gameState.currentPlayerIndex) {
+			return (
+				<td key={index}>
+					<input className={cssClass} type="button" value={`Get question`} onClick={() => newQuestion(index, currentCategory, gameState)} />
+				</td>
+			);
+			} else {
+				// Else, show the category as not completed
+				return(<td key={index}>Not completed</td>);
+			}
+		}
 	});
 
 	// Return the category row
@@ -86,8 +100,8 @@ export default function CategoryRow(props) {
 		<tr className={cssClass}>
 			<td>{props.title}</td>
 			{playerColumns}
-			{/* <td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(1, currentCategory, props.gameState)} /></td>
-			<td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(2, currentCategory, props.gameState)} /></td> */}
+			{/* <td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(1, currentCategory, gameState)} /></td>
+			<td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(2, currentCategory, gameState)} /></td> */}
 		</tr>
 
 	);

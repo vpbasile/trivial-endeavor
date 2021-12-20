@@ -13,11 +13,15 @@ import CategoryRow from './components/CategoryRow';
 import AnswerButton from './components/AnswerButton';
 
 function initGame() {
+  var players = [
+    { name: "Player 1", correctCategories: [] },
+    { name: "Player 2", correctCategories: [] }
+  ]
   var gameState = {
+    players,
     currentCategory: {},
     currentQuestion: { question: "", answers: [], correctIndex: 0 },
     currentPlayerIndex: 0,
-    players: ["Calvin", "Hobbes"],
     categoryList: [
       { key: "01", queryTag: "food_and_drink", title: "Food & Drink", cssClass: "cat-food" },
       { key: "05", queryTag: "sport_and_leisure", title: "Sport & Leisure", cssClass: "cat-sport" },
@@ -29,6 +33,10 @@ function initGame() {
       { key: "03", queryTag: "general_knowledge", title: "General Knowledge", cssClass: "cat-general" }
     ]
   }
+  // Spoof gamestate so that each player has already answered a category
+  // gameState.players[0].correctCategories.push(gameState.categoryList[0].queryTag);
+  // gameState.players[1].correctCategories.push(gameState.categoryList[5].queryTag);
+
   return gameState;
 }
 
@@ -50,11 +58,10 @@ function App(props) {
       <div className="row">
         <div className="col">
           <h1>Trivial Endeavor</h1>
-          {/* <a href="file:///C:/xampp/htdocs/project-trivia0/index.html">Old Version</a> */}
           <div className="card bg-dark">
             <div className="card-body">
-              <h5 id="display-category" className="rounded p-2 m-2 border border-light blackandwhite">No category selected</h5>
-              <p className="card-text" id="display-question">Select a category to begin.</p>
+              <h2 id="display-category" className="rounded p-2 m-2 border border-light blackandwhite">No category selected</h2>
+              <p className="card-text" id="display-question"><span id="display-player">Player 1</span>, select a category to begin.</p>
               {answerButtons}
             </div>
           </div>

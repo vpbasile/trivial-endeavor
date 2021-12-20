@@ -1,9 +1,22 @@
 import React from "react";
 
 export default function AnswerButton(props) {
+	var gameState = props.gameState;
+	var players = props.players;
+
+	function endTurn(){
+		// console.log(`Player ${gameState.currentPlayer} ends their turn`);
+		gameState.currentPlayer = (gameState.currentPlayer + 1) % players.length;
+		// console.log(`Player ${gameState.currentPlayer} starts their turn`);
+		var playerDisplay = document.getElementById("display-player");
+		playerDisplay.innerHTML = players[gameState.currentPlayer].name;
+		playerDisplay.classList = `rounded p-2 m-2 border border-light ${players[gameState.currentPlayer].cssClass}`;
+		// console.log(`Player ${gameState.currentPlayer} starts their turn`);
+	}
 
 	function handleGuess(guess) {
-		var correctChoice = props.gameState.currentQuestion.correctIndex;
+		var correctChoice = gameState.currentQuestion.correctIndex;
+		// Indicate which choice was correct
 		for(var i=0; i<4; i++) {
 			var button = document.getElementById(`choice-${i}`);
 			button.disabled = true;
@@ -15,19 +28,20 @@ export default function AnswerButton(props) {
 				button.classList.add("btn-secondary");
 			}
 		}
-		
+		// If the current player got it right, then update their scorecard
 		if(guess === correctChoice) {
-			const currentPlayer = props.gameState.currentPlayer;
-			const currentCategory = props.gameState.currentCategory;
-			// Add the functionality to keep track of which categories each player has correctly answered
-			// if(!currentPlayer.correctCategories.includes(currentCategory.title)) {
-			// 	// props.gameState.players[currentPlayer].push(currentCategory.queryTag);
-			// 	currentPlayer.correctCategories.push(currentCategory.title);
-			// }
-			console.log(`Player ${currentPlayer} has answered correctly in ${currentCategory.title}`);
+			players = gameState.players;
+			const currentPlayerIndex = gameState.currentPlayerIndex;
+			const playerName = players[currentPlayerIndex].name;
+			const currentCategory = gameState.currentCategory;
+			console.log(`${playerName} got it right in ${currentCategory.title}`);
+			// Keep track of which categories each player has correctly answered
+			players[currentPlayerIndex].correctCategories.push(currentCategory.queryTag);
 		} else {
-			console.log("Incorrect!  The correct answer was: " + props.gameState.currentQuestion.answers[correctChoice]);
+			console.log("Incorrect!  The correct answer was: " + gameState.currentQuestion.answers[correctChoice]);
 		}
+		// End the turn
+		endTurn();
 	}
 
 	const buttonID = `choice-${props.buttonIndex}`;
