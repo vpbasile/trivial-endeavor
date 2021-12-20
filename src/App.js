@@ -12,28 +12,38 @@ import React from 'react';
 import CategoryRow from './components/CategoryRow';
 import AnswerButton from './components/AnswerButton';
 
-var gameState = {
-  currentCategory: {},
-  currentQuestion: {question: "", answers: [], correctIndex: 0}
+function initGame() {
+  var gameState = {
+    currentCategory: {},
+    currentQuestion: { question: "", answers: [], correctIndex: 0 },
+    currentPlayerIndex: 0,
+    players: ["Calvin", "Hobbes"],
+    categoryList: [
+      { key: "01", queryTag: "food_and_drink", title: "Food & Drink", cssClass: "cat-food" },
+      { key: "05", queryTag: "sport_and_leisure", title: "Sport & Leisure", cssClass: "cat-sport" },
+      { key: "08", queryTag: "science", title: "Science", cssClass: "cat-science" },
+      { key: "04", queryTag: "history", title: "History", cssClass: "cat-history" },
+      { key: "02", queryTag: "geography", title: "Geography", cssClass: "cat-geography" },
+      { key: "06", queryTag: "movies", title: "Movies", cssClass: "cat-movies" },
+      { key: "07", queryTag: "music", title: "Music", cssClass: "cat-music" },
+      { key: "03", queryTag: "general_knowledge", title: "General Knowledge", cssClass: "cat-general" }
+    ]
+  }
+  return gameState;
 }
 
 function App(props) {
-  const categoryList = props.categoryList;
-  gameState.players = props.players;
-  
-  // Initialize the state of the game.
-  gameState.currentCategory = categoryList[0];
+
+  var gameState = initGame();
 
   // Make answer buttons
-  var answerButtons = [1, 2, 3, 4];
-  answerButtons = answerButtons.map(answerButton => (
-    <AnswerButton key={answerButton} buttonIndex={answerButton} gameState={gameState} />
-  )
-  );
+  var answerButtons = [0, 1, 2, 3].map(function (buttonIndex) {
+    return <AnswerButton key={buttonIndex} buttonIndex={buttonIndex} cssClass={`btn w-100 my-2 blackandwhite`} gameState={gameState} />
+  });
 
   // Make the score board
-  const scoreBoard = categoryList.map(category => (
-    <CategoryRow key={category.key} category={category} queryTag={category.queryTag} title={category.title} cssClass={category.cssClass} gameState={gameState}/>)
+  const scoreBoard = gameState.categoryList.map(category => (
+    <CategoryRow key={category.key} category={category} queryTag={category.queryTag} title={category.title} cssClass={category.cssClass} gameState={gameState} />)
   );
   return (
     <div className="App container">

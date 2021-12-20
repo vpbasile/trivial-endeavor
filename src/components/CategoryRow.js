@@ -34,10 +34,6 @@ export default function CategoryRow(props) {
 	function handleReceivedQuestion(data, gameState) {
 		// Grab the DOM elements
 		var questionDisplay = document.getElementById("display-question");
-		var button1 = document.getElementById("choice-1");
-		var button2 = document.getElementById("choice-2");
-		var button3 = document.getElementById("choice-3");
-		var button4 = document.getElementById("choice-4");
 
 		// Set the question
 		const question = data.question;
@@ -45,10 +41,11 @@ export default function CategoryRow(props) {
 		props.gameState.currentQuestion.question = question;
 		// Set the answers
 		const answer = data.correctAnswer;
+		gameState.currentQuestion.correctAnswer = answer;
 		const answerIndex = randomAnswer()
 		gameState.currentQuestion.correctIndex = answerIndex;
 		var choices = data.incorrectAnswers;
-		choices.splice(answerIndex, 0, answer);
+		choices[answerIndex] = answer;
 		// Save the answers in the game state
 		props.gameState.currentQuestion.answers = choices;
 
@@ -56,29 +53,41 @@ export default function CategoryRow(props) {
 		// First the question display
 		questionDisplay.innerHTML = question;
 		// Then the buttons
-		button1.value = choices[0];
-		button1.disabled = false;
-		button2.value = choices[1];
-		button2.disabled = false;
-		button3.value = choices[2];
-		button3.disabled = false;
-		button4.value = choices[3];
-		button4.disabled = false;
+		for (var i = 0; i < 4; i++) {
+			// Reset the button classes
+			var button = document.getElementById(`choice-${i}`);
+			button.classList.remove("btn-success", "btn-danger", "btn-secondary");
+			// Set the button text
+			if(choices[i] !== undefined) {
+				button.value = choices[i];
+			button.disabled = false;
+			} else {
+				button.value = "";
+				button.disabled = true;
+			}
+		}
 		console.log(`Game state: ${JSON.stringify(gameState)}`);
-
 	}
 
 	// Enhancement: Only query the api at the beginning of the game and when the player requests a category that we've run out of questions for
 
-	// Choose a random integer between 1 and 4
-	function randomAnswer() { return Math.floor(Math.random() * 4) + 1 }
+	// Choose a random integer between 0 and 3
+	function randomAnswer() { return Math.floor(Math.random() * 4) }
+	const playerColumns = props.gameState.players.map((player,index) => {
+		return (
+			<td className="col-sm-3" key={index}>
+				<input className={cssClass} type="button" value={`Get question`} onClick={() => newQuestion(index, currentCategory, props.gameState)} />
+			</td>
+		);
+	});
 
 	// Return the category row
 	return (
 		<tr className={cssClass}>
 			<td>{props.title}</td>
-			<td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(1, currentCategory, props.gameState)} /></td>
-			<td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(2, currentCategory, props.gameState)} /></td>
+			{playerColumns}
+			{/* <td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(1, currentCategory, props.gameState)} /></td>
+			<td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(2, currentCategory, props.gameState)} /></td> */}
 		</tr>
 
 	);
