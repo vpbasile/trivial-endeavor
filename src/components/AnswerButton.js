@@ -1,19 +1,17 @@
 import React from "react";
 
 export default function AnswerButton(props) {
-	var gameState = props.gameState;
-	var players = props.players;
-
+	
 	function endTurn(){
 		// console.log(`Player ${gameState.currentPlayer} ends their turn`);
 		gameState.currentPlayer = (gameState.currentPlayer + 1) % players.length;
 		// console.log(`Player ${gameState.currentPlayer} starts their turn`);
 		var playerDisplay = document.getElementById("display-player");
 		playerDisplay.innerHTML = players[gameState.currentPlayer].name;
-		playerDisplay.classList = `rounded p-2 m-2 border border-light ${players[gameState.currentPlayer].cssClass}`;
+		playerDisplay.classList = `rounded p-2 m-2 border border-light`;
 		// console.log(`Player ${gameState.currentPlayer} starts their turn`);
 	}
-
+	
 	function handleGuess(guess) {
 		var correctChoice = gameState.currentQuestion.correctIndex;
 		// Indicate which choice was correct
@@ -43,11 +41,14 @@ export default function AnswerButton(props) {
 		// End the turn
 		endTurn();
 	}
-
+	var gameState = props.gameState;
+	var buttonText = props.text;
+	const cssClass = `rounded p-2 m-2 border border-light blackandwhite w-100`;
+	var players = gameState.players;
 	const buttonID = `choice-${props.buttonIndex}`;
 	return (
 		<div>
-			<input className={props.cssClass} type="button" value="" id={buttonID} 
+			<input className={cssClass} type="button" value={buttonText} id={buttonID} 
 				onClick={() => handleGuess(props.buttonIndex)} />
 		</div>
 	);

@@ -6,7 +6,9 @@
 import React from "react";
 
 export default function CategoryRow(props) {
+	const categoryList = props.categoryList;
 	var gameState = props.gameState;
+	// console.log(`Just for now, gameState: ${JSON.stringify(gameState)}`);
 	const currentCategory = props.category;
 	const cssClass = currentCategory.cssClass + " w-100";
 
@@ -15,82 +17,99 @@ export default function CategoryRow(props) {
 		const categoryTitle = category.title
 		console.log(`Player ${player} requests a ${categoryTitle} question`);
 		var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
-		getQuestion(queryURL, gameState);
-		// Set the category indicator
-		var categoryDisplay = document.getElementById("display-category");
-		categoryDisplay.innerHTML = categoryTitle
-		categoryDisplay.classList = `rounded p-2 m-2 border border-light ${category.cssClass}`;
-	}
-
-	async function getQuestion(url, gameState) {
-		// console.log(`Getting question from ${url}`);
-		fetch(url).then(response => response.json())
-			.then(data => { handleReceivedQuestion(data[0], gameState) })
-			.catch(error => {
-				console.log(error);
-			});
-	}
-
-	function handleReceivedQuestion(data, gameState) {
-		// Grab the DOM elements
-		var questionDisplay = document.getElementById("display-question");
-
-		// Set the question
-		const question = data.question;
-		// Save the question in the game state
-		props.gameState.currentQuestion.question = question;
-		// Set the answers
-		const answer = data.correctAnswer;
-		gameState.currentQuestion.correctAnswer = answer;
-		const answerIndex = randomAnswer()
-		gameState.currentQuestion.correctIndex = answerIndex;
-		var choices = data.incorrectAnswers;
-		choices[answerIndex] = answer;
-		// Save the answers in the game state
-		props.gameState.currentQuestion.answers = choices;
-
-		// Update the gameboard
-		// First the question display
-		questionDisplay.innerHTML = question;
-		// Then the buttons
-		for (var i = 0; i < 4; i++) {
-			// Reset the button classes
-			var button = document.getElementById(`choice-${i}`);
-			button.classList.remove("btn-success", "btn-danger", "btn-secondary");
-			// Set the button text
-			if (choices[i] !== undefined) {
-				button.value = choices[i];
-				button.disabled = false;
-			} else {
-				button.value = "";
-				button.disabled = true;
-			}
+		// Create a temporary question while we wait for the API to respond
+		var tempQuestion = {
+			categoryTag: category.queryTag,
+			questionText: "Loading...",
+			choices: ["Loading...", "Loading...", "Loading...", "Loading..."],
+			correctAnswer: "Loading...",
+			correctIndex: 0
 		}
-		console.log(`Game state: ${JSON.stringify(gameState)}`);
+		props.setCurrentQuestion(tempQuestion);
+		getQuestion(queryURL);
+	}
+
+	async function getQuestion(url) {
+		// Query the API for a new question and parse it
+		fetch(url).then(response => response.json())
+			.then(data => { parseReceivedQuestion(data[0]) })
+			.catch(error => { console.log(error); });
+	}
+
+	function parseReceivedQuestion(data) {
+		console.log(`Parsing question`);
+		// Hide the answer data so I don't learn anything while I'm debugging
+		data.correctAnswer = "Correct answer"
+		data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
+
+
+
+		// Parse the received question into the game's data structure
+		// Make sure we don't have more than 4 incorrect answers
+		var incorrectAnswers = data.incorrectAnswers.slice(0, 4);
+		const choicesCount = incorrectAnswers.length + 1
+		shuffleArray(incorrectAnswers);
+		const answerIndex = Math.floor(Math.random() * (choicesCount));
+		var choices = []
+		choices[answerIndex] = data.correctAnswer;
+		for (var i = 0; i < choicesCount; i++) {
+			if (i === answerIndex) { choices[i] = data.correctAnswer; }
+			else { choices[i] = incorrectAnswers.pop(); }
+		}
+		const categoryName = data.category;
+		console.log(`categoryName = ${categoryName}`);
+		// console.log(`categoryList = ${JSON.stringify(categoryList)}`);
+		const category = categoryList.filter(category => category.title === categoryName);
+		console.log(`category = ${JSON.stringify(category)}`);
+		const categoryTag = category[0].queryTag;
+		// console.log('This is where it gets set')
+		var questionArray = {
+			questionText: data.question,
+			choices: choices,
+			correctAnswer: data.correctAnswer,
+			correctIndex: answerIndex,
+			categoryTag: categoryTag
+		}
+		console.log(`questionArray = ${JSON.stringify(questionArray)}`);
+		// Update the game state with the new question
+		props.setCurrentQuestion(questionArray);
+	}
+
+	function shuffleArray(array) {
+		let curId = array.length;
+		// There remain elements to shuffle
+		while (0 !== curId) {
+			// Pick a remaining element
+			let randId = Math.floor(Math.random() * curId);
+			curId -= 1;
+			// Swap it with the current element.
+			let tmp = array[curId];
+			array[curId] = array[randId];
+			array[randId] = tmp;
+		}
+		return array;
 	}
 
 	// Enhancement: Only query the api at the beginning of the game and when the player requests a category that we've run out of questions for
-
-	// Choose a random integer between 0 and 3
-	function randomAnswer() { return Math.floor(Math.random() * 4) }
 
 	// <> Build the buttons
 	const playerColumns = gameState.players.map((player, index) => {
 		if (player.correctCategories.includes(currentCategory.queryTag)) {
 			// If the player has already completed this category, show the category as completed
-			return(<td key={index}>Complete!</td>);
+			return (<td key={index}>Complete!</td>);
 		} else {
 			// Else,
 			// If this is the current player, show the button
 			if (index === gameState.currentPlayerIndex) {
-			return (
-				<td key={index}>
-					<input className={cssClass} type="button" value={`Get question`} onClick={() => newQuestion(index, currentCategory, gameState)} />
-				</td>
-			);
+				return (
+					<td key={index}>
+						<input className={cssClass} type="button" value={`Get question`} onClick={() =>
+							newQuestion(index, currentCategory, gameState)} />
+					</td>
+				);
 			} else {
 				// Else, show the category as not completed
-				return(<td key={index}>Not completed</td>);
+				return (<td key={index}>Not completed</td>);
 			}
 		}
 	});
@@ -100,9 +119,6 @@ export default function CategoryRow(props) {
 		<tr className={cssClass}>
 			<td>{props.title}</td>
 			{playerColumns}
-			{/* <td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(1, currentCategory, gameState)} /></td>
-			<td><input className={cssClass} type="button" value={`Get ${title} question`} onClick={() => newQuestion(2, currentCategory, gameState)} /></td> */}
 		</tr>
-
 	);
 }
