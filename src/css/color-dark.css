@@ -61,10 +61,20 @@ body{
 	background-color: var(--blue-dark);
 }
 
+.text-geography {
+	color: var(--blue-light);
+	border-color: var(--blue-light);
+}
+
 .cat-movies {
 	color: var(--red-light);
 	border-color: var(--red-light);
 	background-color: var(--red-dark);
+}
+
+.text-movies {
+	color: var(--red-light);
+	border-color: var(--red-light);
 }
 
 .cat-history {
@@ -73,10 +83,20 @@ body{
 	background-color: var(--yellow-dark);
 }
 
+.text-history {
+	color: var(--yellow-light);
+	border-color: var(--yellow-light);
+}
+
 .cat-science {
 	color: var(--green-light);
 	border-color: var(--green-light);
 	background-color: var(--green-dark);
+}
+
+.text-science {
+	color: var(--green-light);
+	border-color: var(--green-light);
 }
 
 .cat-music {
@@ -84,10 +104,20 @@ body{
 	border-color: var(--purple-light);
 	background-color: var(--purple-dark);
 }
+
+.text-music {
+	color: var(--purple-light);
+	border-color: var(--purple-light);
+}
 .cat-sport {
 	color: var(--orange-light);
 	border-color: var(--orange-light);
 	background-color: var(--orange-dark);
+}
+
+.text-sport {
+	color: var(--orange-light);
+	border-color: var(--orange-light);
 }
 
 .cat-general {
@@ -96,8 +126,18 @@ body{
 	background-color: var(--gray-dark);
 }
 
+.text-general {
+	color: var(--gray-light);
+	border-color: var(--gray-light);
+}
+
 .cat-food {
 	color: var(--cyan-light);
 	border-color: var(--cyan-light);
 	background-color: var(--cyan-dark);
+}
+
+.text-food {
+	color: var(--cyan-light);
+	border-color: var(--cyan-light);
 }

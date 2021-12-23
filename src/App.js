@@ -13,6 +13,7 @@ import CategoryRow from './components/CategoryRow';
 
 function App(props) {
   const categoryList = props.categoryList;
+  const phases = props.phases;
 
   // Initialize the players and their scores
   var players = [
@@ -20,10 +21,12 @@ function App(props) {
     { name: "Chris", correctCategories: [] }
   ]
 
+  const placeholder = "Select a category to begin."
+
   // Initialize the question and answer choices
   const [currentQuestion, setCurrentQuestion] = useState({
-      questionText: "Select a category to begin.",
-      choices: [0, 1, 2, 3],
+      questionText: placeholder,
+      choices: [placeholder, placeholder, placeholder, placeholder],
       correctAnswer: "data.correctAnswer",
       correctIndex: 0,
       categoryTag: props.categoryList[0].queryTag
@@ -31,9 +34,11 @@ function App(props) {
   // Initialize the game state
   const [gameState, updateGameState] = useState({
     players,
-    categoryList: props.categories,
-    currentPlayerIndex: 0
+    currentPlayerIndex: 0,
+    // currentPhase: phases[0],
+    currentCategory: categoryList[0]
   });
+
   // Spoof gamestate so that each player has already answered a category
   // gameState.players[0].correctCategories.push(gameState.categoryList[0].queryTag);
   // gameState.players[1].correctCategories.push(gameState.categoryList[5].queryTag);
@@ -48,7 +53,7 @@ function App(props) {
       <div className="row">
         <div className="col">
           <h1>Trivial Endeavor</h1>
-          <Question key={"currentQuestion"} questionData={currentQuestion} gameState={gameState} categoryList={categoryList}/>
+          <Question key={"currentQuestion"} currentQuestion={currentQuestion} gameState={gameState} categoryList={categoryList} handleGuess={props.handleGuess}/>
           <div id="scoreboard-div">
             <table id="scoreboard" className="table text-light">
               <thead>

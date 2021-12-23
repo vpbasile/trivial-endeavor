@@ -1,55 +1,34 @@
 import React from "react";
 
 export default function AnswerButton(props) {
-	
-	function endTurn(){
-		// console.log(`Player ${gameState.currentPlayer} ends their turn`);
-		gameState.currentPlayer = (gameState.currentPlayer + 1) % players.length;
-		// console.log(`Player ${gameState.currentPlayer} starts their turn`);
-		var playerDisplay = document.getElementById("display-player");
-		playerDisplay.innerHTML = players[gameState.currentPlayer].name;
-		playerDisplay.classList = `rounded p-2 m-2 border border-light`;
-		// console.log(`Player ${gameState.currentPlayer} starts their turn`);
-	}
-	
-	function handleGuess(guess) {
-		var correctChoice = gameState.currentQuestion.correctIndex;
-		// Indicate which choice was correct
-		for(var i=0; i<4; i++) {
-			var button = document.getElementById(`choice-${i}`);
-			button.disabled = true;
-			if(i === correctChoice) {
-				button.classList.add("btn-success");
-			} else if(i === guess) {
-				button.classList.add("btn-danger");
-			} else {
-				button.classList.add("btn-secondary");
-			}
-		}
-		// If the current player got it right, then update their scorecard
-		if(guess === correctChoice) {
-			players = gameState.players;
-			const currentPlayerIndex = gameState.currentPlayerIndex;
-			const playerName = players[currentPlayerIndex].name;
-			const currentCategory = gameState.currentCategory;
-			console.log(`${playerName} got it right in ${currentCategory.title}`);
-			// Keep track of which categories each player has correctly answered
-			players[currentPlayerIndex].correctCategories.push(currentCategory.queryTag);
-		} else {
-			console.log("Incorrect!  The correct answer was: " + gameState.currentQuestion.answers[correctChoice]);
-		}
-		// End the turn
-		endTurn();
-	}
+	// console.log(JSON.stringify(props))
 	var gameState = props.gameState;
+	let buttonIndex = props.index;
 	var buttonText = props.text;
-	const cssClass = `rounded p-2 m-2 border border-light blackandwhite w-100`;
-	var players = gameState.players;
-	const buttonID = `choice-${props.buttonIndex}`;
+	const currentCategory = props.gameState.currentCategory;
+	const invertedColor = (currentCategory.cssClass).replace("cat-", "text-");
+	// const invertedColor = "inv-food"
+	const cssClass = `rounded p-2 m-2 border btn btn-dark w-100 ${invertedColor}`;
+	const buttonID = `choice-${buttonIndex}`;
+	const handleGuess = props.handleGuess;
+
+	// If the button is disabled, make it so
 	return (
 		<div>
-			<input className={cssClass} type="button" value={buttonText} id={buttonID} 
-				onClick={() => handleGuess(props.buttonIndex)} />
+			<input className={cssClass} type="button" value={buttonText} id={buttonID}
+				onClick={() => handleGuess(buttonIndex)} />
 		</div>
 	);
+
+	function endTurn() {
+	}
+
+	// 	// console.log(`Player ${gameState.currentPlayer} ends their turn`);
+	// 	gameState.currentPlayer = (gameState.currentPlayer + 1) % players.length;
+	// 	// console.log(`Player ${gameState.currentPlayer} starts their turn`);
+	// 	var playerDisplay = document.getElementById("display-player");
+	// 	playerDisplay.innerHTML = players[gameState.currentPlayer].name;
+	// 	playerDisplay.classList = `rounded p-2 m-2 border border-light`;
+	// 	// console.log(`Player ${gameState.currentPlayer} starts their turn`);
+	// }
 }

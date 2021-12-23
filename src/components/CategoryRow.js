@@ -57,20 +57,20 @@ export default function CategoryRow(props) {
 			else { choices[i] = incorrectAnswers.pop(); }
 		}
 		const categoryName = data.category;
-		console.log(`categoryName = ${categoryName}`);
+		// console.log(`categoryName = ${categoryName}`);
 		// console.log(`categoryList = ${JSON.stringify(categoryList)}`);
 		const category = categoryList.filter(category => category.title === categoryName);
-		console.log(`category = ${JSON.stringify(category)}`);
+		// console.log(`category = ${JSON.stringify(category)}`);
 		const categoryTag = category[0].queryTag;
 		// console.log('This is where it gets set')
 		var questionArray = {
+			// <><> Here's the data structure
 			questionText: data.question,
 			choices: choices,
 			correctAnswer: data.correctAnswer,
 			correctIndex: answerIndex,
 			categoryTag: categoryTag
 		}
-		console.log(`questionArray = ${JSON.stringify(questionArray)}`);
 		// Update the game state with the new question
 		props.setCurrentQuestion(questionArray);
 	}
@@ -117,7 +117,7 @@ export default function CategoryRow(props) {
 	// Return the category row
 	return (
 		<tr className={cssClass}>
-			<td>{props.title}</td>
+			<td>{currentCategory.title}</td>
 			{playerColumns}
 		</tr>
 	);

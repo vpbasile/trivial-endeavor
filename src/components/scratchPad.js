@@ -28,6 +28,82 @@ const props = {
 	}
 }
 
+const newProps3 = {
+	"index": 3
+	, "text": "Incorrect answer 3"
+	, "status": "clickable"
+	, "gameState": {
+		"players": [{
+			"name": "Pat"
+			, "correctCategories": []
+		}
+			, {
+			"name": "Chris"
+			, "correctCategories": []
+		}],
+		"currentCategory": {
+			"key": "05"
+			, "queryTag": "sport_and_leisure"
+			, "title": "Sport and Leisure"
+			, "cssClass": "cat-sport"
+		}
+	}
+}
+
+const newProps = {
+	"index": 3
+	, "text": "Incorrect answer 3"
+	, "status": "clickable"
+	, "gameState": {
+		"players": [{
+			"name": "Pat"
+			, "correctCategories": []
+		}
+			, {
+			"name": "Chris"
+			, "correctCategories": []
+		}]
+		, "currentPlayerIndex": 0
+		, "currentPhase": {
+			"key": "01"
+			, "title": "Welcome"
+			, "cssClass": "phase-welcome"
+		}
+		,
+		"currentCategory": {
+			"key": "05"
+			, "queryTag": "sport_and_leisure"
+			, "title": "Sport and Leisure"
+			, "cssClass": "cat-sport"
+		}
+	}
+	, "currentQuestion": {
+		"questionText": "How many referees work a soccer game?"
+		, "choices": ["Incorrect answer 1"
+			, "Incorrect answer 2"
+			, "Correct answer"
+			, "Incorrect answer 3"]
+		, "correctAnswer": "Correct answer"
+		, "correctIndex": 2
+		, "categoryTag": "sport_and_leisure"
+	}
+	, "categoryList": [{
+		"key": "01"
+		, "queryTag": "food_and_drink", "title": "Food and Drink", "cssClass": "cat-food"
+	}, { "key": "05", "queryTag": "sport_and_leisure", "title": "Sport and Leisure", "cssClass": "cat-sport" }, { "key": "08", "queryTag": "science", "title": "Science", "cssClass": "cat-science" }, {
+		"key": "04", "queryTag": "history", "title": "History"
+		, "cssClass": "cat-history"
+	}, { "key": "02", "queryTag": "geography", "title": "Geography", "cssClass": "cat-geography" }, { "key": "06", "queryTag": "movies", "title": "Film and TV", "cssClass": "cat-movies" }
+		, { "key": "07", "queryTag": "music", "title": "Music", "cssClass": "cat-music" }, {
+		"key": "03"
+		, "queryTag": "general_knowledge"
+		, "title": "General Knowledge"
+		, "cssClass": "cat-general"
+	}
+	]
+}
+
+
 const example = [
 	{
 		"category": "History",
@@ -104,14 +180,31 @@ const questionText = {
 }
 
 const questionData = {
-	"currentCategory":"Geography",
-	"currentQuestion":{
-		"choices":[
+	"currentCategory": "Geography",
+	"currentQuestion": {
+		"choices": [
 			"Incorrect answer 3",
 			"Correct answer"
 		],
-		"question":"Which Is The Longest River In Britain?",
-		"correctIndex":1,
-		"correctAnswer":"Correct answer"
+		"question": "Which Is The Longest River In Britain?",
+		"correctIndex": 1,
+		"correctAnswer": "Correct answer"
+	}
+}
+
+var props2 = {
+	"index": 0,
+	"text": "Correct answer",
+	"gameState": {
+		"players": "[{…}, {…}]",
+		"currentPlayerIndex": 0,
+		"currentCategory": "{cssClass: \"cat-general\", key: \"03\", queryTag: \"gen…}"
+	},
+	"currentQuestion": {
+		"questionText": "What was the real name of Eric Morecambes partner?",
+		"choices": "[\"Correct answer\", \"Incorrect answer 2\", \"Incorrect…]",
+		"correctAnswer": "Correct answer",
+		"correctIndex": 0,
+		"categoryTag": "general_knowledge"
 	}
 }
