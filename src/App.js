@@ -9,51 +9,81 @@ import React, { useState } from "react";
 
 // <> Import my modules
 import Question from "./components/Question";
-import CategoryRow from './components/CategoryRow';
+import CategorySelect from './components/CategorySelect';
+import DataDisplay from './components/DataDisplay';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App(props) {
-  const categoryList = props.categoryList;
-  const phases = props.phases;
-
+  const globals = props.globals;
+  const categoryList = globals.categoryList;
+  const phases = globals.phases;
   // Initialize the players and their scores
   var players = [
-    { name: "Pat", correctCategories: [] },
-    { name: "Chris", correctCategories: [] }
+    { name: "Player A", correctCategories: [] },
+    { name: "Player B", correctCategories: [] }
   ]
-
+  
+  // Spoof gamestate so that each player has already answered a category
+  // players[0].correctCategories.push(randomCategory().queryTag);
+  // players[1].correctCategories.push(randomCategory().queryTag);
+  // function randomCategory(){
+  //   var randomIndex = Math.floor(Math.random() * categoryList.length);
+  //   return categoryList[randomIndex];
+  // }
+  
   const placeholder = "Select a category to begin."
 
   // Initialize the question and answer choices
   const [currentQuestion, setCurrentQuestion] = useState({
-      questionText: placeholder,
-      choices: [placeholder, placeholder, placeholder, placeholder],
-      correctAnswer: "data.correctAnswer",
-      correctIndex: 0,
-      categoryTag: props.categoryList[0].queryTag
-    });
+    questionText: placeholder,
+    choices: [placeholder, placeholder, placeholder, placeholder],
+    correctAnswer: "data.correctAnswer",
+    correctIndex: 0,
+    categoryTag: categoryList[0].queryTag
+  });
   // Initialize the game state
   const [gameState, updateGameState] = useState({
     players,
     currentPlayerIndex: 0,
-    // currentPhase: phases[0],
+    currentPhase: phases[0],
     currentCategory: categoryList[0]
   });
 
-  // Spoof gamestate so that each player has already answered a category
-  // gameState.players[0].correctCategories.push(gameState.categoryList[0].queryTag);
-  // gameState.players[1].correctCategories.push(gameState.categoryList[5].queryTag);
 
   // Make the score board
   // console.log(`Category list: ${JSON.stringify(gameState.categoryList)}`);
   const scoreBoard = categoryList.map(category => (
-    <CategoryRow key={category.key} category={category} gameState={gameState} updateGameState={updateGameState} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} categoryList={categoryList}/>)
+    <CategorySelect key={category.key} category={category} gameState={gameState} updateGameState={updateGameState} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} categoryList={categoryList} />)
   );
+  // Function to make the phase display update to the next phase
+  function updatePhase() {
+    console.log(`gameState.currentPhase = ${gameState.currentPhase}`);
+    const nextPhaseIndex = (gameState.currentPhase.index + 1) % phases.length;
+    console.log(`Next phase index: ${nextPhaseIndex}`);
+    console.log(`Phase list: ${JSON.stringify(phases)}`);
+    const nextPhase = phases[nextPhaseIndex];
+    console.log(`Updating phase to ${nextPhase.name}`);
+    updateGameState({
+      ...gameState,
+      currentPhase: nextPhase
+    });
+  }
+
   return (
     <div className="App container">
       <div className="row">
-        <div className="col">
-          <h1>Trivial Endeavor</h1>
-          <Question key={"currentQuestion"} currentQuestion={currentQuestion} gameState={gameState} categoryList={categoryList} handleGuess={props.handleGuess}/>
+        <ErrorBoundary>
+          <div id="gameBoard-div" className="col-12">
+            <h1>Trivial Endeavor</h1>
+            <Question key={"currentQuestion"} currentQuestion={currentQuestion} gameState={gameState} updateGameState={updateGameState} categoryList={categoryList} handleGuess={props.handleGuess} currentPhase={gameState.currentPhase}/>
+          </div>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <div id="phase-div" className="col">
+            <DataDisplay gameState={gameState} players={players} updatePhase={updatePhase}/>
+          </div>
+        </ErrorBoundary>
+        <ErrorBoundary>
           <div id="scoreboard-div">
             <table id="scoreboard" className="table text-light">
               <thead>
@@ -68,7 +98,7 @@ function App(props) {
               </tbody>
             </table>
           </div>
-        </div>
+        </ErrorBoundary>
       </div>
     </div>
   );

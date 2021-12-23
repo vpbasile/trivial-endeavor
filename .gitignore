@@ -30,4 +30,3 @@ src/fonts/glyphicons-halflings-regular.ttf
 src/fonts/glyphicons-halflings-regular.woff
 src/fonts/glyphicons-halflings-regular.woff2
 src/components/testParse.js
-src/components/ErrorBoundary.js

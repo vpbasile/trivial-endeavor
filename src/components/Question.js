@@ -2,56 +2,47 @@ import React from "react";
 import AnswerButton from './AnswerButton';
 
 export default function Question(props) {
+	var tempGameState = props.gameState;
 	const categoryList = props.categoryList;
 	var currentQuestion = props.currentQuestion
+	var setCurrentQuestion = props.setCurrentQuestion;
 	const questionCategoryTag = currentQuestion.categoryTag;
 	const questionCategory = categoryList.filter(category => category.queryTag === questionCategoryTag)[0];
 	const questionText = currentQuestion.questionText;
 	const choices = currentQuestion.choices;
 	const gameState = props.gameState;
+	const currentPlayer = props.gameState.players[props.gameState.currentPlayerIndex];
 
 	function handleGuess(guess) {
+		console.log(`currentPlayer.name = ${currentPlayer.name}`);
+		console.log(`${currentPlayer.name} guesses ${guess}`);
+		gameState.currentPhase = { key: "04", title: "Answer", index: 2 };
+		props.updateGameState(gameState);
 		let question = props.currentQuestion;
 		let correctChoice = question.correctIndex;
-		// let playerName = gameState.players[gameState.currentPlayerIndex].name;
-		console.log(`Player ${gameState.currentPlayer} guesses ${guess}`);
 
+		const guessedQuestion = currentQuestion
+		guessedQuestion.guessed = true;
+		const setCurrentQuestion = props.setCurrentQuestion;
+		setCurrentQuestion(guessedQuestion);
+		// let playerName = gameState.players[gameState.currentPlayerIndex].name;
 		if (guess === correctChoice) {
 			console.log("Correct!");
 			// Update the button with whether it was the correct answer or not
 			// If the current player got it right, then update their scorecard
+			const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+
+			currentPlayer.correctCategories.push(questionCategoryTag);
 		} else {
 			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
 		}
+
+		tempGameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
+		// Update the game state
+		props.updateGameState(tempGameState);
 	}
 
 
-	// function donotuse(guess) {
-
-	// 	var x = {
-	// 		"questionText": "What was the real name of Eric Morecambes partner?"
-	// 		, "choices": ["Correct answer"
-	// 			, "Incorrect answer 2"
-	// 			, "Incorrect answer 1"
-	// 			, "Incorrect answer 3"]
-	// 		, "correctAnswer": "Correct answer"
-	// 		, "correctIndex": 0
-	// 		, "categoryTag": "general_knowledge"
-	// 	}
-	// 	console.log("Don't use this function");
-	// 	var correctChoice = 5
-	// 	// Update the button with whether it was the correct answer or not
-	// 	for (var i = 0; i < 4; i++) {
-	// 		var button = document.getElementById(`choice-${i}`);
-	// 		button.disabled = true;
-	// 		if (i === correctChoice) {
-	// 			button.classList.add("btn-success");
-	// 		} else if (i === guess) {
-	// 			button.classList.add("btn-danger");
-	// 		} else {
-	// 			button.classList.add("btn-secondary");
-	// 		}
-	// 	}
 	// 	// If the current player got it right, then update their scorecard
 	// 	if (guess === correctChoice) {
 	// 		players = gameState.players;
@@ -75,18 +66,20 @@ export default function Question(props) {
 			key={buttonIndex}
 			index={buttonIndex++}
 			text={choice}
-			status={`clickable`}
+			disabled={props.currentQuestion.guessed}
 			gameState={gameState}
 			currentQuestion={currentQuestion}
+			setCurrentQuestion={setCurrentQuestion}
 			categoryList={categoryList}
 			handleGuess={handleGuess} />
 	})
+
 
 	// var tempCssClass = props.currentCategory.cssClass;
 	var tempCssClass = questionCategory.cssClass;
 	if (tempCssClass === undefined) { tempCssClass = "blackandwhite"; }
 	tempCssClass = `p-2 m-2 btn w-100 ${tempCssClass}`;
-	return (
+	return (	
 		<div className="card bg-dark">
 			{/* Figure out how Bootstrap cards really work */}
 			<div className="card-body">

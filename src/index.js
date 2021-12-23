@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 // <> Import my components
 import App from './App';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // <> Stylesheets
 import './css/bootstrap.css';
@@ -21,12 +22,12 @@ const categoryList = [
 ]
 
 const phases = [
-  // { key: "01", title: "Welcome", cssClass: "phase-welcome" },
-  { key: "02", title: "Select", cssClass: "phase-select" },
-  { key: "03", title: "Question", cssClass: "phase-question" },
-  { key: "04", title: "Answer", cssClass: "phase-answer" },
-  { key: "05", title: "Score", cssClass: "phase-score" },
-  // { key: "06", title: "End", cssClass: "phase-end" }
+  // { key: "01", title: "Welcome"},
+  { key: "02", title: "Select", index: 0 },
+  { key: "03", title: "Question", index: 1 },
+  { key: "04", title: "Answer", index: 2 },
+  { key: "05", title: "Score",  index: 3 }
+  // { key: "06", title: "End"}
 ]
 
 // <> Do the thing
@@ -34,7 +35,9 @@ console.log(`Beginning rendering of Trivial Endeavor`);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App categoryList={categoryList} phases={phases}/>
+    <ErrorBoundary>
+      <App globals={ {categoryList:categoryList, phases:phases} }/>
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 );

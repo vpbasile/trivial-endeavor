@@ -5,15 +5,18 @@
 
 import React from "react";
 
-export default function CategoryRow(props) {
+export default function CategorySelect(props) {
 	const categoryList = props.categoryList;
 	var gameState = props.gameState;
 	// console.log(`Just for now, gameState: ${JSON.stringify(gameState)}`);
 	const currentCategory = props.category;
+	const currentPlayerIndex = props.gameState.currentPlayerIndex;
 	const cssClass = currentCategory.cssClass + " w-100";
 
 	function newQuestion(player, category, gameState) {
+		// var tempGameState = gameState;
 		gameState.currentCategory = category;
+		gameState.currentPhase = { key: "03", title: "Question" };
 		const categoryTitle = category.title
 		console.log(`Player ${player} requests a ${categoryTitle} question`);
 		var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
@@ -96,21 +99,24 @@ export default function CategoryRow(props) {
 	const playerColumns = gameState.players.map((player, index) => {
 		if (player.correctCategories.includes(currentCategory.queryTag)) {
 			// If the player has already completed this category, show the category as completed
-			return (<td key={index}>Complete!</td>);
+			return (<td key={index}><input className='btn w-100' type="button" value="Complete!" disabled={true}/></td>);
 		} else {
 			// Else,
+			return (
+				<td key={index}>
+					<input className={cssClass} type="button" value={`Get question`} onClick={() =>
+						newQuestion(currentPlayerIndex, currentCategory, gameState)} />
+				</td>
+			);
 			// If this is the current player, show the button
-			if (index === gameState.currentPlayerIndex) {
-				return (
-					<td key={index}>
-						<input className={cssClass} type="button" value={`Get question`} onClick={() =>
-							newQuestion(index, currentCategory, gameState)} />
-					</td>
-				);
-			} else {
-				// Else, show the category as not completed
-				return (<td key={index}>Not completed</td>);
-			}
+			// if (index === gameState.currentPlayerIndex) {
+				
+			// } else {
+			// 	// Else, show the category as not completed
+			// 	return (<td key={index}>
+			// 		<input className={`${cssClass} border-0`} type="button" disabled={true} value={`Not completed`} />
+			// 	</td>);
+			// }
 		}
 	});
 
