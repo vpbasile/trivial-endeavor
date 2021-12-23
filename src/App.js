@@ -49,7 +49,7 @@ function App(props) {
     currentCategory: categoryList[0]
   });
   const [guessedState, setGuessedState] = useState(false);
-  const [scoreState, setScoreState] = useState({ players });
+  // const [scoreState, setScoreState] = useState({ players });
   const [gamePhase, setGamePhase] = useState(phases[0]);
 
   // Make the score board

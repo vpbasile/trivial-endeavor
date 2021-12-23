@@ -15,6 +15,7 @@ export default function CategorySelect(props) {
 
 	function newQuestion(player, category, gameState) {
 		// var tempGameState = gameState;
+		
 		gameState.currentCategory = category;
 		gameState.currentPhase = { key: "03", title: "Question" };
 		const categoryTitle = category.title
@@ -28,6 +29,7 @@ export default function CategorySelect(props) {
 			correctAnswer: "Loading...",
 			correctIndex: 0
 		}
+		props.setGuessedState(false);
 		props.setCurrentQuestion(tempQuestion);
 		getQuestion(queryURL);
 	}
@@ -40,7 +42,6 @@ export default function CategorySelect(props) {
 	}
 
 	function parseReceivedQuestion(data) {
-		props.setGuessedState(false);
 		console.log(`Parsing question`);
 		const hideAnswers = true;
 		if (hideAnswers) {

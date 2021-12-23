@@ -25,7 +25,6 @@ export default function Question(props) {
 			console.log("Correct!");
 			// If the current player got it right, then update their scorecard
 			const currentPlayer = gameState.players[gameState.currentPlayerIndex];
-			alert(`${currentPlayer.name} is correct!`);
 			currentPlayer.correctCategories.push(questionCategoryTag);
 		} else {
 			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
@@ -38,19 +37,23 @@ export default function Question(props) {
 		tempGameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
 		// Update the game state
 		props.updateGameState(tempGameState);
-
+		props.setGamePhase({ key: "02", title: "Select", index: 0 });
 	}
 
 	// Make answer buttons
 	let buttonIndex = 0;
 	const answerButtons = choices.map((choice) => {
-		let classes
-		if(props.guessedState){
+		// Generic gray button class
+		let classes = "rounded p-2 m-2 border w-100 btn"
+		if (props.guessedState) {
 			// Guess has been entered, so set the classes to show which button was correct
-			classes = (buttonIndex === currentQuestion.correctIndex) ? "btn btn-success" : "btn btn-danger";
+			if (buttonIndex === currentQuestion.correctIndex) {
+				console.log(`Button ${buttonIndex} is correct`);
+				classes += " btn-success";
+			}
 		} else {
 			// Guess has not been entered, so all buttons get the same class
-			classes="rounded p-2 m-2 border w-100 btn btn-dark";
+			classes += " btn-dark";
 		}
 		return <AnswerButton
 			key={buttonIndex}
@@ -62,17 +65,16 @@ export default function Question(props) {
 			setCurrentQuestion={setCurrentQuestion}
 			categoryList={categoryList}
 			handleGuess={handleGuess}
-			cssClasses={classes} 
+			cssClasses={classes}
 			guessedState={props.guessedState} setGuessedState={props.setGuessedState}
-			/>
+		/>
 	})
-
 
 	// var tempCssClass = props.currentCategory.cssClass;
 	var tempCssClass = questionCategory.cssClass;
 	if (tempCssClass === undefined) { tempCssClass = "blackandwhite"; }
 	tempCssClass = `p-2 m-2 btn w-100 ${tempCssClass}`;
-	return (	
+	return (
 		<div className="card bg-dark">
 			{/* Figure out how Bootstrap cards really work */}
 			<div className="card-body">

@@ -28,9 +28,9 @@ body{
 }
 
 /* All color transitions should be 1 second long. */
-* {
+/* * {
 	transition: background-color 1s ease;
-}
+} */
 
 
 /* Buttons */
