@@ -12,23 +12,16 @@ export default function AnswerButton(props) {
 	const buttonID = `choice-${buttonIndex}`;
 	const handleGuess = props.handleGuess;
 	var tempQuestion = props.currentQuestion;
+	const guessedState = props.guessedState;
+	if(guessedState){
+		console.log("guessedState is true")
+	} else { console.log("guessedState is false")}
 	
-
-	// If the button is disabled, make it so
 	return (
 		<div>
 			<input className={cssClass} type="button" value={buttonText} id={buttonID}
-				onClick={() => handleGuess(buttonIndex)} disabled={props.disabled} />
+				onClick={() => {
+					props.setGuessedState(true); handleGuess(buttonIndex)}} disabled={guessedState} />
 		</div>
 	);
-
-	function endTurn() {
-		// 	// console.log(`Player ${gameState.currentPlayer} ends their turn`);
-		// 	gameState.currentPlayer = (gameState.currentPlayer + 1) % players.length;
-		// 	// console.log(`Player ${gameState.currentPlayer} starts their turn`);
-		// 	var playerDisplay = document.getElementById("display-player");
-		// 	playerDisplay.innerHTML = players[gameState.currentPlayer].name;
-		// 	playerDisplay.classList = `rounded p-2 m-2 border border-light`;
-		// 	// console.log(`Player ${gameState.currentPlayer} starts their turn`);
-	}
 }

@@ -1,6 +1,6 @@
 export default function DataDisplay(props) {
 	// const nothing = "position-fixed bottom-0";
-	const currentPhase = props.gameState.currentPhase;
+	const currentPhase = props.currentPhase;
 	console.log(`props.gameState.currentPlayerIndex = ${props.gameState.currentPlayerIndex}`);
 	const currentPlayer = props.gameState.players[props.gameState.currentPlayerIndex];
 	return( 

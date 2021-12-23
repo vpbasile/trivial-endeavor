@@ -40,12 +40,14 @@ export default function CategorySelect(props) {
 	}
 
 	function parseReceivedQuestion(data) {
+		props.setGuessedState(false);
 		console.log(`Parsing question`);
-		// Hide the answer data so I don't learn anything while I'm debugging
-		data.correctAnswer = "Correct answer"
-		data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
-
-
+		const hideAnswers = true;
+		if (hideAnswers) {
+			// Hide the answer data so I don't learn anything while I'm debugging
+			data.correctAnswer = "Correct answer"
+			data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
+		}
 
 		// Parse the received question into the game's data structure
 		// Make sure we don't have more than 4 incorrect answers
@@ -99,7 +101,7 @@ export default function CategorySelect(props) {
 	const playerColumns = gameState.players.map((player, index) => {
 		if (player.correctCategories.includes(currentCategory.queryTag)) {
 			// If the player has already completed this category, show the category as completed
-			return (<td key={index}><input className='btn w-100' type="button" value="Complete!" disabled={true}/></td>);
+			return (<td key={index}><input className='btn w-100' type="button" value="Complete!" disabled={true} /></td>);
 		} else {
 			// Else,
 			return (
@@ -110,7 +112,7 @@ export default function CategorySelect(props) {
 			);
 			// If this is the current player, show the button
 			// if (index === gameState.currentPlayerIndex) {
-				
+
 			// } else {
 			// 	// Else, show the category as not completed
 			// 	return (<td key={index}>

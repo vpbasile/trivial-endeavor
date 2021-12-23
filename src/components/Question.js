@@ -14,64 +14,57 @@ export default function Question(props) {
 	const currentPlayer = props.gameState.players[props.gameState.currentPlayerIndex];
 
 	function handleGuess(guess) {
-		console.log(`currentPlayer.name = ${currentPlayer.name}`);
 		console.log(`${currentPlayer.name} guesses ${guess}`);
-		gameState.currentPhase = { key: "04", title: "Answer", index: 2 };
+		// gameState.currentPhase = 
+		props.setGamePhase({ key: "04", title: "Answer", index: 2 });
 		props.updateGameState(gameState);
 		let question = props.currentQuestion;
 		let correctChoice = question.correctIndex;
 
-		const guessedQuestion = currentQuestion
-		guessedQuestion.guessed = true;
-		const setCurrentQuestion = props.setCurrentQuestion;
-		setCurrentQuestion(guessedQuestion);
-		// let playerName = gameState.players[gameState.currentPlayerIndex].name;
 		if (guess === correctChoice) {
 			console.log("Correct!");
-			// Update the button with whether it was the correct answer or not
 			// If the current player got it right, then update their scorecard
 			const currentPlayer = gameState.players[gameState.currentPlayerIndex];
-
+			alert(`${currentPlayer.name} is correct!`);
 			currentPlayer.correctCategories.push(questionCategoryTag);
 		} else {
 			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
 		}
+		// Now that feedback has been given, move to the next player
+		const nextPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
+		gameState.currentPlayerIndex = nextPlayerIndex;
+		console.log(`Now it is ${gameState.players[gameState.currentPlayerIndex].name}'s turn.`);
 
 		tempGameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
 		// Update the game state
 		props.updateGameState(tempGameState);
+
 	}
-
-
-	// 	// If the current player got it right, then update their scorecard
-	// 	if (guess === correctChoice) {
-	// 		players = gameState.players;
-	// 		const currentPlayerIndex = gameState.currentPlayerIndex;
-	// 		const playerName = players[currentPlayerIndex].name;
-	// 		const currentCategory = gameState.currentCategory;
-	// 		console.log(`${playerName} got it right in ${currentCategory.title}`);
-	// 		// Keep track of which categories each player has correctly answered
-	// 		players[currentPlayerIndex].correctCategories.push(currentCategory.queryTag);
-	// 	} else {
-	// 		console.log("Incorrect!  The correct answer was: " + gameState.currentQuestion.answers[correctChoice]);
-	// 	}
-	// 	// End the turn
-	// 	// endTurn();
-	// }
 
 	// Make answer buttons
 	let buttonIndex = 0;
 	const answerButtons = choices.map((choice) => {
+		let classes
+		if(props.guessedState){
+			// Guess has been entered, so set the classes to show which button was correct
+			classes = (buttonIndex === currentQuestion.correctIndex) ? "btn btn-success" : "btn btn-danger";
+		} else {
+			// Guess has not been entered, so all buttons get the same class
+			classes="rounded p-2 m-2 border w-100 btn btn-dark";
+		}
 		return <AnswerButton
 			key={buttonIndex}
 			index={buttonIndex++}
 			text={choice}
-			disabled={props.currentQuestion.guessed}
+			disabled={props.currentQuestion.guessedState}
 			gameState={gameState}
 			currentQuestion={currentQuestion}
 			setCurrentQuestion={setCurrentQuestion}
 			categoryList={categoryList}
-			handleGuess={handleGuess} />
+			handleGuess={handleGuess}
+			cssClasses={classes} 
+			guessedState={props.guessedState} setGuessedState={props.setGuessedState}
+			/>
 	})
 
 
