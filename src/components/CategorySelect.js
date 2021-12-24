@@ -8,19 +8,21 @@ import React from "react";
 export default function CategorySelect(props) {
 	const categoryList = props.categoryList;
 	const players = props.players;
-	const scoreState = props.scoreState;
 	const gamePhase = props.gamePhase;
 	const setGamePhase = props.setGamePhase;
-	const currentPlayerIndex = props.currentPlayerIndex;
-	const guessedState = props.guessedState;
-	const setGuessedState = props.setGuessedState;
 	const category = props.category;
 	const cssClass = category.cssClass + " w-100";
 
-	function newQuestion(player, category) {
-		setGamePhase({ currentPhase: { key: "03", title: "Question" }, currentPlayerIndex: currentPlayerIndex })
+	function newQuestion(currentPlayerIndex, category) {
+		setGamePhase({
+			currentPhase: props.phases.find(phase => phase.title === "Answer"),
+			currentPlayerIndex: currentPlayerIndex
+		})
+		// console.log(`Freshly set game phase:`)
+		// console.log(`gamePhase: ${JSON.stringify(gamePhase)}`);
 		const categoryTitle = category.title
-		console.log(`Player ${player} requests a ${categoryTitle} question`);
+		const player = players[currentPlayerIndex];
+		console.log(`${player.name} requests a ${categoryTitle} question`);
 		var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
 		// Create a temporary question while we wait for the API to respond
 		var tempQuestion = {
@@ -44,9 +46,11 @@ export default function CategorySelect(props) {
 
 	function parseReceivedQuestion(data) {
 		console.log(`Parsing question`);
-		const hideAnswers = true;
+		// <>! Switch
+		const hideAnswers = false;
 		if (hideAnswers) {
 			// Hide the answer data so I don't learn anything while I'm debugging
+			console.log(`Hiding answers`);
 			data.correctAnswer = "Correct answer"
 			data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
 		}
@@ -103,15 +107,25 @@ export default function CategorySelect(props) {
 	const playerColumns = players.map((player, index) => {
 		if (player.correctCategories.includes(category.queryTag)) {
 			// If the player has already completed this category, show the category as completed
-			return (<td key={index}><input className='btn w-100' type="button" value="Complete!" disabled={true} /></td>);
+			return (<td key={index}>
+				<input className={`${cssClass} border-0`} type="button" value={`Complete!`} disabled={true} /></td>);
+			
 		} else {
 			// Else,
-			return (
-				<td key={index}>
-					<input className={cssClass} type="button" value={`Get question`} onClick={() =>
-						newQuestion(currentPlayerIndex, category)} />
-				</td>
-			);
+			// If it's the current player's turn, show the button
+			if (index === gamePhase.currentPlayerIndex) {
+				return (
+					<td key={index}>
+						{/* <input className='cssClass' type="button" value="New Question" onClick={() => newQuestion(index, category)} /> */}
+						<input className={cssClass} type="button" value={`Get question`} onClick={() => newQuestion(player.index, category)} />
+					</td>);
+			}
+			// // Else, show the category as not completed
+			else {
+				return (<td key={index}>
+					<input className={`${cssClass.replace("cat-", "text-")} btn-dark border-0`} type="button" value={`Not Completed`} disabled={true} />
+				</td>);
+			}
 		}
 	});
 

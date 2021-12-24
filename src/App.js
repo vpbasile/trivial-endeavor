@@ -19,8 +19,8 @@ function App(props) {
   const phases = globals.phases;
   // Initialize the players and their scores
   var players = [
-    { name: "Player A", correctCategories: [] },
-    { name: "Player B", correctCategories: [] }
+    { index: 0, name: "Player A", correctCategories: [], score: [] },
+    { index: 1, name: "Player B", correctCategories: [], score: [] }
   ]
 
   // Spoof gamestate so that each player has already answered a category
@@ -31,11 +31,10 @@ function App(props) {
   //   return categoryList[randomIndex];
   // }
 
-  const placeholder = "Select a category to begin."
-
   // Initialize the game state
+  const placeholder = "Select a category to begin."
   const [guessedState, setGuessedState] = useState(false);
-  const [scoreState, setScoreState] = useState({ players });
+  const [scoreState, setScoreState] = useState(players);
   const [gamePhase, setGamePhase] = useState({ currentPhase: phases[0], currentPlayerIndex: 0 });
   // const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
@@ -50,19 +49,7 @@ function App(props) {
 
   // Make the score board
   // console.log(`Category list: ${JSON.stringify(gameState.categoryList)}`);
-  const scoreBoard = categoryList.map(category => (
-    <CategorySelect key={category.key}
-      category={category}
-      categoryList={categoryList}
-      players={players}
-      scoreState={scoreState} setScoreState={setScoreState}
-      gamePhase={gamePhase} setGamePhase={setGamePhase}
-      // currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={setCurrentPlayerIndex}
-      currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
-      currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-      guessedState={guessedState} setGuessedState={setGuessedState}
-    />)
-  );
+  // const scoreBoard = 
 
   return (
     <div className="App container">
@@ -74,9 +61,9 @@ function App(props) {
               players={players}
               handleGuess={props.handleGuess}
               categoryList={categoryList}
-              scoreState={scoreState} setScoreState={setScoreState}
+              phases={phases}
               gamePhase={gamePhase} setGamePhase={setGamePhase}
-              // currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={setCurrentPlayerIndex}
+              scoreState={scoreState} setScoreState={setScoreState}
               currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
               currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
               guessedState={guessedState} setGuessedState={setGuessedState} />
@@ -84,14 +71,17 @@ function App(props) {
         </ErrorBoundary>
         <ErrorBoundary>
           <div id="phase-div" className="col">
-            {/* <DataDisplay
+            <DataDisplay
               players={players}
               scoreState={scoreState} setScoreState={setScoreState}
+              phases={phases}
               gamePhase={gamePhase} setGamePhase={setGamePhase}
               // currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={setCurrentPlayerIndex}
               currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
               currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-              guessedState={guessedState} setGuessedState={setGuessedState} /> */}
+              guessedState={guessedState} setGuessedState={setGuessedState}
+              categoryList={categoryList}
+            />
           </div>
         </ErrorBoundary>
         <ErrorBoundary>
@@ -105,7 +95,26 @@ function App(props) {
                 </tr>
               </thead>
               <tbody>
-                {scoreBoard}
+                {
+                  categoryList.map(category => {
+                    if(category.queryTag !== "none"){
+                    return (
+                      <CategorySelect key={category.key}
+                        category={category}
+                        categoryList={categoryList}
+                        players={players}
+                        phases={phases}
+                        // currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={setCurrentPlayerIndex}
+                        scoreState={scoreState} setScoreState={setScoreState}
+                        gamePhase={gamePhase} setGamePhase={setGamePhase}
+                        currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
+                        currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+                        guessedState={guessedState} setGuessedState={setGuessedState}
+                      />)
+                    }
+                  }
+                  )
+                }
               </tbody>
             </table>
           </div>

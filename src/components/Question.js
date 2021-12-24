@@ -1,6 +1,5 @@
 import React from "react";
 import AnswerButton from './AnswerButton';
-import ErrorBoundary from './ErrorBoundary';
 
 export default function Question(props) {
 	const categoryList = props.categoryList;
@@ -19,58 +18,64 @@ export default function Question(props) {
 	const questionCategory = categoryList.filter(category => category.queryTag === questionCategoryTag)[0];
 	const questionText = currentQuestion.questionText;
 	const choices = currentQuestion.choices;
-	const currentPlayer = players[currentPlayerIndex];
-
 	var tempCssClass = questionCategory.cssClass;
-	function handleGuess(guess) {
-		// console.log(`${currentPlayer.name} guesses ${guess}`);
-		// console.log(`currentPlayerIndex: ${currentPlayerIndex}`);
+
+	function handleGuess(guess, currentPlayerIndex, questionCategoryTag) {
+		currentPlayerIndex = gamePhase.currentPlayerIndex;
+		const currentPlayer = players[currentPlayerIndex];
+		console.log(`${currentPlayer.name} guesses ${guess}`);
 		setGamePhase({
-			currentPhase: { key: "04", title: "Answer", index: 2 },
+			currentPhase: props.phases.find(phase => phase.title === "Answer"),
 			currentPlayerIndex: currentPlayerIndex
 		})
-
-		// props.updateQuestion(guess);
 		let question = props.currentQuestion;
 		let correctChoice = question.correctIndex;
-		// const currentPlayerIndex = props.currentPlayerIndex;
-		const tempScoreState = props.scoreState;
-
 		if (guess === correctChoice) {
-			console.log("Correct!");
-			// If the current player got it right, then update their scorecard
-			currentPlayer.correctCategories.push(questionCategoryTag);
-
-		} else { console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`); }
+			// If the player guessed correctly, add questionCategoryTag to the player's score
+			console.log(`Correct! ${currentPlayer.name} has completed the ${questionCategory.title} category`);
+			let temp=giveCredit(players[currentPlayerIndex], questionCategoryTag);
+		} else {
+			// If the player was incorrect
+			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
+		}
 		// Now that feedback has been given, move to the next player
 		const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
-		// props.setCurrentPlayerIndex(nextPlayerIndex);
-		// console.log(`Now it is ${players[nextPlayerIndex].name}'s turn.`);
-
 		// Update the game state
 		setGamePhase({
-			currentPhase: { key: "02", title: "Select", index: 0 },
+			currentPhase: props.phases.find(phase => phase.title === "Select"),
 			currentPlayerIndex: nextPlayerIndex
 		})
-
+		console.log(`Now it is ${players[nextPlayerIndex].name}'s turn.`);
+	}
+	
+	function giveCredit(player, categoryTag) {
+		var tempPlayers = players
+		tempPlayers[player.index].correctCategories.push(categoryTag)
+		console.log(`tempPlayers: ${JSON.stringify(tempPlayers)}`);
+		// <> This si the correct info, but it is for some reason setscorestate is not working.
+		props.setScoreState(tempPlayers)
 	}
 
 	// Make answer buttons
 	let buttonIndex = 0;
+	
 	const answerButtons = choices.map((choice) => {
 		// Generic gray button class
 		let classes = "rounded p-2 m-2 border w-100 btn"
 		if (props.guessedState) {
 			// Guess has been entered, so set the classes to show which button was correct
 			if (buttonIndex === currentQuestion.correctIndex) {
-				console.log(`Button ${buttonIndex} is correct`);
 				classes += " btn-success";
+			// } else if(buttonIndex === ) {
+				//The guess was wrong so turn the button red
+				// classes += " btn-danger";
 			}
 			// Guess has not been entered, so all buttons get the same class
 		} else { classes += " btn-dark"; }
 		return (
 			<AnswerButton
 				categoryList={categoryList}
+				players={players}
 				scoreState={scoreState} setScoreState={setScoreState}
 				gamePhase={gamePhase} setGamePhase={setGamePhase}
 				currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}
