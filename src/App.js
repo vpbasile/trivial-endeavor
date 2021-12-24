@@ -33,6 +33,12 @@ function App(props) {
 
   const placeholder = "Select a category to begin."
 
+  // Initialize the game state
+  const [guessedState, setGuessedState] = useState(false);
+  const [scoreState, setScoreState] = useState({ players });
+  const [gamePhase, setGamePhase] = useState({ currentPhase: phases[0], currentPlayerIndex: 0 });
+  // const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+  const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
   // Initialize the question and answer choices
   const [currentQuestion, setCurrentQuestion] = useState({
     questionText: placeholder,
@@ -41,41 +47,22 @@ function App(props) {
     correctIndex: 0,
     categoryTag: categoryList[0].queryTag
   });
-  // Initialize the game state
-  const [gameState, updateGameState] = useState({
-    players,
-    currentPlayerIndex: 0,
-    currentPhase: phases[0],
-    currentCategory: categoryList[0]
-  });
-  const [guessedState, setGuessedState] = useState(false);
-  // const [scoreState, setScoreState] = useState({ players });
-  const [gamePhase, setGamePhase] = useState(phases[0]);
 
   // Make the score board
   // console.log(`Category list: ${JSON.stringify(gameState.categoryList)}`);
   const scoreBoard = categoryList.map(category => (
     <CategorySelect key={category.key}
-      category={category} gameState={gameState}
-      updateGameState={updateGameState}
-      currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-      setGuessedState={setGuessedState}
+      category={category}
       categoryList={categoryList}
+      players={players}
+      scoreState={scoreState} setScoreState={setScoreState}
+      gamePhase={gamePhase} setGamePhase={setGamePhase}
+      // currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={setCurrentPlayerIndex}
+      currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
+      currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+      guessedState={guessedState} setGuessedState={setGuessedState}
     />)
   );
-  // Function to make the phase display update to the next phase
-  function updatePhase() {
-    console.log(`gameState.currentPhase = ${gameState.currentPhase}`);
-    const nextPhaseIndex = (gameState.currentPhase.index + 1) % phases.length;
-    console.log(`Next phase index: ${nextPhaseIndex}`);
-    console.log(`Phase list: ${JSON.stringify(phases)}`);
-    const nextPhase = phases[nextPhaseIndex];
-    console.log(`Updating phase to ${nextPhase.name}`);
-    updateGameState({
-      ...gameState,
-      currentPhase: nextPhase
-    });
-  }
 
   return (
     <div className="App container">
@@ -83,20 +70,28 @@ function App(props) {
         <ErrorBoundary>
           <div id="gameBoard-div" className="col-12">
             <h1>Trivial Endeavor</h1>
-            <Question key={"currentQuestion"} 
-            currentQuestion={currentQuestion} 
-            handleGuess={props.handleGuess} 
-            currentPhase={gameState.currentPhase} 
-            categoryList={categoryList} 
-            gameState={gameState} updateGameState={updateGameState} 
-            guessedState={guessedState} setGuessedState={setGuessedState}
-            setGamePhase={setGamePhase} />
+            <Question key={"currentQuestion"}
+              players={players}
+              handleGuess={props.handleGuess}
+              categoryList={categoryList}
+              scoreState={scoreState} setScoreState={setScoreState}
+              gamePhase={gamePhase} setGamePhase={setGamePhase}
+              // currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={setCurrentPlayerIndex}
+              currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
+              currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+              guessedState={guessedState} setGuessedState={setGuessedState} />
           </div>
         </ErrorBoundary>
         <ErrorBoundary>
           <div id="phase-div" className="col">
-            <DataDisplay gameState={gameState} players={players} 
-            currentPhase={gamePhase} updatePhase={updatePhase} />
+            {/* <DataDisplay
+              players={players}
+              scoreState={scoreState} setScoreState={setScoreState}
+              gamePhase={gamePhase} setGamePhase={setGamePhase}
+              // currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={setCurrentPlayerIndex}
+              currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
+              currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+              guessedState={guessedState} setGuessedState={setGuessedState} /> */}
           </div>
         </ErrorBoundary>
         <ErrorBoundary>

@@ -7,17 +7,18 @@ import React from "react";
 
 export default function CategorySelect(props) {
 	const categoryList = props.categoryList;
-	var gameState = props.gameState;
-	// console.log(`Just for now, gameState: ${JSON.stringify(gameState)}`);
-	const currentCategory = props.category;
-	const currentPlayerIndex = props.gameState.currentPlayerIndex;
-	const cssClass = currentCategory.cssClass + " w-100";
+	const players = props.players;
+	const scoreState = props.scoreState;
+	const gamePhase = props.gamePhase;
+	const setGamePhase = props.setGamePhase;
+	const currentPlayerIndex = props.currentPlayerIndex;
+	const guessedState = props.guessedState;
+	const setGuessedState = props.setGuessedState;
+	const category = props.category;
+	const cssClass = category.cssClass + " w-100";
 
-	function newQuestion(player, category, gameState) {
-		// var tempGameState = gameState;
-		
-		gameState.currentCategory = category;
-		gameState.currentPhase = { key: "03", title: "Question" };
+	function newQuestion(player, category) {
+		setGamePhase({ currentPhase: { key: "03", title: "Question" }, currentPlayerIndex: currentPlayerIndex })
 		const categoryTitle = category.title
 		console.log(`Player ${player} requests a ${categoryTitle} question`);
 		var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
@@ -99,8 +100,8 @@ export default function CategorySelect(props) {
 	// Enhancement: Only query the api at the beginning of the game and when the player requests a category that we've run out of questions for
 
 	// <> Build the buttons
-	const playerColumns = gameState.players.map((player, index) => {
-		if (player.correctCategories.includes(currentCategory.queryTag)) {
+	const playerColumns = players.map((player, index) => {
+		if (player.correctCategories.includes(category.queryTag)) {
 			// If the player has already completed this category, show the category as completed
 			return (<td key={index}><input className='btn w-100' type="button" value="Complete!" disabled={true} /></td>);
 		} else {
@@ -108,25 +109,16 @@ export default function CategorySelect(props) {
 			return (
 				<td key={index}>
 					<input className={cssClass} type="button" value={`Get question`} onClick={() =>
-						newQuestion(currentPlayerIndex, currentCategory, gameState)} />
+						newQuestion(currentPlayerIndex, category)} />
 				</td>
 			);
-			// If this is the current player, show the button
-			// if (index === gameState.currentPlayerIndex) {
-
-			// } else {
-			// 	// Else, show the category as not completed
-			// 	return (<td key={index}>
-			// 		<input className={`${cssClass} border-0`} type="button" disabled={true} value={`Not completed`} />
-			// 	</td>);
-			// }
 		}
 	});
 
 	// Return the category row
 	return (
 		<tr className={cssClass}>
-			<td>{currentCategory.title}</td>
+			<td>{category.title}</td>
 			{playerColumns}
 		</tr>
 	);

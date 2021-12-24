@@ -1,12 +1,15 @@
 export default function DataDisplay(props) {
-	// const nothing = "position-fixed bottom-0";
-	const currentPhase = props.currentPhase;
-	console.log(`props.gameState.currentPlayerIndex = ${props.gameState.currentPlayerIndex}`);
-	const currentPlayer = props.gameState.players[props.gameState.currentPlayerIndex];
-	return( 
-	<h3 className="border border-success w-100 border-3 bg-black p-3">
-		Player: {currentPlayer.name}, Phase: {currentPhase.title}
+	const currentPhase = props.gamePhase.currentPhase;
+	console.log(`currentPhase = ${JSON.stringify(currentPhase)}`);
+	const currentPlayerIndex = currentPhase.currentPlayerIndex;
+	console.log(`currentPlayerIndex = ${currentPlayerIndex}`);
+	const players = props.scoreState.players;
+	console.log(`players = ${JSON.stringify(players)}`);
+	const currentPlayer = players[currentPlayerIndex];
+	console.log(`currentPlayer = ${JSON.stringify(currentPlayer)}`);
+	return (
+		<h3 className="border border-success w-100 border-3 bg-black p-3">
+			Player: {currentPlayer.name}, Phase: {currentPhase.title}
 		</h3>
-	// <p>{gameState.currentPhase.description}</p>
 	)
 }

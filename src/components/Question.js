@@ -1,43 +1,58 @@
 import React from "react";
 import AnswerButton from './AnswerButton';
+import ErrorBoundary from './ErrorBoundary';
 
 export default function Question(props) {
-	var tempGameState = props.gameState;
 	const categoryList = props.categoryList;
+	const players = props.players;
+	const scoreState = props.scoreState;
+	const setScoreState = props.setScoreState;
+	const gamePhase = props.gamePhase;
+	const setGamePhase = props.setGamePhase;
+	const currentPlayerIndex = props.currentPlayerIndex;
 	var currentQuestion = props.currentQuestion
+	const guessedState = props.guessedState;
+	const setGuessedState = props.setGuessedState;
+
 	var setCurrentQuestion = props.setCurrentQuestion;
 	const questionCategoryTag = currentQuestion.categoryTag;
 	const questionCategory = categoryList.filter(category => category.queryTag === questionCategoryTag)[0];
 	const questionText = currentQuestion.questionText;
 	const choices = currentQuestion.choices;
-	const gameState = props.gameState;
-	const currentPlayer = props.gameState.players[props.gameState.currentPlayerIndex];
+	const currentPlayer = players[currentPlayerIndex];
 
+	var tempCssClass = questionCategory.cssClass;
 	function handleGuess(guess) {
-		console.log(`${currentPlayer.name} guesses ${guess}`);
-		// gameState.currentPhase = 
-		props.setGamePhase({ key: "04", title: "Answer", index: 2 });
-		props.updateGameState(gameState);
+		// console.log(`${currentPlayer.name} guesses ${guess}`);
+		// console.log(`currentPlayerIndex: ${currentPlayerIndex}`);
+		setGamePhase({
+			currentPhase: { key: "04", title: "Answer", index: 2 },
+			currentPlayerIndex: currentPlayerIndex
+		})
+
+		// props.updateQuestion(guess);
 		let question = props.currentQuestion;
 		let correctChoice = question.correctIndex;
+		// const currentPlayerIndex = props.currentPlayerIndex;
+		const tempScoreState = props.scoreState;
 
 		if (guess === correctChoice) {
 			console.log("Correct!");
 			// If the current player got it right, then update their scorecard
-			const currentPlayer = gameState.players[gameState.currentPlayerIndex];
 			currentPlayer.correctCategories.push(questionCategoryTag);
-		} else {
-			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
-		}
-		// Now that feedback has been given, move to the next player
-		const nextPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
-		gameState.currentPlayerIndex = nextPlayerIndex;
-		console.log(`Now it is ${gameState.players[gameState.currentPlayerIndex].name}'s turn.`);
 
-		tempGameState.currentPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
+		} else { console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`); }
+		// Now that feedback has been given, move to the next player
+		const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		// props.setCurrentPlayerIndex(nextPlayerIndex);
+		// console.log(`Now it is ${players[nextPlayerIndex].name}'s turn.`);
+
 		// Update the game state
-		props.updateGameState(tempGameState);
-		props.setGamePhase({ key: "02", title: "Select", index: 0 });
+		setGamePhase({
+			currentPhase: { key: "02", title: "Select", index: 0 },
+			currentPlayerIndex: nextPlayerIndex
+		})
+
 	}
 
 	// Make answer buttons
@@ -51,27 +66,27 @@ export default function Question(props) {
 				console.log(`Button ${buttonIndex} is correct`);
 				classes += " btn-success";
 			}
-		} else {
 			// Guess has not been entered, so all buttons get the same class
-			classes += " btn-dark";
-		}
-		return <AnswerButton
-			key={buttonIndex}
-			index={buttonIndex++}
-			text={choice}
-			disabled={props.currentQuestion.guessedState}
-			gameState={gameState}
-			currentQuestion={currentQuestion}
-			setCurrentQuestion={setCurrentQuestion}
-			categoryList={categoryList}
-			handleGuess={handleGuess}
-			cssClasses={classes}
-			guessedState={props.guessedState} setGuessedState={props.setGuessedState}
-		/>
-	})
+		} else { classes += " btn-dark"; }
+		return (
+			<AnswerButton
+				categoryList={categoryList}
+				scoreState={scoreState} setScoreState={setScoreState}
+				gamePhase={gamePhase} setGamePhase={setGamePhase}
+				currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}
+				currentCategory={props.currentCategory} setCurrentCategory={props.setCurrentCategory}
+				currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+				guessedState={guessedState} setGuessedState={setGuessedState}
+				key={buttonIndex}
+				index={buttonIndex++}
+				text={choice}
+				disabled={props.currentQuestion.guessedState}
+				handleGuess={handleGuess}
+				cssClasses={classes}
+			/>
+		);
+	});
 
-	// var tempCssClass = props.currentCategory.cssClass;
-	var tempCssClass = questionCategory.cssClass;
 	if (tempCssClass === undefined) { tempCssClass = "blackandwhite"; }
 	tempCssClass = `p-2 m-2 btn w-100 ${tempCssClass}`;
 	return (
@@ -85,6 +100,5 @@ export default function Question(props) {
 				{answerButtons}
 			</div>
 		</div>
-
 	);
 }
