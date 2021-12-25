@@ -17,6 +17,14 @@
 // 				button.disabled = true;
 // 			}
 
+const player = {
+	"index": 0,
+	"name": "Player A", 
+	"correctCategories": ["none", "food_and_drink", "sport_and_leisure", "science", "history", "geography", "movies", "music", "general_knowledge"]
+}
+
+players = [{"index":0,"name":"Player A","correctCategories":["sport_and_leisure","geography","music","food_and_drink","science","history","movies","general_knowledge"]},{"index":1,"name":"Player B","correctCategories":["sport_and_leisure","movies","food_and_drink","science","history","geography","music","general_knowledge"]}]
+
 const props = {
 	"gameState": {
 		"players": [

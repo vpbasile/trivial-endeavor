@@ -33,7 +33,10 @@ export default function Question(props) {
 		if (guess === correctChoice) {
 			// If the player guessed correctly, add questionCategoryTag to the player's score
 			console.log(`Correct! ${currentPlayer.name} has completed the ${questionCategory.title} category`);
-			let temp=giveCredit(players[currentPlayerIndex], questionCategoryTag);
+			let winCheck=updatedScore(currentPlayerIndex, questionCategoryTag);
+			// if(winCheck>7){
+			// 	// This play
+			// }
 		} else {
 			// If the player was incorrect
 			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
@@ -45,10 +48,25 @@ export default function Question(props) {
 			currentPhase: props.phases.find(phase => phase.title === "Select"),
 			currentPlayerIndex: nextPlayerIndex
 		})
-		console.log(`Now it is ${players[nextPlayerIndex].name}'s turn.`);
+		console.log(`============ Now it is ${players[nextPlayerIndex].name}'s turn.`);
+	}
+
+	function updatedScore(playerIndex, categoryTag) {
+		// console.log(`playerIndex: ${JSON.stringify(playerIndex)}`)
+		// console.log(`categoryTag: ${JSON.stringify(categoryTag)}`)
+		// console.log(`players: ${JSON.stringify(players)}`)
+		let temp = scoreState;
+		// console.log(`Score state: ${JSON.stringify(temp)}`)
+		temp[playerIndex].correctCategories.push(categoryTag);
+		// console.log(`Score state: ${JSON.stringify(temp)}`)
+		const currenPlayerScore = temp[playerIndex].correctCategories.length;
+
+		// console.log(`${players[playerIndex].name}'s correct categories are now ${temp}`);
+		setScoreState(temp);
+		return currenPlayerScore;
 	}
 	
-	function giveCredit(player, categoryTag) {
+	function updatedScoreOLD(player, categoryTag) {
 		var tempPlayers = players
 		tempPlayers[player.index].correctCategories.push(categoryTag)
 		console.log(`tempPlayers: ${JSON.stringify(tempPlayers)}`);

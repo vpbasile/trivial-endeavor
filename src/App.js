@@ -12,42 +12,55 @@ import Question from "./components/Question";
 import CategorySelect from './components/CategorySelect';
 import DataDisplay from './components/DataDisplay';
 import ErrorBoundary from './components/ErrorBoundary';
+var players = [
+  { index: 0, name: "Player A", correctCategories: [] },
+  { index: 1, name: "Player B", correctCategories: [] }
+]
 
-function App(props) {
-  const globals = props.globals;
-  const categoryList = globals.categoryList;
-  const phases = globals.phases;
-  // Initialize the players and their scores
-  var players = [
-    { index: 0, name: "Player A", correctCategories: [], score: [] },
-    { index: 1, name: "Player B", correctCategories: [], score: [] }
-  ]
+// Initialize the players and their scores
 
-  // Spoof gamestate so that each player has already answered a category
-  // players[0].correctCategories.push(randomCategory().queryTag);
-  // players[1].correctCategories.push(randomCategory().queryTag);
-  // function randomCategory(){
+// players.map(player => {
+  //   categoryList.map(category => {
+    //     player.correctCategories.push(category.queryTag);
+    //     return true
+//   })
+//   return true
+// })
+
+
+// Spoof gamestate so that each player has already answered a category
+// players[0].correctCategories.push(randomCategory().queryTag);
+// players[1].correctCategories.push(randomCategory().queryTag);
+// function randomCategory(){
   //   var randomIndex = Math.floor(Math.random() * categoryList.length);
   //   return categoryList[randomIndex];
   // }
-
+  
   // Initialize the game state
+  // const [playerOneScore,setPlayerOneScore] = useState(["placeholder"])
+  // const [playerTwoScore,setPlayerTwoScore] = useState(["placeholder"])
+  
   const placeholder = "Select a category to begin."
-  const [guessedState, setGuessedState] = useState(false);
-  const [scoreState, setScoreState] = useState(players);
-  const [gamePhase, setGamePhase] = useState({ currentPhase: phases[0], currentPlayerIndex: 0 });
-  // const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
   // Initialize the question and answer choices
-  const [currentQuestion, setCurrentQuestion] = useState({
-    questionText: placeholder,
-    choices: [placeholder, placeholder, placeholder, placeholder],
-    correctAnswer: "data.correctAnswer",
-    correctIndex: 0,
-    categoryTag: categoryList[0].queryTag
-  });
-
-  // Make the score board
+  function App(props) {
+    const globals = props.globals;
+    const categoryList = globals.categoryList;
+    const phases = globals.phases;
+    // const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+    const [guessedState, setGuessedState] = useState(false);
+    const [scoreState, setScoreState] = useState(players);
+    const [gamePhase, setGamePhase] = useState({ currentPhase: phases[0], currentPlayerIndex: 0 });
+    const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
+    const [currentQuestion, setCurrentQuestion] = useState({
+      questionText: placeholder,
+      choices: [placeholder, placeholder, placeholder, placeholder],
+      correctAnswer: "data.correctAnswer",
+      correctIndex: 0,
+      categoryTag: categoryList[0].queryTag
+    });
+    console.log(`Initial scoreState: ${JSON.stringify(scoreState)}`);
+    
+    // Make the score board
   // console.log(`Category list: ${JSON.stringify(gameState.categoryList)}`);
   // const scoreBoard = 
 
@@ -66,7 +79,8 @@ function App(props) {
               scoreState={scoreState} setScoreState={setScoreState}
               currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
               currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-              guessedState={guessedState} setGuessedState={setGuessedState} />
+              guessedState={guessedState} setGuessedState={setGuessedState}
+              />
           </div>
         </ErrorBoundary>
         <ErrorBoundary>

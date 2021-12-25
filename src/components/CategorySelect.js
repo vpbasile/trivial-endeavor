@@ -8,6 +8,7 @@ import React from "react";
 export default function CategorySelect(props) {
 	const categoryList = props.categoryList;
 	const players = props.players;
+	console.log(`Players: ${JSON.stringify(players)}`);
 	const gamePhase = props.gamePhase;
 	const setGamePhase = props.setGamePhase;
 	const category = props.category;
@@ -47,7 +48,7 @@ export default function CategorySelect(props) {
 	function parseReceivedQuestion(data) {
 		console.log(`Parsing question`);
 		// <>! Switch
-		const hideAnswers = false;
+		const hideAnswers = true;
 		if (hideAnswers) {
 			// Hide the answer data so I don't learn anything while I'm debugging
 			console.log(`Hiding answers`);
@@ -105,6 +106,7 @@ export default function CategorySelect(props) {
 
 	// <> Build the buttons
 	const playerColumns = players.map((player, index) => {
+		// console.log(`${player.name} is player ${index}.  player: ${JSON.stringify(player)}`);
 		if (player.correctCategories.includes(category.queryTag)) {
 			// If the player has already completed this category, show the category as completed
 			return (<td key={index}>
