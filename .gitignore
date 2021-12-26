@@ -29,5 +29,4 @@ src/fonts/glyphicons-halflings-regular.svg
 src/fonts/glyphicons-halflings-regular.ttf
 src/fonts/glyphicons-halflings-regular.woff
 src/fonts/glyphicons-halflings-regular.woff2
-src/components/Question.js
-src/components/Player.js
+src/components/testParse.js
