@@ -8,7 +8,7 @@ import React from "react";
 export default function CategorySelect(props) {
 	const categoryList = props.categoryList;
 	const players = props.players;
-	console.log(`Players: ${JSON.stringify(players)}`);
+	// console.log(`Players: ${JSON.stringify(players)}`);
 	const gamePhase = props.gamePhase;
 	const setGamePhase = props.setGamePhase;
 	const category = props.category;
@@ -48,10 +48,10 @@ export default function CategorySelect(props) {
 	function parseReceivedQuestion(data) {
 		console.log(`Parsing question`);
 		// <>! Switch
-		const hideAnswers = true;
+		const hideAnswers = props.devMode;
 		if (hideAnswers) {
 			// Hide the answer data so I don't learn anything while I'm debugging
-			console.log(`Hiding answers`);
+			console.log(`=====Hiding answers=====`);
 			data.correctAnswer = "Correct answer"
 			data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
 		}
@@ -103,6 +103,8 @@ export default function CategorySelect(props) {
 	}
 
 	// Enhancement: Only query the api at the beginning of the game and when the player requests a category that we've run out of questions for
+	const colorButton = ``
+	const darkButton = `${cssClass.replace("cat-", "text-")} text-wrap btn-dark border-0`
 
 	// <> Build the buttons
 	const playerColumns = players.map((player, index) => {
@@ -110,7 +112,7 @@ export default function CategorySelect(props) {
 		if (player.correctCategories.includes(category.queryTag)) {
 			// If the player has already completed this category, show the category as completed
 			return (<td key={index}>
-				<input className={`${cssClass} border-0`} type="button" value={`Complete!`} disabled={true} /></td>);
+				<input className={`${cssClass} border-0`} type="button" value={`-!!!-Complete-!!!-`} disabled={true} /></td>);
 			
 		} else {
 			// Else,
@@ -119,13 +121,13 @@ export default function CategorySelect(props) {
 				return (
 					<td key={index}>
 						{/* <input className='cssClass' type="button" value="New Question" onClick={() => newQuestion(index, category)} /> */}
-						<input className={cssClass} type="button" value={`Get question`} onClick={() => newQuestion(player.index, category)} />
+						<input className={cssClass} type="button" value={category.title} onClick={() => newQuestion(player.index, category)} />
 					</td>);
 			}
 			// // Else, show the category as not completed
 			else {
 				return (<td key={index}>
-					<input className={`${cssClass.replace("cat-", "text-")} btn-dark border-0`} type="button" value={`Not Completed`} disabled={true} />
+					<input className={`${cssClass.replace("cat-", "text-")} btn-dark border-0`} type="button" value={category.title} disabled={true} />
 				</td>);
 			}
 		}
@@ -134,7 +136,7 @@ export default function CategorySelect(props) {
 	// Return the category row
 	return (
 		<tr className={cssClass}>
-			<td>{category.title}</td>
+			{/* <td>{category.title}</td> */}
 			{playerColumns}
 		</tr>
 	);

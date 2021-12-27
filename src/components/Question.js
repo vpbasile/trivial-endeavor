@@ -24,6 +24,9 @@ export default function Question(props) {
 		currentPlayerIndex = gamePhase.currentPlayerIndex;
 		const currentPlayer = players[currentPlayerIndex];
 		console.log(`${currentPlayer.name} guesses ${guess}`);
+		var tempQuestionState = props.currentQuestion
+		tempQuestionState.guessEntered = guess
+		setCurrentQuestion(tempQuestionState)
 		setGamePhase({
 			currentPhase: props.phases.find(phase => phase.title === "Answer"),
 			currentPlayerIndex: currentPlayerIndex
@@ -34,6 +37,7 @@ export default function Question(props) {
 			// If the player guessed correctly, add questionCategoryTag to the player's score
 			console.log(`Correct! ${currentPlayer.name} has completed the ${questionCategory.title} category`);
 			let winCheck=updatedScore(currentPlayerIndex, questionCategoryTag);
+			console.log(`${currentPlayer.name}'s score: ${JSON.stringify(winCheck)}`);
 			// if(winCheck>7){
 			// 	// This play
 			// }
@@ -48,7 +52,7 @@ export default function Question(props) {
 			currentPhase: props.phases.find(phase => phase.title === "Select"),
 			currentPlayerIndex: nextPlayerIndex
 		})
-		console.log(`============ Now it is ${players[nextPlayerIndex].name}'s turn.`);
+		console.log(`============ <> Now it is ${players[nextPlayerIndex].name}'s turn <> ============`);
 	}
 
 	function updatedScore(playerIndex, categoryTag) {
@@ -79,15 +83,15 @@ export default function Question(props) {
 	
 	const answerButtons = choices.map((choice) => {
 		// Generic gray button class
-		let classes = "rounded p-2 m-2 border w-100 btn"
+		let classes = " text-wrap rounded p-2 m-2 border w-100 btn"
 		if (props.guessedState) {
 			// Guess has been entered, so set the classes to show which button was correct
 			if (buttonIndex === currentQuestion.correctIndex) {
 				classes += " btn-success";
-			// } else if(buttonIndex === ) {
-				//The guess was wrong so turn the button red
-				// classes += " btn-danger";
-			}
+			} else if(buttonIndex === currentQuestion.guessEntered) {
+				// The guess was wrong so turn the button red
+				classes += " btn-danger";
+			} else { classes += " btn-dark"; }
 			// Guess has not been entered, so all buttons get the same class
 		} else { classes += " btn-dark"; }
 		return (
