@@ -12,7 +12,7 @@ export default function CategorySelect(props) {
 	const gamePhase = props.gamePhase;
 	const setGamePhase = props.setGamePhase;
 	const category = props.category;
-	const cssClass = category.cssClass + " w-100";
+	const cssClass = category.cssClass + " w-100  text-wrap";
 
 	function newQuestion(currentPlayerIndex, category) {
 		setGamePhase({
@@ -112,7 +112,7 @@ export default function CategorySelect(props) {
 		if (player.correctCategories.includes(category.queryTag)) {
 			// If the player has already completed this category, show the category as completed
 			return (<td key={index}>
-				<input className={`${cssClass} border-0`} type="button" value={`-!!!-Complete-!!!-`} disabled={true} /></td>);
+				<input className={`${cssClass} border-0 text-wrap`} type="button" value={`-!!!-Complete-!!!-`} disabled={true} /></td>);
 			
 		} else {
 			// Else,
@@ -121,7 +121,7 @@ export default function CategorySelect(props) {
 				return (
 					<td key={index}>
 						{/* <input className='cssClass' type="button" value="New Question" onClick={() => newQuestion(index, category)} /> */}
-						<input className={cssClass} type="button" value={category.title} onClick={() => newQuestion(player.index, category)} />
+						<input className={`${cssClass}`} type="button" value={category.title} onClick={() => newQuestion(player.index, category)} />
 					</td>);
 			}
 			// // Else, show the category as not completed
