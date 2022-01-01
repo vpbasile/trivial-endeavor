@@ -105,6 +105,8 @@ export default function CategorySelect(props) {
 	// Enhancement: Only query the api at the beginning of the game and when the player requests a category that we've run out of questions for
 	const colorButton = ``
 	const darkButton = `${cssClass.replace("cat-", "text-")} text-wrap btn-dark border-0`
+	const completeString = "\u2713"
+	// `-!!!-Complete-!!!-`
 
 	// <> Build the buttons
 	const playerColumns = players.map((player, index) => {
@@ -112,7 +114,7 @@ export default function CategorySelect(props) {
 		if (player.correctCategories.includes(category.queryTag)) {
 			// If the player has already completed this category, show the category as completed
 			return (<td key={index}>
-				<input className={`${cssClass} border-0 text-wrap`} type="button" value={`-!!!-Complete-!!!-`} disabled={true} /></td>);
+				<input className={`${cssClass} border-0 text-wrap`} type="button" value={completeString} disabled={true} /></td>);
 			
 		} else {
 			// Else,
