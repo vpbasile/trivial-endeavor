@@ -27,9 +27,6 @@ export default function CategorySelect(props) {
 		// var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
 		// https://the-trivia-api.com/questions?categories=food_and_drink&limit=1
 		var queryURL = `https://the-trivia-api.com/questions?categories=${category.queryTag}&limit=1`;
-
-
-
 		// Create a temporary question while we wait for the API to respond
 		var tempQuestion = {
 			categoryTag: category.queryTag,
@@ -44,9 +41,8 @@ export default function CategorySelect(props) {
 	}
 
 	async function getQuestion(url) {
-		// Query the API for a new question and parse it
+		// Query the API for a new question and parse it	
 		fetch(url).then(response => response.json())
-		// I need to set the header
 			.then(data => { parseReceivedQuestion(data[0]) })
 			.catch(error => { console.log(error); });
 	}
@@ -75,12 +71,15 @@ export default function CategorySelect(props) {
 			else { choices[i] = incorrectAnswers.pop(); }
 		}
 		const categoryName = data.category;
-		// console.log(`categoryName = ${categoryName}`);
-		// console.log(`categoryList = ${JSON.stringify(categoryList)}`);
-		const category = categoryList.filter(category => category.title === categoryName);
+		console.log(`categoryName = ${categoryName}`);
+		// This is where we get the category object from the list
+		const category = categoryList.filter(categoryTemp => categoryTemp.title === categoryName);
 		// console.log(`category = ${JSON.stringify(category)}`);
+		console.log(`category[0] = ${JSON.stringify(category[0])}`);
+
 		const categoryTag = category[0].queryTag;
-		// console.log('This is where it gets set')
+		console.log('This is where it gets set')
+		console.log(`categoryTag = ${categoryTag}`);
 		var questionArray = {
 			// <><> Here's the data structure
 			questionText: data.question,
