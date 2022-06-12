@@ -24,7 +24,12 @@ export default function CategorySelect(props) {
 		const categoryTitle = category.title
 		const player = players[currentPlayerIndex];
 		console.log(`${player.name} requests a ${categoryTitle} question`);
-		var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
+		// var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
+		// https://the-trivia-api.com/questions?categories=food_and_drink&limit=1
+		var queryURL = `https://the-trivia-api.com/questions?categories=${category.queryTag}&limit=1`;
+
+
+
 		// Create a temporary question while we wait for the API to respond
 		var tempQuestion = {
 			categoryTag: category.queryTag,
@@ -41,6 +46,7 @@ export default function CategorySelect(props) {
 	async function getQuestion(url) {
 		// Query the API for a new question and parse it
 		fetch(url).then(response => response.json())
+		// I need to set the header
 			.then(data => { parseReceivedQuestion(data[0]) })
 			.catch(error => { console.log(error); });
 	}
