@@ -1,7 +1,9 @@
-'''Trivial Endeavor is a trivia game using [The Trivia API](https://the-trivia-api.com/) by Will Fry'''
+# Trivial Endeavor
+
+A trivia game using [The Trivia API](https://the-trivia-api.com/) by Will Fry
 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### `npm start`
 
