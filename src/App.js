@@ -57,7 +57,8 @@ function App(props) {
           </div>
         </ErrorBoundary>
         <ErrorBoundary>
-          <div id="scoreboard-div">
+          <div id="scoreboard-div" className="col-12">
+            {/* <> It will fit together better if I make a div for each player.  Then make them wrap. */}
             <table id="scoreboard" className="table text-light">
               <thead>
                 <tr>
@@ -91,7 +92,7 @@ function App(props) {
           </div>
         </ErrorBoundary>
         <ErrorBoundary>
-          <div id="phase-div" className="col">
+          <div id="dev-div" className="col-12">
             <DataDisplay
               players={players}
               scoreState={scoreState} setScoreState={setScoreState}
@@ -106,12 +107,12 @@ function App(props) {
             />
           </div>
         </ErrorBoundary>
-      </div>
-      <div id='credits' className="row">
-        <div className="col">
-          <h4><a href="https://vpbasile.github.io/trivial-endeavor-react/index.html">Live version</a></h4>
-          <h4><a href="https://github.com/vpbasile/trivial-endeavor-react">Repository on github</a></h4> 
-          <h4><a href="https://the-trivia-api.com/">The Trivia API</a></h4>
+        <div id='credits-div' className="col-12">
+          <div className="col">
+            <h4><a href="https://vpbasile.github.io/trivial-endeavor-react/index.html">Live version</a></h4>
+            <h4><a href="https://github.com/vpbasile/trivial-endeavor-react">Repository on github</a></h4>
+            <h4><a href="https://the-trivia-api.com/">The Trivia API</a></h4>
+          </div>
         </div>
       </div>
     </div>
