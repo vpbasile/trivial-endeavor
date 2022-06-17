@@ -2,11 +2,8 @@
 
 // The App.js file consists of three main parts: some import statements at the top, the App component in the middle, and an export statement at the bottom. Most React components follow this pattern.
 
-
 // All React components must import the React module.
 import React, { useState } from "react";
-// I havent actually used nanoid, but it is installed.
-// import { nanoid } from 'nanoid';
 
 // <> Import my modules
 import Question from "./components/Question";
@@ -20,36 +17,12 @@ var players = [
   { index: 3, name: "Rick", correctCategories: [] }
 ]
 
-// Initialize the players and their scores
-
-// players.map(player => {
-//   categoryList.map(category => {
-//     player.correctCategories.push(category.queryTag);
-//     return true
-//   })
-//   return true
-// })
-
-
-// Spoof gamestate so that each player has already answered a category
-// players[0].correctCategories.push(randomCategory().queryTag);
-// players[1].correctCategories.push(randomCategory().queryTag);
-// function randomCategory(){
-//   var randomIndex = Math.floor(Math.random() * categoryList.length);
-//   return categoryList[randomIndex];
-// }
-
-// Initialize the game state
-// const [playerOneScore,setPlayerOneScore] = useState(["placeholder"])
-// const [playerTwoScore,setPlayerTwoScore] = useState(["placeholder"])
-
 const placeholder = "Select a category to begin."
 // Initialize the question and answer choices
 function App(props) {
   const globals = props.globals;
   const categoryList = globals.categoryList;
   const phases = globals.phases;
-  // const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [devMode, setDevMode] = useState(false);
   const [guessedState, setGuessedState] = useState(false);
   const [scoreState, setScoreState] = useState(players);
@@ -63,11 +36,6 @@ function App(props) {
     categoryTag: categoryList[0].queryTag,
     guessEntered: ""
   });
-  // console.log(`Initial scoreState: ${JSON.stringify(scoreState)}`);
-
-  // Make the score board
-  // console.log(`Category list: ${JSON.stringify(gameState.categoryList)}`);
-  // const scoreBoard = 
 
   return (
     <div className="App container">
