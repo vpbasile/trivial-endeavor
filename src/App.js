@@ -61,7 +61,7 @@ function App(props) {
             <table id="scoreboard" className="table text-light">
               <thead>
                 <tr>
-                  {scoreState.map(player => {return (<th key={player.index}>{player.name}</th>)})}
+                  {scoreState.map(player => { return (<th key={player.index}>{player.name}</th>) })}
                 </tr>
               </thead>
               <tbody>
@@ -106,6 +106,13 @@ function App(props) {
             />
           </div>
         </ErrorBoundary>
+      </div>
+      <div id='credits' className="row">
+        <div className="col">
+          <h4><a href="https://vpbasile.github.io/trivial-endeavor-react/index.html">Live version</a></h4>
+          <h4><a href="https://github.com/vpbasile/trivial-endeavor-react">Repository on github</a></h4> 
+          <h4><a href="https://the-trivia-api.com/">The Trivia API</a></h4>
+        </div>
       </div>
     </div>
   );
