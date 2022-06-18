@@ -4,7 +4,7 @@ import CategorySelect from './CategorySelect';
 export default function PlayerColumn(props) {
 	const devMode = props.devMode;
 	const gamePhase = props.gamePhase;
-	if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }
+	// if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }
 	const categoryList = props.categoryList;
 	const scoreState = props.scoreState;
 	// const gamePhase = props.gamePhase;

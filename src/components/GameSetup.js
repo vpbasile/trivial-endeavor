@@ -17,8 +17,10 @@ export default function GameSetup(props) {
 	let namefields = scoreState.map(player => {
 		return (
 			<div className="form-group row" key={player.name + "namefield"}>
-				<div className={"col-" + columnSize + " py-2 my-2"} id=''><label htmlFor={player.name + "name"}>{player.name}</label></div>
-				{/* <input type="text" className="form-control" id={player.name + "name"} placeholder={player.name} onChange={(e) => { console.log(`${player.index}. ${e.target.value}`); />*/}
+				<div className={"col-" + columnSize + " py-2 my-2"} id=''>
+					<label htmlFor={player.name + "name"}>{player.name}</label>
+					{/* <input type="text" className="form-control" id={player.name + "name"} placeholder={player.name} onChange={(e) => { console.log(`${player.index}. ${e.target.value}`); />*/}
+				</div>
 
 			</div>
 		);
@@ -34,23 +36,28 @@ export default function GameSetup(props) {
 					index: scoreState.length, name: "Player " + (scoreState.length + 1),
 					correctCategories: []
 				}]
-			)}>Add another player</button>
+			)}>Add another player/team</button>
 	} else { addButton = null; }
 
 	if ((devMode) || (gamePhase.currentPhase.title === "Welcome")) {
-		return (<div>
-			<h2>Set up the game</h2>
-			{namefields}
-			{addButton}
-			<input className={`rounded py-2 my-2 border btn cat-sport w-100`} type="button" value={`Begin Game`} onClick={() => {
-				console.log("Begin game");
-				console.log("scoreState: " + JSON.stringify(scoreState));
-				setGamePhase({
-					currentPhase: phases.find(phase => phase.title === "Select"),
-					currentPlayerIndex: currentPlayerIndex
-				});
-			}
-			} />
+		return (<div className='row'>
+			<div class="col-md-6">
+				<h2 id="display-category">How many players or teams are playing?</h2>
+			</div>
+			<div class="col-md-6">
+
+				{/* {namefields} */}
+				{addButton}
+				<input className={`rounded py-2 my-2 border btn cat-sport w-100`} type="button" value={`Begin Game`} onClick={() => {
+					console.log("Begin game");
+					console.log("scoreState: " + JSON.stringify(scoreState));
+					setGamePhase({
+						currentPhase: phases.find(phase => phase.title === "Select"),
+						currentPlayerIndex: currentPlayerIndex
+					});
+				}
+				} />
+			</div>
 
 		</div>);
 	} else return null;

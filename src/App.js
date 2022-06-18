@@ -46,16 +46,6 @@ function App(props) {
       <div id="logo-div" className="row">
         <div className="col-12">
           <h1><input id='logo' className="text-wrap rounded py-2 my-2 border w-100 btn btn-dark" type="button" value="Trivial Endeavor" /></h1>
-          <ErrorBoundary>
-            <GameSetup
-              globals={globals}
-              phases={phases}
-              gamePhase={gamePhase} setGamePhase={setGamePhase}
-              scoreState={scoreState} setScoreState={setScoreState}
-              currentPlayerIndex={gamePhase.currentPlayerIndex}
-              devMode={devMode}
-            />
-          </ErrorBoundary>
         </div>
       </div>
       <div className="row">
@@ -78,6 +68,16 @@ function App(props) {
         </ErrorBoundary>
         <ErrorBoundary>
           <div id="scoreboard-div" className="row">
+            <ErrorBoundary>
+              <GameSetup
+                globals={globals}
+                phases={phases}
+                gamePhase={gamePhase} setGamePhase={setGamePhase}
+                scoreState={scoreState} setScoreState={setScoreState}
+                currentPlayerIndex={gamePhase.currentPlayerIndex}
+                devMode={devMode}
+              />
+            </ErrorBoundary>
             {scoreState.map(player => {
               return (
                 <PlayerColumn
