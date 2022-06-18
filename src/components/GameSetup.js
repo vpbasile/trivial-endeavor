@@ -9,17 +9,17 @@ export default function GameSetup(props) {
 	const phases = props.phases;
 	const devMode = props.devMode;
 
+	const playerCount = scoreState.length;
+	const columnSize = 12 / playerCount;
+
 	console.log("gamePhase: " + JSON.stringify(gamePhase));
 
 	let namefields = scoreState.map(player => {
 		return (
-			<div className="form-group" key={player.name + "namefield"}>
-				<label htmlFor={player.name + "name"}>{player.name}</label>
-				{/* <input type="text" className="form-control" id={player.name + "name"} placeholder={player.name} onChange={(e) => {
-					console.log(`${player.index}. ${e.target.value}`)
+			<div className="form-group row" key={player.name + "namefield"}>
+				<div className={"col-" + columnSize + " py-2 my-2"} id=''><label htmlFor={player.name + "name"}>{player.name}</label></div>
+				{/* <input type="text" className="form-control" id={player.name + "name"} placeholder={player.name} onChange={(e) => { console.log(`${player.index}. ${e.target.value}`); />*/}
 
-				}} /> */}
-				
 			</div>
 		);
 
@@ -28,7 +28,7 @@ export default function GameSetup(props) {
 	let addButton
 	if (scoreState.length < 4) {
 		addButton =
-			<button type="button" className="btn btn-primary" onClick={() => setScoreState(
+			<button className={`rounded py-2 my-2 border btn cat-history w-100`} type="button" onClick={() => setScoreState(
 				// Add another player to the scoreState array
 				[...scoreState, {
 					index: scoreState.length, name: "Player " + (scoreState.length + 1),
@@ -42,7 +42,7 @@ export default function GameSetup(props) {
 			<h2>Set up the game</h2>
 			{namefields}
 			{addButton}
-			<input className={`rounded py-2 my-2 border btn btn-dark w-100`} type="button" value={`Begin Game`} onClick={() => {
+			<input className={`rounded py-2 my-2 border btn cat-sport w-100`} type="button" value={`Begin Game`} onClick={() => {
 				console.log("Begin game");
 				console.log("scoreState: " + JSON.stringify(scoreState));
 				setGamePhase({
