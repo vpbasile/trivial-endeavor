@@ -7,12 +7,17 @@ import React from "react";
 
 export default function CategorySelect(props) {
 	const categoryList = props.categoryList;
-	const players = props.players;
+	// const player = props.player;
+
+	// const players = props.players;
 	// console.log(`Players: ${JSON.stringify(players)}`);
 	const gamePhase = props.gamePhase;
+	// const currentPlayerIndex = gamePhase.currentPlayerIndex;
+	const player = props.player;
 	const setGamePhase = props.setGamePhase;
 	const category = props.category;
 	const cssClass = category.cssClass + " w-100  text-wrap";
+	// const key = props.key;
 
 	function newQuestion(currentPlayerIndex, category) {
 		setGamePhase({
@@ -22,7 +27,7 @@ export default function CategorySelect(props) {
 		// console.log(`Freshly set game phase:`)
 		// console.log(`gamePhase: ${JSON.stringify(gamePhase)}`);
 		const categoryTitle = category.title
-		const player = players[currentPlayerIndex];
+		// const player = players[currentPlayerIndex];
 		console.log(`${player.name} requests a ${categoryTitle} question`);
 		// var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
 		// https://the-trivia-api.com/questions?categories=food_and_drink&limit=1
@@ -108,43 +113,48 @@ export default function CategorySelect(props) {
 	}
 
 	// Enhancement: Only query the api at the beginning of the game and when the player requests a category that we've run out of questions for
-	const colorButton = ``
-	const darkButton = `${cssClass.replace("cat-", "text-")} text-wrap btn-dark border-0`
-	const completeString = "\u2713"
-	// `-!!!-Complete-!!!-`
+	const completeString = "\u2713" // Checkmark
+	// CSS common to all three types of buttons
+	const css = "btn btn-lg btn-block  text-wrap my-1";
+	// Complete category for any player
+	const completeButtonCss = `${css} ${cssClass}`
+	// Current player, not complete
+	const activeButtonCss = `${css} ${cssClass}`
+	// Other player, not complete
+	const inactiveButtonCss = `${css} btn-dark ${cssClass.replace("cat-", "text-")}`
 
-	// <> Build the buttons
-	const playerColumns = players.map((player, index) => {
-		// console.log(`${player.name} is player ${index}.  player: ${JSON.stringify(player)}`);
-		if (player.correctCategories.includes(category.queryTag)) {
-			// If the player has already completed this category, show the category as completed
-			return (<td key={index}>
-				<input className={`${cssClass} border-0 text-wrap`} type="button" value={completeString} disabled={true} /></td>);
-			
-		} else {
-			// Else,
-			// If it's the current player's turn, show the button
-			if (index === gamePhase.currentPlayerIndex) {
-				return (
-					<td key={index}>
-						{/* <input className='cssClass' type="button" value="New Question" onClick={() => newQuestion(index, category)} /> */}
-						<input className={`${cssClass}`} type="button" value={category.title} onClick={() => newQuestion(player.index, category)} />
-					</td>);
-			}
-			// // Else, show the category as not completed
-			else {
-				return (<td key={index}>
-					<input className={`${cssClass.replace("cat-", "text-")} btn-dark border-0`} type="button" value={category.title} disabled={true} />
-				</td>);
-			}
+
+
+	const buttonKey = player.name + '_' + category.queryTag;
+
+	// <> Build the button
+	if (player.correctCategories.includes(category.queryTag)) {
+		// If the player has already completed this category, show the category as completed, regardless of whether it that player's turn or not
+		return (<input key={buttonKey} className={completeButtonCss} type="button" value={completeString} disabled={true} />);
+	} else {
+		// Else,
+		// If it's the current player's turn, show the button
+		if (player.index === gamePhase.currentPlayerIndex) {
+			return (<input className={activeButtonCss} type="button" value={category.title} onClick={() => newQuestion(player.index, category)} />
+			);
 		}
-	});
+		// // Else (it is not the current player's turn and they have not completed this category), show the category as not completed
+		else {
+			return (
+				<input key={buttonKey}
+					className={inactiveButtonCss} type="button" value={category.title} disabled={true}/>
+			);
+		}
+	}
+	// <>! Switch
+
+
 
 	// Return the category row
-	return (
-		<tr className={cssClass}>
-			{/* <td>{category.title}</td> */}
-			{playerColumns}
-		</tr>
-	);
+	// return (
+	// 	<tr className={cssClass}>
+	// 		{/* <td>{category.title}</td> */}
+	// 		{playerColumns}
+	// 	</tr>
+	// );
 }
