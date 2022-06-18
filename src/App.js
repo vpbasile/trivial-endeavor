@@ -13,10 +13,11 @@ import ErrorBoundary from './components/ErrorBoundary';
 import PlayerColumn from './components/PlayerColumn';
 import GameSetup from './components/GameSetup';
 var players = [
-  { index: 0, name: "Val", correctCategories: [] },
-  { index: 1, name: "Park", correctCategories: [] },
-  { index: 2, name: "Vincent", correctCategories: [] },
-  { index: 3, name: "Rick", correctCategories: [] }
+  { index: 0, name: "Player 1", correctCategories: [] }
+  // ,
+  // { index: 1, name: "Park", correctCategories: [] },
+  // { index: 2, name: "Vincent", correctCategories: [] },
+  // { index: 3, name: "Rick", correctCategories: [] }
 ]
 // const playerCount = players.length;
 
@@ -50,6 +51,7 @@ function App(props) {
               globals={globals}
               phases={phases}
               gamePhase={gamePhase} setGamePhase={setGamePhase}
+              scoreState={scoreState} setScoreState={setScoreState}
               currentPlayerIndex={gamePhase.currentPlayerIndex}
               devMode={devMode}
             />

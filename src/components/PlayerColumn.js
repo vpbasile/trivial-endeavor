@@ -2,15 +2,17 @@ import React from 'react';
 import CategorySelect from './CategorySelect';
 
 export default function PlayerColumn(props) {
+	const devMode = props.devMode;
+	const gamePhase = props.gamePhase;
+	if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }
 	const categoryList = props.categoryList;
 	const scoreState = props.scoreState;
-	const players = props.players;
 	// const gamePhase = props.gamePhase;
 	const setGamePhase = props.setGamePhase;
 	const player = props.player;
 
-	const playerCount = players.length;
-	const columnSize = 12/playerCount;
+	const playerCount = scoreState.length;
+	const columnSize = 12 / playerCount;
 
 	return (
 		<div className={"col-lg-" + columnSize + " py-2 my-2"} id=''>

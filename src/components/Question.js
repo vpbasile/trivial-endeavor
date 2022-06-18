@@ -4,12 +4,8 @@ import AnswerButton from './AnswerButton';
 export default function Question(props) {
 	const devMode = props.devMode;
 	const gamePhase = props.gamePhase;
-	// let shouldRender = false;
-	// if ((devMode) || (gamePhase.currentPhase.title === "Answer")) { shouldRender = true; }
-	// if (!shouldRender) { return null; }
-	// else { // Render the question
-
-	// if(!devMode || gamePhase !== phases.find(phase => phase.title === "Answer")) { return null; }
+	if (!devMode && (gamePhase.currentPhase.title === "Welcome")){ return null; }
+	
 	const categoryList = props.categoryList;
 	const players = props.players;
 	const scoreState = props.scoreState;
