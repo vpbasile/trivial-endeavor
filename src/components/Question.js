@@ -70,20 +70,20 @@ export default function Question(props) {
 		return currenPlayerScore;
 	}
 	
-	function updatedScoreOLD(player, categoryTag) {
-		var tempPlayers = players
-		tempPlayers[player.index].correctCategories.push(categoryTag)
-		console.log(`tempPlayers: ${JSON.stringify(tempPlayers)}`);
-		// <> This si the correct info, but it is for some reason setscorestate is not working.
-		props.setScoreState(tempPlayers)
-	}
+	// function updatedScoreOLD(player, categoryTag) {
+	// 	var tempPlayers = players
+	// 	tempPlayers[player.index].correctCategories.push(categoryTag)
+	// 	console.log(`tempPlayers: ${JSON.stringify(tempPlayers)}`);
+	// 	// <> This si the correct info, but it is for some reason setscorestate is not working.
+	// 	props.setScoreState(tempPlayers)
+	// }
 
 	// Make answer buttons
 	let buttonIndex = 0;
 	
 	const answerButtons = choices.map((choice) => {
 		// Generic gray button class
-		let classes = " text-wrap rounded p-2 m-2 border w-100 btn"
+		let classes = " text-wrap rounded py-2 my-2 border w-100 btn"
 		if (props.guessedState) {
 			// Guess has been entered, so set the classes to show which button was correct
 			if (buttonIndex === currentQuestion.correctIndex) {
@@ -115,7 +115,7 @@ export default function Question(props) {
 	});
 
 	if (tempCssClass === undefined) { tempCssClass = "blackandwhite"; }
-	tempCssClass = `p-2 m-2 btn w-100 ${tempCssClass}`;
+	tempCssClass = `py-2 my-2 btn w-100 ${tempCssClass}`;
 	return (
 		<div className="card bg-dark">
 			{/* Figure out how Bootstrap cards really work */}

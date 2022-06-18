@@ -3,7 +3,7 @@ import React from "react";
 export default function AnswerButton(props) {
 	const categoryList = props.categoryList;
 	const currentPlayerIndex = props.currentPlayerIndex;
-	const gamePhase = props.gamePhase;
+	// const gamePhase = props.gamePhase;
 	// console.log(`Now in the Answerbutton component.`);
 	// console.log(`gamePhase: ${JSON.stringify(gamePhase)}`);
 	var currentQuestion = props.currentQuestion
@@ -14,7 +14,7 @@ export default function AnswerButton(props) {
 	var buttonText = props.text;
 	const invertedColor = (questionCategory.cssClass).replace("cat-", "text-");
 	let cssClass = props.cssClasses;
-	if (cssClass === undefined) { cssClass = `rounded p-2 m-2 border btn btn-dark w-100 ${invertedColor}` }
+	if (cssClass === undefined) { cssClass = `rounded py-2 my-2 border btn btn-dark w-100 ${invertedColor}` }
 
 	const buttonID = `choice-${buttonIndex}`;
 	const handleGuess = props.handleGuess;
