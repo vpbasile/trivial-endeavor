@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/trivial-endeavor-react/static/css/main.bd0cac3a.css",
-    "main.js": "/trivial-endeavor-react/static/js/main.59db31ba.js",
+    "main.css": "/trivial-endeavor-react/static/css/main.4b99fae1.css",
+    "main.js": "/trivial-endeavor-react/static/js/main.1ad98be3.js",
     "static/media/Precious.ttf": "/trivial-endeavor-react/static/media/Precious.265572f50024317dee95.ttf",
     "index.html": "/trivial-endeavor-react/index.html",
-    "main.bd0cac3a.css.map": "/trivial-endeavor-react/static/css/main.bd0cac3a.css.map",
-    "main.59db31ba.js.map": "/trivial-endeavor-react/static/js/main.59db31ba.js.map"
+    "main.4b99fae1.css.map": "/trivial-endeavor-react/static/css/main.4b99fae1.css.map",
+    "main.1ad98be3.js.map": "/trivial-endeavor-react/static/js/main.1ad98be3.js.map"
   },
   "entrypoints": [
-    "static/css/main.bd0cac3a.css",
-    "static/js/main.59db31ba.js"
+    "static/css/main.4b99fae1.css",
+    "static/js/main.1ad98be3.js"
   ]
 }
