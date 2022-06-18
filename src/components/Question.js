@@ -7,8 +7,9 @@ export default function Question(props) {
 	if (!devMode && (gamePhase.currentPhase.title === "Welcome")){ return null; }
 	
 	const categoryList = props.categoryList;
-	const players = props.players;
+	// const players = props.players;
 	const scoreState = props.scoreState;
+	let playerCount = scoreState.length;
 	const setScoreState = props.setScoreState;
 	const setGamePhase = props.setGamePhase;
 	const currentPlayerIndex = props.currentPlayerIndex;
@@ -25,7 +26,7 @@ export default function Question(props) {
 
 	function handleGuess(guess, currentPlayerIndex, questionCategoryTag) {
 		currentPlayerIndex = gamePhase.currentPlayerIndex;
-		const currentPlayer = players[currentPlayerIndex];
+		const currentPlayer = scoreState[currentPlayerIndex];
 		console.log(`${currentPlayer.name} guesses ${guess}`);
 		var tempQuestionState = props.currentQuestion
 		tempQuestionState.guessEntered = guess
@@ -49,13 +50,13 @@ export default function Question(props) {
 			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
 		}
 		// Now that feedback has been given, move to the next player
-		const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+		const nextPlayerIndex = (currentPlayerIndex + 1) % playerCount;
 		// Update the game state
 		setGamePhase({
 			currentPhase: props.phases.find(phase => phase.title === "Select"),
 			currentPlayerIndex: nextPlayerIndex
 		})
-		console.log(`============ <> Now it is ${players[nextPlayerIndex].name}'s turn <> ============`);
+		console.log(`============ <> Now it is ${scoreState[nextPlayerIndex].name}'s turn <> ============`);
 	}
 
 	function updatedScore(playerIndex, categoryTag) {
@@ -100,7 +101,6 @@ export default function Question(props) {
 		return (
 			<AnswerButton
 				categoryList={categoryList}
-				players={players}
 				scoreState={scoreState} setScoreState={setScoreState}
 				gamePhase={gamePhase} setGamePhase={setGamePhase}
 				currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}

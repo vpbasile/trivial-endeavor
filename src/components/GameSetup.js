@@ -12,7 +12,7 @@ export default function GameSetup(props) {
 	const playerCount = scoreState.length;
 	const columnSize = 12 / playerCount;
 
-	console.log("gamePhase: " + JSON.stringify(gamePhase));
+	// console.log("gamePhase: " + JSON.stringify(gamePhase));
 
 	let namefields = scoreState.map(player => {
 		return (
