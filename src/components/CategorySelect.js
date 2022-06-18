@@ -76,15 +76,12 @@ export default function CategorySelect(props) {
 			else { choices[i] = incorrectAnswers.pop(); }
 		}
 		const categoryName = data.category;
-		console.log(`categoryName = ${categoryName}`);
 		// This is where we get the category object from the list
 		const category = categoryList.filter(categoryTemp => categoryTemp.title === categoryName);
 		// console.log(`category = ${JSON.stringify(category)}`);
-		console.log(`category[0] = ${JSON.stringify(category[0])}`);
+		
 
 		const categoryTag = category[0].queryTag;
-		console.log('This is where it gets set')
-		console.log(`categoryTag = ${categoryTag}`);
 		var questionArray = {
 			// <><> Here's the data structure
 			questionText: data.question,

@@ -9,6 +9,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import './css/bootstrap.css';
 import './css/shape-size.css';
 import './css/color-dark.css';
+// import './css/animation.css';
 
 const categoryList = [
   { key: "00", queryTag: "none", title: "No Category Selected", cssClass: "blackandwhite" },
@@ -23,7 +24,7 @@ const categoryList = [
 ]
 
 const phases = [
-  // { key: "00", title: "Welcome"},
+  { key: "00", title: "Welcome"},
   { key: "02", title: "Select", index: 2 },
   { key: "04", title: "Question", index: 4 },
   { key: "06", title: "Answer", index: 6 },

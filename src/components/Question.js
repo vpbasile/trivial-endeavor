@@ -2,11 +2,18 @@ import React from "react";
 import AnswerButton from './AnswerButton';
 
 export default function Question(props) {
+	const devMode = props.devMode;
+	const gamePhase = props.gamePhase;
+	// let shouldRender = false;
+	// if ((devMode) || (gamePhase.currentPhase.title === "Answer")) { shouldRender = true; }
+	// if (!shouldRender) { return null; }
+	// else { // Render the question
+
+	// if(!devMode || gamePhase !== phases.find(phase => phase.title === "Answer")) { return null; }
 	const categoryList = props.categoryList;
 	const players = props.players;
 	const scoreState = props.scoreState;
 	const setScoreState = props.setScoreState;
-	const gamePhase = props.gamePhase;
 	const setGamePhase = props.setGamePhase;
 	const currentPlayerIndex = props.currentPlayerIndex;
 	var currentQuestion = props.currentQuestion
@@ -36,7 +43,7 @@ export default function Question(props) {
 		if (guess === correctChoice) {
 			// If the player guessed correctly, add questionCategoryTag to the player's score
 			console.log(`Correct! ${currentPlayer.name} has completed the ${questionCategory.title} category`);
-			let winCheck=updatedScore(currentPlayerIndex, questionCategoryTag);
+			let winCheck = updatedScore(currentPlayerIndex, questionCategoryTag);
 			console.log(`${currentPlayer.name}'s score: ${JSON.stringify(winCheck)}`);
 			// if(winCheck>7){
 			// 	// This play
@@ -69,7 +76,7 @@ export default function Question(props) {
 		setScoreState(temp);
 		return currenPlayerScore;
 	}
-	
+
 	// function updatedScoreOLD(player, categoryTag) {
 	// 	var tempPlayers = players
 	// 	tempPlayers[player.index].correctCategories.push(categoryTag)
@@ -80,7 +87,7 @@ export default function Question(props) {
 
 	// Make answer buttons
 	let buttonIndex = 0;
-	
+
 	const answerButtons = choices.map((choice) => {
 		// Generic gray button class
 		let classes = " text-wrap rounded py-2 my-2 border w-100 btn"
@@ -88,7 +95,7 @@ export default function Question(props) {
 			// Guess has been entered, so set the classes to show which button was correct
 			if (buttonIndex === currentQuestion.correctIndex) {
 				classes += " btn-success";
-			} else if(buttonIndex === currentQuestion.guessEntered) {
+			} else if (buttonIndex === currentQuestion.guessEntered) {
 				// The guess was wrong so turn the button red
 				classes += " btn-danger";
 			} else { classes += " btn-dark"; }
@@ -128,4 +135,5 @@ export default function Question(props) {
 			</div>
 		</div>
 	);
+	// }
 }

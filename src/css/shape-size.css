@@ -6,6 +6,11 @@
   font-style: normal;
 }
 
+#logo {
+  font-size: 15vw;
+	font-family: 'precious';
+}
+
 body {
   font-size:30px;
 }
@@ -14,10 +19,9 @@ body {
   font-size: 30px;
 }
 	
-.h1,h1 {
-	font-family: 'precious';
+/* .h1,h1 {
 	font-size:8.5rem;
 	margin-top: 60px;
-}
+} */
 
 
