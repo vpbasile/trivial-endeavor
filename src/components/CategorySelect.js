@@ -76,15 +76,12 @@ export default function CategorySelect(props) {
 			else { choices[i] = incorrectAnswers.pop(); }
 		}
 		const categoryName = data.category;
-		console.log(`categoryName = ${categoryName}`);
 		// This is where we get the category object from the list
 		const category = categoryList.filter(categoryTemp => categoryTemp.title === categoryName);
 		// console.log(`category = ${JSON.stringify(category)}`);
-		console.log(`category[0] = ${JSON.stringify(category[0])}`);
+
 
 		const categoryTag = category[0].queryTag;
-		console.log('This is where it gets set')
-		console.log(`categoryTag = ${categoryTag}`);
 		var questionArray = {
 			// <><> Here's the data structure
 			questionText: data.question,
@@ -128,24 +125,30 @@ export default function CategorySelect(props) {
 	const buttonKey = player.name + '_' + category.queryTag;
 
 	// <> Build the button
-	if (player.correctCategories.includes(category.queryTag)) {
-		// If the player has already completed this category, show the category as completed, regardless of whether it that player's turn or not
-		return (<input key={buttonKey} className={completeButtonCss} type="button" value={completeString} disabled={true} />);
-	} else {
-		// Else,
-		// If it's the current player's turn, show the button
-		if (player.index === gamePhase.currentPlayerIndex) {
-			return (<input className={activeButtonCss} type="button" value={category.title} onClick={() => newQuestion(player.index, category)} />
-			);
-		}
-		// // Else (it is not the current player's turn and they have not completed this category), show the category as not completed
-		else {
-			return (
-				<input key={buttonKey}
-					className={inactiveButtonCss} type="button" value={category.title} disabled={true}/>
-			);
-		}
+	console.log(JSON.stringify(gamePhase))
+	// During the welcome phase, all buttons should be disabled
+	if (gamePhase.currentPhase.title === "Welcome") {
+		return (<input key={buttonKey}
+			className={inactiveButtonCss} type="button" value={category.title} disabled={true} />
+		)
 	}
+	// If the player has already completed this category, show the category as completed, regardless of whether it that player's turn or not
+	if (player.correctCategories.includes(category.queryTag)) {
+		return (<input key={buttonKey} className={completeButtonCss} type="button" value={completeString} disabled={true} />);
+	}
+	// If it's the current player's turn, show the button
+	if (player.index === gamePhase.currentPlayerIndex) {
+		return (<input className={activeButtonCss} type="button" value={category.title} onClick={() => newQuestion(player.index, category)} />
+		);
+	}
+	// // Else (it is not the current player's turn and they have not completed this category), show the category as not completed
+	// else {
+	return (
+		<input key={buttonKey}
+			className={inactiveButtonCss} type="button" value={category.title} disabled={true} />
+	);
+	// }
+	// }
 	// <>! Switch
 
 

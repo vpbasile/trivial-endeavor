@@ -1,8 +1,8 @@
 export default function DataDisplay(props) {
-	const players = props.players;
 	const gamePhase = props.gamePhase;
 	const currentPlayerIndex = gamePhase.currentPlayerIndex;
-	const currentPlayer = players[currentPlayerIndex];
+	const scoreState = props.scoreState;
+	const currentPlayer = scoreState[currentPlayerIndex];
 	function toggleDevMode() { props.setDevMode(!props.devMode) }
 	
 	function returnStuff() {
