@@ -23,7 +23,7 @@ const categoryList = [
 ]
 
 const phases = [
-  // { key: "00", title: "Welcome"},
+  { key: "00", title: "Welcome"},
   { key: "02", title: "Select", index: 2 },
   { key: "04", title: "Question", index: 4 },
   { key: "06", title: "Answer", index: 6 },

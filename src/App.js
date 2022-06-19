@@ -2,6 +2,8 @@
 
 // The App.js file consists of three main parts: some import statements at the top, the App component in the middle, and an export statement at the bottom. Most React components follow this pattern.
 
+import logo from './svg/trivialEndeavorLogo0.svg';
+
 // All React components must import the React module.
 import React, { useState } from "react";
 
@@ -11,11 +13,14 @@ import Question from "./components/Question";
 import DataDisplay from './components/DataDisplay';
 import ErrorBoundary from './components/ErrorBoundary';
 import PlayerColumn from './components/PlayerColumn';
+import GameSetup from './components/GameSetup';
+
 var players = [
-  { index: 0, name: "Val", correctCategories: [] },
-  { index: 1, name: "Park", correctCategories: [] },
-  { index: 2, name: "Vincent", correctCategories: [] },
-  { index: 3, name: "Rick", correctCategories: [] }
+  { index: 0, name: "Player 1", correctCategories: [] }
+  // ,
+  // { index: 1, name: "Park", correctCategories: [] },
+  // { index: 2, name: "Vincent", correctCategories: [] },
+  // { index: 3, name: "Rick", correctCategories: [] }
 ]
 // const playerCount = players.length;
 
@@ -42,17 +47,14 @@ function App(props) {
   return (
     <div className="App container">
       <div id="logo-div" className="row">
-        <div className="col-12">
-          {/* <> How do I make the font reactive?  I really don;t want to use a media query */}
-          {/* <h1 className="display-1">Trivial Endeavor</h1> */}
-          <h1><input id='logo' className="text-wrap rounded py-2 my-2 border w-100 btn btn-dark" type="button" value="Trivial Endeavor" /></h1>
-          {/* <> style="color: white; background-color: var(--background-dark);" */}
+        <div className="col-12 text-center">
+          {/* <h1><input id='logo' className="text-wrap rounded py-2 my-2 border w-100 btn btn-dark" type="button" value="Trivial Endeavor" /></h1> */}
+          <img src={logo} className="App-logo w-75 py-5" alt="Trivial Endeavor logo" />
         </div>
       </div>
       <div className="row">
         <ErrorBoundary>
           <div id="gameBoard-div" className="row">
-            {/* <h1>Trivial Endeavor</h1> */}
             <div className="col-12">
               <Question key={"currentQuestion"}
                 players={players}
@@ -70,6 +72,16 @@ function App(props) {
         </ErrorBoundary>
         <ErrorBoundary>
           <div id="scoreboard-div" className="row">
+            <ErrorBoundary>
+              <GameSetup
+                globals={globals}
+                phases={phases}
+                gamePhase={gamePhase} setGamePhase={setGamePhase}
+                scoreState={scoreState} setScoreState={setScoreState}
+                currentPlayerIndex={gamePhase.currentPlayerIndex}
+                devMode={devMode}
+              />
+            </ErrorBoundary>
             {scoreState.map(player => {
               return (
                 <PlayerColumn
@@ -86,27 +98,6 @@ function App(props) {
                   devMode={devMode} setDevMode={setDevMode}
                 />)
             })}
-            {/* {
-                    categoryList.map(category => {
-                      if (category.queryTag !== "none") {
-                        return (
-                          <CategorySelect key={category.key}
-                            category={category}
-                            categoryList={categoryList}
-                            players={players}
-                            phases={phases}
-                            // currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={setCurrentPlayerIndex}
-                            scoreState={scoreState} setScoreState={setScoreState}
-                            gamePhase={gamePhase} setGamePhase={setGamePhase}
-                            currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
-                            currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-                            guessedState={guessedState} setGuessedState={setGuessedState}
-                            devMode={devMode}
-                          />)
-                      }
-                    }
-                    )
-                  } */}
           </div>
         </ErrorBoundary>
         <ErrorBoundary>
