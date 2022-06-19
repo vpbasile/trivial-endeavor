@@ -2,6 +2,8 @@
 
 // The App.js file consists of three main parts: some import statements at the top, the App component in the middle, and an export statement at the bottom. Most React components follow this pattern.
 
+import logo from './svg/trivialEndeavorLogo0.svg';
+
 // All React components must import the React module.
 import React, { useState } from "react";
 
@@ -12,6 +14,7 @@ import DataDisplay from './components/DataDisplay';
 import ErrorBoundary from './components/ErrorBoundary';
 import PlayerColumn from './components/PlayerColumn';
 import GameSetup from './components/GameSetup';
+
 var players = [
   { index: 0, name: "Player 1", correctCategories: [] }
   // ,
@@ -44,8 +47,9 @@ function App(props) {
   return (
     <div className="App container">
       <div id="logo-div" className="row">
-        <div className="col-12">
-          <h1><input id='logo' className="text-wrap rounded py-2 my-2 border w-100 btn btn-dark" type="button" value="Trivial Endeavor" /></h1>
+        <div className="col-12 text-center">
+          {/* <h1><input id='logo' className="text-wrap rounded py-2 my-2 border w-100 btn btn-dark" type="button" value="Trivial Endeavor" /></h1> */}
+          <img src={logo} className="App-logo w-75 py-5" alt="Trivial Endeavor logo" />
         </div>
       </div>
       <div className="row">
