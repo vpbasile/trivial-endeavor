@@ -2,6 +2,7 @@
 
 #custom ignores
 /ignoreStuff
+src/svg/trivialEndeavorLogo.svg
 
 # dependencies
 /node_modules
