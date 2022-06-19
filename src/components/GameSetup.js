@@ -29,7 +29,7 @@ export default function GameSetup(props) {
 	let addButton
 	if (scoreState.length < 4) {
 		addButton =
-			<button className={`rounded py-2 my-2 border btn cat-history w-100`} type="button" onClick={() => setScoreState(
+			<button className={`rounded py-2 my-2 border btn btn-outline-info w-100`} type="button" onClick={() => setScoreState(
 				// Add another player to the scoreState array
 				[...scoreState, {
 					index: scoreState.length, name: "Player " + (scoreState.length + 1),
@@ -39,7 +39,7 @@ export default function GameSetup(props) {
 	} else { addButton = null; }
 
 	if ((devMode) || (gamePhase.currentPhase.title === "Welcome")) {
-		return (<div className='row py-5'>
+		return (<div className='row py-5 bg-dark bg-opacity-50'>
 			<div id="playerList-div" className="col-md-6 text-center">
 				<h2 id="display-category">How many teams are playing?</h2>
 				
@@ -47,7 +47,7 @@ export default function GameSetup(props) {
 			</div>
 			<div className="col-md-6">
 				{addButton}
-				<input className={`rounded py-2 my-2 border btn cat-science w-100`} type="button" value={`Begin Game`} onClick={() => {
+				<input className={`rounded py-2 my-2 border btn btn-success w-100`} type="button" value={`Begin Game`} onClick={() => {
 					console.log("Begin game");
 					console.log("scoreState: " + JSON.stringify(scoreState));
 					setGamePhase({

@@ -15,7 +15,7 @@ export default function PlayerColumn(props) {
 	const columnSize = 12 / playerCount;
 
 	return (
-		<div className={"col-lg-" + columnSize + " py-2 my-2"} id=''>
+		<div className={"col-lg-" + columnSize + " py-2 my-2 bg-dark bg-opacity-50"} id=''>
 			<input className="w-100 text-wrap py-1 my-1 playerBadge" type="button" value={player.name} disabled={true} />
 			{categoryList.map(category => {
 				if (category.queryTag !== "none") {

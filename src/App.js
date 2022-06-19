@@ -14,6 +14,7 @@ import DataDisplay from './components/DataDisplay';
 import ErrorBoundary from './components/ErrorBoundary';
 import PlayerColumn from './components/PlayerColumn';
 import GameSetup from './components/GameSetup';
+import Hyperlink from './components/Hyperink';
 
 var players = [
   { index: 0, name: "Player 1", correctCategories: [] }
@@ -100,30 +101,28 @@ function App(props) {
             })}
           </div>
         </ErrorBoundary>
+        <div id='credits-div' className="col-12">
+          <Hyperlink url="https://vpbasile.github.io/trivial-endeavor-react/index.html" text="Live version" />
+          <Hyperlink url="https://github.com/vpbasile/trivial-endeavor-react" text="Repository on GitHub" />
+          <Hyperlink url="https://the-trivia-api.com/" text="The Trivia API"/>
+        </div>
         <ErrorBoundary>
           <div id="dev-div" className="col-12">
-            <DataDisplay
-              players={players}
-              scoreState={scoreState} setScoreState={setScoreState}
-              phases={phases}
-              gamePhase={gamePhase} setGamePhase={setGamePhase}
-              currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
-              currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-              guessedState={guessedState} setGuessedState={setGuessedState}
-              devMode={devMode} setDevMode={setDevMode}
-              categoryList={categoryList}
-            />
-          </div>
-        </ErrorBoundary>
-        <div id='credits-div' className="col-12">
-          <div className="col">
-            <h4><a href="https://vpbasile.github.io/trivial-endeavor-react/index.html">Live version</a></h4>
-            <h4><a href="https://github.com/vpbasile/trivial-endeavor-react">Repository on github</a></h4>
-            <h4><a href="https://the-trivia-api.com/">The Trivia API</a></h4>
-          </div>
+          <DataDisplay
+            players={players}
+            scoreState={scoreState} setScoreState={setScoreState}
+            phases={phases}
+            gamePhase={gamePhase} setGamePhase={setGamePhase}
+            currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
+            currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+            guessedState={guessedState} setGuessedState={setGuessedState}
+            devMode={devMode} setDevMode={setDevMode}
+            categoryList={categoryList}
+          />
         </div>
-      </div>
+      </ErrorBoundary>
     </div>
+    </div >
   );
 }
 
