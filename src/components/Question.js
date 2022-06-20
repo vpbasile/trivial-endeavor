@@ -7,7 +7,6 @@ export default function Question(props) {
 	if (!devMode && (gamePhase.currentPhase.title === "Welcome")){ return null; }
 	
 	const categoryList = props.categoryList;
-	// const players = props.players;
 	const scoreState = props.scoreState;
 	let playerCount = scoreState.length;
 	const setScoreState = props.setScoreState;
@@ -60,27 +59,13 @@ export default function Question(props) {
 	}
 
 	function updatedScore(playerIndex, categoryTag) {
-		// console.log(`playerIndex: ${JSON.stringify(playerIndex)}`)
-		// console.log(`categoryTag: ${JSON.stringify(categoryTag)}`)
-		// console.log(`players: ${JSON.stringify(players)}`)
 		let temp = scoreState;
-		// console.log(`Score state: ${JSON.stringify(temp)}`)
 		temp[playerIndex].correctCategories.push(categoryTag);
-		// console.log(`Score state: ${JSON.stringify(temp)}`)
 		const currenPlayerScore = temp[playerIndex].correctCategories.length;
 
-		// console.log(`${players[playerIndex].name}'s correct categories are now ${temp}`);
 		setScoreState(temp);
 		return currenPlayerScore;
 	}
-
-	// function updatedScoreOLD(player, categoryTag) {
-	// 	var tempPlayers = players
-	// 	tempPlayers[player.index].correctCategories.push(categoryTag)
-	// 	console.log(`tempPlayers: ${JSON.stringify(tempPlayers)}`);
-	// 	// <> This si the correct info, but it is for some reason setscorestate is not working.
-	// 	props.setScoreState(tempPlayers)
-	// }
 
 	// Make answer buttons
 	let buttonIndex = 0;
@@ -131,5 +116,4 @@ export default function Question(props) {
 			</div>
 		</div>
 	);
-	// }
 }
