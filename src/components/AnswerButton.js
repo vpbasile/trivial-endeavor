@@ -3,13 +3,12 @@ import React from "react";
 export default function AnswerButton(props) {
 	const categoryList = props.categoryList;
 	const currentPlayerIndex = props.currentPlayerIndex;
-	// const gamePhase = props.gamePhase;
-	// console.log(`Now in the Answerbutton component.`);
-	// console.log(`gamePhase: ${JSON.stringify(gamePhase)}`);
 	var currentQuestion = props.currentQuestion
-	const guessedState = props.guessedState;
+	// If the question is null, the player has not selected a question yet
+	if (currentQuestion === undefined) { return null; }
 	const questionCategoryTag = currentQuestion.categoryTag;
 	const questionCategory = categoryList.filter(category => category.queryTag === questionCategoryTag)[0];
+	const guessedState = props.guessedState;
 	let buttonIndex = props.index;
 	var buttonText = props.text;
 	const invertedColor = (questionCategory.cssClass).replace("cat-", "text-");
@@ -18,6 +17,7 @@ export default function AnswerButton(props) {
 
 	const buttonID = `choice-${buttonIndex}`;
 	const handleGuess = props.handleGuess;
+
 
 	return (
 		<div>

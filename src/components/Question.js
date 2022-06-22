@@ -4,10 +4,9 @@ import AnswerButton from './AnswerButton';
 export default function Question(props) {
 	const devMode = props.devMode;
 	const gamePhase = props.gamePhase;
-	if (!devMode && (gamePhase.currentPhase.title === "Welcome")){ return null; }
-	
+	if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }
+
 	const categoryList = props.categoryList;
-	// const players = props.players;
 	const scoreState = props.scoreState;
 	let playerCount = scoreState.length;
 	const setScoreState = props.setScoreState;
@@ -60,27 +59,13 @@ export default function Question(props) {
 	}
 
 	function updatedScore(playerIndex, categoryTag) {
-		// console.log(`playerIndex: ${JSON.stringify(playerIndex)}`)
-		// console.log(`categoryTag: ${JSON.stringify(categoryTag)}`)
-		// console.log(`players: ${JSON.stringify(players)}`)
 		let temp = scoreState;
-		// console.log(`Score state: ${JSON.stringify(temp)}`)
 		temp[playerIndex].correctCategories.push(categoryTag);
-		// console.log(`Score state: ${JSON.stringify(temp)}`)
 		const currenPlayerScore = temp[playerIndex].correctCategories.length;
 
-		// console.log(`${players[playerIndex].name}'s correct categories are now ${temp}`);
 		setScoreState(temp);
 		return currenPlayerScore;
 	}
-
-	// function updatedScoreOLD(player, categoryTag) {
-	// 	var tempPlayers = players
-	// 	tempPlayers[player.index].correctCategories.push(categoryTag)
-	// 	console.log(`tempPlayers: ${JSON.stringify(tempPlayers)}`);
-	// 	// <> This si the correct info, but it is for some reason setscorestate is not working.
-	// 	props.setScoreState(tempPlayers)
-	// }
 
 	// Make answer buttons
 	let buttonIndex = 0;
@@ -88,41 +73,60 @@ export default function Question(props) {
 	const answerButtons = choices.map((choice) => {
 		// Generic gray button class
 		let classes = " text-wrap rounded py-2 my-2 border w-100 btn"
-		if (props.guessedState) {
-			// Guess has been entered, so set the classes to show which button was correct
-			if (buttonIndex === currentQuestion.correctIndex) {
-				classes += " btn-success";
-			} else if (buttonIndex === currentQuestion.guessEntered) {
-				// The guess was wrong so turn the button red
-				classes += " btn-danger";
-			} else { classes += " btn-dark"; }
-			// Guess has not been entered, so all buttons get the same class
-		} else { classes += " btn-dark"; }
-		return (
-			<AnswerButton
+		// If the choice is null, return a disabled button and exit
+		console.log(`Choice: ${choice}`);
+		if (choice === null) {
+			// console.log("Choice is null");
+			return (<AnswerButton
 				categoryList={categoryList}
-				scoreState={scoreState} setScoreState={setScoreState}
-				gamePhase={gamePhase} setGamePhase={setGamePhase}
-				currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}
-				currentCategory={props.currentCategory} setCurrentCategory={props.setCurrentCategory}
-				currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
 				guessedState={guessedState} setGuessedState={setGuessedState}
 				key={buttonIndex}
 				index={buttonIndex++}
-				text={choice}
-				disabled={props.currentQuestion.guessedState}
-				handleGuess={handleGuess}
+				text="Please select a category"
+				disabled={true}
 				cssClasses={classes}
-			/>
-		);
+			/>)
+		}
+		else {
+			// If the guess has been entered
+			if (props.guessedState) {
+				// set the classes to show which button was correct
+				if (buttonIndex === currentQuestion.correctIndex) {
+					classes += " btn-success";
+				} else if (buttonIndex === currentQuestion.guessEntered) {
+					// The guess was wrong so turn the button red
+					classes += " btn-danger";
+				} else { classes += " btn-dark"; }
+				// Guess has not been entered, so all buttons get the same class
+			} else { classes += " btn-dark"; }
+			return (
+				<AnswerButton
+					categoryList={categoryList}
+					scoreState={scoreState} setScoreState={setScoreState}
+					gamePhase={gamePhase} setGamePhase={setGamePhase}
+					currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}
+					currentCategory={props.currentCategory} setCurrentCategory={props.setCurrentCategory}
+					currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+					guessedState={guessedState} setGuessedState={setGuessedState}
+					key={buttonIndex}
+					index={buttonIndex++}
+					text={choice}
+					disabled={props.currentQuestion.guessedState}
+					handleGuess={handleGuess}
+					cssClasses={classes}
+				/>
+			);
+		}
 	});
 
+	// Handle hiding and showing the question
+	let questionClasses = "card bg-dark mb-3";
+	// CSS for the category header
 	if (tempCssClass === undefined) { tempCssClass = "blackandwhite"; }
 	tempCssClass = `py-2 my-2 btn w-100 ${tempCssClass}`;
 	return (
-		<div className="card bg-dark">
-			{/* Figure out how Bootstrap cards really work */}
-			<div className="card-body">
+		<div className={questionClasses}>
+			<div id="collapse-card" className="card-body">
 				<h2 id="display-category" className={tempCssClass}>
 					{questionCategory.title}
 				</h2>
@@ -131,5 +135,4 @@ export default function Question(props) {
 			</div>
 		</div>
 	);
-	// }
 }

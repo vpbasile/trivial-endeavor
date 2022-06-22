@@ -17,7 +17,7 @@ export default function GameSetup(props) {
 	let namefields = scoreState.map(player => {
 		return (
 			<div className="form-group row" key={player.name + "namefield"}>
-				<div className={"col-" + columnSize + " py-1 my-1"} id=''>
+				<div className={"col-12 py-1 my-1"} id=''>
 					<label htmlFor={player.name + "name"}>{player.name}</label>
 					{/* <input type="text" className="form-control" id={player.name + "name"} placeholder={player.name} onChange={(e) => { console.log(`${player.index}. ${e.target.value}`); />*/}
 				</div>
@@ -26,36 +26,43 @@ export default function GameSetup(props) {
 
 	});
 
-	let addButton
-	if (scoreState.length < 4) {
-		addButton =
-			<button className={`rounded py-2 my-2 border btn btn-outline-info w-100`} type="button" onClick={() => setScoreState(
-				// Add another player to the scoreState array
-				[...scoreState, {
-					index: scoreState.length, name: "Player " + (scoreState.length + 1),
-					correctCategories: []
-				}]
-			)}>Add another team</button>
-	} else { addButton = null; }
+	let addButton =
+		<button className={`rounded py-2 my-2 border btn cat-sport w-100`} type="button" disabled={!(scoreState.length < 4)} onClick={() => setScoreState(
+			// Add another player to the scoreState array
+			[...scoreState, {
+				index: scoreState.length, name: "Player " + (scoreState.length + 1),
+				correctCategories: []
+			}]
+		)}>Add another team</button>
 
-	if ((devMode) || (gamePhase.currentPhase.title === "Welcome")) {
+	let removeButton
+	removeButton =
+		<button className={`rounded py-2 my-2 border btn cat-geography w-100`} type="button" disabled={scoreState.length === 1}
+			onClick={() => setScoreState(
+				// Remove the last player from the scoreState array
+				scoreState.slice(0, scoreState.length - 1)
+			)}>Remove a team</button>
+
+	let startButton =
+		<button className={`rounded py-2 my-2 border btn btn-light w-100`} type="button" onClick={() => {
+			console.log("Begin game");
+			setGamePhase({
+				currentPhase: phases.find(phase => phase.title === "Select"),
+				currentPlayerIndex: currentPlayerIndex
+			});
+		}}>Begin Game</button>
+
+	if (gamePhase.currentPhase.title === "Welcome") {
 		return (<div className='row py-5 bg-dark bg-opacity-50'>
 			<div id="playerList-div" className="col-md-6 text-center">
-				<h2 id="display-category">You can play with up to four teams.</h2>
-				
-					{namefields}
+				<h2 id="display-category">You can play with up to 4 teams.</h2>
+				{namefields}
 			</div>
 			<div className="col-md-6">
+				{removeButton}
+				{startButton}
 				{addButton}
-				<input className={`rounded py-2 my-2 border btn btn-success w-100`} type="button" value={`Begin Game`} onClick={() => {
-					console.log("Begin game");
-					console.log("scoreState: " + JSON.stringify(scoreState));
-					setGamePhase({
-						currentPhase: phases.find(phase => phase.title === "Select"),
-						currentPlayerIndex: currentPlayerIndex
-					});
-				}
-				} />
+
 			</div>
 
 		</div>);
