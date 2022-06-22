@@ -4,7 +4,7 @@ import AnswerButton from './AnswerButton';
 export default function Question(props) {
 	const devMode = props.devMode;
 	const gamePhase = props.gamePhase;
-	if (!devMode && (gamePhase.currentPhase.title === "Welcome")){ return null; }
+	if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }
 	
 	const categoryList = props.categoryList;
 	const scoreState = props.scoreState;
@@ -73,8 +73,28 @@ export default function Question(props) {
 	const answerButtons = choices.map((choice) => {
 		// Generic gray button class
 		let classes = " text-wrap rounded py-2 my-2 border w-100 btn"
+		// If the choice is null, return a disabled button and exit
+		if (choice === null) {
+			<AnswerButton
+				categoryList={categoryList}
+				// scoreState={scoreState} setScoreState={setScoreState}
+				// gamePhase={gamePhase} setGamePhase={setGamePhase}
+				// currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}
+				// currentCategory={props.currentCategory} setCurrentCategory={props.setCurrentCategory}
+				// currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+				guessedState={guessedState} setGuessedState={setGuessedState}
+				key={buttonIndex}
+				index={buttonIndex++}
+				text="Please select a category"
+				disabled={true}
+				// handleGuess={handleGuess}
+				cssClasses={classes}
+			/>
+		}
+		else {
+			// If the guess has been entered
 		if (props.guessedState) {
-			// Guess has been entered, so set the classes to show which button was correct
+				// set the classes to show which button was correct
 			if (buttonIndex === currentQuestion.correctIndex) {
 				classes += " btn-success";
 			} else if (buttonIndex === currentQuestion.guessEntered) {
@@ -100,14 +120,20 @@ export default function Question(props) {
 				cssClasses={classes}
 			/>
 		);
+		}
 	});
 
+	// Handle hiding and showing the question
+	let questionClasses = "card bg-dark mb-3";
+	if (gamePhase.currentPhase.title === "Answer") { questionClasses += " show" }
+	else { questionClasses += " animateCollapse-collapsed" }
+	// CSS for the category header
 	if (tempCssClass === undefined) { tempCssClass = "blackandwhite"; }
 	tempCssClass = `py-2 my-2 btn w-100 ${tempCssClass}`;
 	return (
-		<div className="card bg-dark">
+		<div className={questionClasses}>
 			{/* Figure out how Bootstrap cards really work */}
-			<div className="card-body">
+			<div id="collapse-card" className="card-body">
 				<h2 id="display-category" className={tempCssClass}>
 					{questionCategory.title}
 				</h2>

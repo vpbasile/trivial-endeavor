@@ -52,7 +52,7 @@ export default function GameSetup(props) {
 			});
 		}}>Begin Game</button>
 
-	if ((devMode) || (gamePhase.currentPhase.title === "Welcome")) {
+	if (gamePhase.currentPhase.title === "Welcome") {
 		return (<div className='row py-5 bg-dark bg-opacity-50'>
 			<div id="playerList-div" className="col-md-6 text-center">
 				<h2 id="display-category">You can play with up to 4 teams.</h2>

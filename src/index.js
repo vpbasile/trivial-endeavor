@@ -9,6 +9,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import './css/bootstrap.css';
 import './css/shape-size.css';
 import './css/color-dark.css';
+import './css/animation.css';
 
 const categoryList = [
   { key: "00", queryTag: "none", title: "No Category Selected", cssClass: "blackandwhite" },
