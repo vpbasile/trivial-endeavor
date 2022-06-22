@@ -120,15 +120,12 @@ export default function Question(props) {
 	});
 
 	// Handle hiding and showing the question
-	let questionClasses = "card bg-dark mb-3 slow";
-	if (gamePhase.currentPhase.title === "Answer") { questionClasses += " show" }
-	else { questionClasses += " collapse" }
+	let questionClasses = "card bg-dark mb-3";
 	// CSS for the category header
 	if (tempCssClass === undefined) { tempCssClass = "blackandwhite"; }
 	tempCssClass = `py-2 my-2 btn w-100 ${tempCssClass}`;
 	return (
 		<div className={questionClasses}>
-			{/* Figure out how Bootstrap cards really work */}
 			<div id="collapse-card" className="card-body">
 				<h2 id="display-category" className={tempCssClass}>
 					{questionCategory.title}
