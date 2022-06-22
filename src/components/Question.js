@@ -74,7 +74,9 @@ export default function Question(props) {
 		// Generic gray button class
 		let classes = " text-wrap rounded py-2 my-2 border w-100 btn"
 		// If the choice is null, return a disabled button and exit
+		console.log(`Choice: ${choice}`);
 		if (choice === null) {
+			// console.log("Choice is null");
 			return (<AnswerButton
 				categoryList={categoryList}
 				guessedState={guessedState} setGuessedState={setGuessedState}
@@ -82,7 +84,6 @@ export default function Question(props) {
 				index={buttonIndex++}
 				text="Please select a category"
 				disabled={true}
-				// handleGuess={handleGuess}
 				cssClasses={classes}
 			/>)
 		}
@@ -119,9 +120,9 @@ export default function Question(props) {
 	});
 
 	// Handle hiding and showing the question
-	let questionClasses = "card bg-dark mb-3";
+	let questionClasses = "card bg-dark mb-3 slow";
 	if (gamePhase.currentPhase.title === "Answer") { questionClasses += " show" }
-	else { questionClasses += " animateCollapse-collapsed" }
+	else { questionClasses += " collapse" }
 	// CSS for the category header
 	if (tempCssClass === undefined) { tempCssClass = "blackandwhite"; }
 	tempCssClass = `py-2 my-2 btn w-100 ${tempCssClass}`;

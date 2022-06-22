@@ -3,6 +3,8 @@
 #custom ignores
 /ignoreStuff
 src/svg/trivialEndeavorLogo.svg
+src/components/Collapse.js
+# src/css/animation.css
 
 # dependencies
 /node_modules
@@ -44,6 +46,3 @@ build-github/static/js/main.672957fa.js
 build-github/static/js/main.672957fa.js.LICENSE.txt
 build-github/static/js/main.672957fa.js.map
 build-github/static/media/Precious.265572f50024317dee95.ttf
-src/svg/trivialEndeavorLogo.svg
-src/components/Collapse.js
-src/css/animation.css

@@ -37,7 +37,7 @@ function App(props) {
     categoryTag: categoryList[0].queryTag,
     guessEntered: ""
   });
-  const [showQuestion, setShowQuestion] = useState(false);
+  // const [showQuestion, setShowQuestion] = useState(false);
 
   return (
     <div className="App container">
