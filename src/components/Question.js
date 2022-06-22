@@ -5,7 +5,7 @@ export default function Question(props) {
 	const devMode = props.devMode;
 	const gamePhase = props.gamePhase;
 	if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }
-	
+
 	const categoryList = props.categoryList;
 	const scoreState = props.scoreState;
 	let playerCount = scoreState.length;
@@ -75,13 +75,8 @@ export default function Question(props) {
 		let classes = " text-wrap rounded py-2 my-2 border w-100 btn"
 		// If the choice is null, return a disabled button and exit
 		if (choice === null) {
-			<AnswerButton
+			return (<AnswerButton
 				categoryList={categoryList}
-				// scoreState={scoreState} setScoreState={setScoreState}
-				// gamePhase={gamePhase} setGamePhase={setGamePhase}
-				// currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}
-				// currentCategory={props.currentCategory} setCurrentCategory={props.setCurrentCategory}
-				// currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
 				guessedState={guessedState} setGuessedState={setGuessedState}
 				key={buttonIndex}
 				index={buttonIndex++}
@@ -89,37 +84,37 @@ export default function Question(props) {
 				disabled={true}
 				// handleGuess={handleGuess}
 				cssClasses={classes}
-			/>
+			/>)
 		}
 		else {
 			// If the guess has been entered
-		if (props.guessedState) {
+			if (props.guessedState) {
 				// set the classes to show which button was correct
-			if (buttonIndex === currentQuestion.correctIndex) {
-				classes += " btn-success";
-			} else if (buttonIndex === currentQuestion.guessEntered) {
-				// The guess was wrong so turn the button red
-				classes += " btn-danger";
+				if (buttonIndex === currentQuestion.correctIndex) {
+					classes += " btn-success";
+				} else if (buttonIndex === currentQuestion.guessEntered) {
+					// The guess was wrong so turn the button red
+					classes += " btn-danger";
+				} else { classes += " btn-dark"; }
+				// Guess has not been entered, so all buttons get the same class
 			} else { classes += " btn-dark"; }
-			// Guess has not been entered, so all buttons get the same class
-		} else { classes += " btn-dark"; }
-		return (
-			<AnswerButton
-				categoryList={categoryList}
-				scoreState={scoreState} setScoreState={setScoreState}
-				gamePhase={gamePhase} setGamePhase={setGamePhase}
-				currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}
-				currentCategory={props.currentCategory} setCurrentCategory={props.setCurrentCategory}
-				currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-				guessedState={guessedState} setGuessedState={setGuessedState}
-				key={buttonIndex}
-				index={buttonIndex++}
-				text={choice}
-				disabled={props.currentQuestion.guessedState}
-				handleGuess={handleGuess}
-				cssClasses={classes}
-			/>
-		);
+			return (
+				<AnswerButton
+					categoryList={categoryList}
+					scoreState={scoreState} setScoreState={setScoreState}
+					gamePhase={gamePhase} setGamePhase={setGamePhase}
+					currentPlayerIndex={currentPlayerIndex} setCurrentPlayerIndex={props.setCurrentPlayerIndex}
+					currentCategory={props.currentCategory} setCurrentCategory={props.setCurrentCategory}
+					currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+					guessedState={guessedState} setGuessedState={setGuessedState}
+					key={buttonIndex}
+					index={buttonIndex++}
+					text={choice}
+					disabled={props.currentQuestion.guessedState}
+					handleGuess={handleGuess}
+					cssClasses={classes}
+				/>
+			);
 		}
 	});
 
