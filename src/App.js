@@ -1,5 +1,3 @@
-// https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning
-
 // The App.js file consists of three main parts: some import statements at the top, the App component in the middle, and an export statement at the bottom. Most React components follow this pattern.
 
 import logo from './svg/trivialEndeavorLogo0.svg';
@@ -7,15 +5,15 @@ import logo from './svg/trivialEndeavorLogo0.svg';
 // All React components must import the React module.
 import React, { useState } from "react";
 
+// Import my utility modules
+import ErrorBoundary from './components/ErrorBoundary';
+
 // <> Import my modules
+import GameSetup from './components/GameSetup';
 import Question from "./components/Question";
 import DataDisplay from './components/DataDisplay';
-import ErrorBoundary from './components/ErrorBoundary';
 import PlayerColumn from './components/PlayerColumn';
-import GameSetup from './components/GameSetup';
 import Hyperlink from './components/Hyperink';
-
-// import '../src/bootstrap.js';
 
 var players = [
   { index: 0, name: "Player 1", correctCategories: [] }
@@ -30,7 +28,6 @@ function App(props) {
   const [guessedState, setGuessedState] = useState(false);
   const [scoreState, setScoreState] = useState(players);
   const [gamePhase, setGamePhase] = useState({ currentPhase: phases[0], currentPlayerIndex: 0 });
-  const [showQuestion, setShowQuestion] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
   const [currentQuestion, setCurrentQuestion] = useState({
     questionText: null,
@@ -40,14 +37,12 @@ function App(props) {
     categoryTag: categoryList[0].queryTag,
     guessEntered: ""
   });
-
-  const [diasplayModal, setDisplayModal] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false);
 
   return (
     <div className="App container">
       <div id="logo-div" className="row">
         <div className="col-12 text-center">
-          {/* <h1><input id='logo' className="text-wrap rounded py-2 my-2 border w-100 btn btn-dark" type="button" value="Trivial Endeavor" /></h1> */}
           <img src={logo} className="App-logo w-75 py-5" alt="Trivial Endeavor logo" />
         </div>
       </div>
