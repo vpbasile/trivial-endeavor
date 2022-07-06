@@ -94,8 +94,8 @@ function App(props) {
           </div>
         </ErrorBoundary>
         <div id='credits-div' className="col-12">
-          <Hyperlink url="https://vpbasile.github.io/trivial-endeavor-react/index.html" text="Live version" />
-          <Hyperlink url="https://github.com/vpbasile/trivial-endeavor-react" text="Repository on GitHub" />
+          <Hyperlink url="https://vpbasile.github.io/trivial-endeavor" text="Live version" />
+          <Hyperlink url="https://github.com/vpbasile/trivial-endeavor" text="Repository on GitHub" />
           <Hyperlink url="https://the-trivia-api.com/" text="The Trivia API by Will Fry" />
         </div>
         <ErrorBoundary>
