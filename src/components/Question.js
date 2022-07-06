@@ -2,6 +2,7 @@ import React from "react";
 import AnswerButton from './AnswerButton';
 
 export default function Question(props) {
+	const cardRef = props.cardRef;
 	const devMode = props.devMode;
 	const gamePhase = props.gamePhase;
 	if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }

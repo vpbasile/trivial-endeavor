@@ -29,9 +29,10 @@ export default function CategorySelect(props) {
 		const categoryTitle = category.title
 		// const player = players[currentPlayerIndex];
 		console.log(`${player.name} requests a ${categoryTitle} question`);
+		// Old formats of the API request:
 		// var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
-		// https://the-trivia-api.com/questions?categories=food_and_drink&limit=1
-		var queryURL = `https://the-trivia-api.com/questions?categories=${category.queryTag}&limit=1`;
+		// var queryURL = `https://the-trivia-api.com/questions?categories=food_and_drink&limit=1`
+		var queryURL = `https://the-trivia-api.com/api/questions?categories=${category.queryTag}&limit=1`;
 		// Create a temporary question while we wait for the API to respond
 		var tempQuestion = {
 			categoryTag: category.queryTag,
@@ -43,6 +44,7 @@ export default function CategorySelect(props) {
 		props.setGuessedState(false);
 		props.setCurrentQuestion(tempQuestion);
 		getQuestion(queryURL);
+		
 	}
 
 	async function getQuestion(url) {
@@ -109,7 +111,6 @@ export default function CategorySelect(props) {
 		return array;
 	}
 
-	// Enhancement: Only query the api at the beginning of the game and when the player requests a category that we've run out of questions for
 	const completeString = "\u2713" // Checkmark
 	// CSS common to all three types of buttons
 	const css = "btn btn-lg btn-block  text-wrap my-1";
@@ -147,12 +148,6 @@ export default function CategorySelect(props) {
 		<input key={buttonKey}
 			className={inactiveButtonCss} type="button" value={category.title} disabled={true} />
 	);
-	// }
-	// }
-	// <>! Switch
-
-
-
 	// Return the category row
 	// return (
 	// 	<tr className={cssClass}>
