@@ -37,7 +37,6 @@ function App(props) {
     categoryTag: categoryList[0].queryTag,
     guessEntered: ""
   });
-  // const [showQuestion, setShowQuestion] = useState(false);
 
   return (
     <div className="App container">
@@ -97,7 +96,7 @@ function App(props) {
         <div id='credits-div' className="col-12">
           <Hyperlink url="https://vpbasile.github.io/trivial-endeavor-react/index.html" text="Live version" />
           <Hyperlink url="https://github.com/vpbasile/trivial-endeavor-react" text="Repository on GitHub" />
-          <Hyperlink url="https://the-trivia-api.com/" text="The Trivia API" />
+          <Hyperlink url="https://the-trivia-api.com/" text="The Trivia API by Will Fry" />
         </div>
         <ErrorBoundary>
           <div id="dev-div" className="col-12">
