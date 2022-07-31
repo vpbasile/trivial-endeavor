@@ -23,13 +23,16 @@ const categoryList = [
   { key: "03", queryTag: "general_knowledge", title: "General Knowledge", cssClass: "cat-general" },
 ]
 
+const neededToWin = categoryList.length - 1;
+console.log(`Needed to win: ${neededToWin}`);
+
 const phases = [
-  { key: "00", title: "Welcome"},
+  { key: "00", title: "Welcome" },
   { key: "02", title: "Select", index: 2 },
   { key: "04", title: "Question", index: 4 },
   { key: "06", title: "Answer", index: 6 },
-  { key: "08", title: "Score",  index: 8 }
-  // { key: "06", title: "End"}
+  { key: "08", title: "Score", index: 8 },
+  { key: "10", title: "End" }
 ]
 
 // <> Do the thing
@@ -38,7 +41,7 @@ console.log(`Beginning rendering of Trivial Endeavor`);
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App globals={ {categoryList:categoryList, phases:phases} }/>
+      <App globals={{ categoryList: categoryList, neededToWin: neededToWin, phases: phases }} />
     </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')

@@ -2,7 +2,6 @@ import React from "react";
 import AnswerButton from './AnswerButton';
 
 export default function Question(props) {
-	const cardRef = props.cardRef;
 	const devMode = props.devMode;
 	const gamePhase = props.gamePhase;
 	if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }
@@ -11,6 +10,8 @@ export default function Question(props) {
 	const scoreState = props.scoreState;
 	let playerCount = scoreState.length;
 	const setScoreState = props.setScoreState;
+	const winners = props.winners;
+	const setWinners = props.setWinners;
 	const setGamePhase = props.setGamePhase;
 	const currentPlayerIndex = props.currentPlayerIndex;
 	var currentQuestion = props.currentQuestion
@@ -23,6 +24,9 @@ export default function Question(props) {
 	const questionText = currentQuestion.questionText;
 	const choices = currentQuestion.choices;
 	var tempCssClass = questionCategory.cssClass;
+	
+	// const neededToWin = 2; // This is great for testing purposes
+	const neededToWin = props.neededToWin;
 
 	function handleGuess(guess, currentPlayerIndex, questionCategoryTag) {
 		currentPlayerIndex = gamePhase.currentPlayerIndex;
@@ -41,22 +45,42 @@ export default function Question(props) {
 			// If the player guessed correctly, add questionCategoryTag to the player's score
 			console.log(`Correct! ${currentPlayer.name} has completed the ${questionCategory.title} category`);
 			let winCheck = updatedScore(currentPlayerIndex, questionCategoryTag);
-			console.log(`${currentPlayer.name}'s score: ${JSON.stringify(winCheck)}`);
-			// if(winCheck>7){
-			// 	// This play
-			// }
+			console.log(`${currentPlayer.name}'s score: ${JSON.stringify(winCheck)}/${neededToWin}`);
+			let tempWinners = Array.from(winners);
+			if (winCheck >= neededToWin) {
+				tempWinners.push(currentPlayerIndex)
+				setWinners(tempWinners);
+			}
 		} else {
 			// If the player was incorrect
 			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
 		}
 		// Now that feedback has been given, move to the next player
-		const nextPlayerIndex = (currentPlayerIndex + 1) % playerCount;
+		function nextPlayer(current,playerCount) {
+			let foundPlayer = null;
+			console.log(`Finding next player`)
+			for(let i=1; i<playerCount; i++) {
+				let nextPlayerIndex = (current + i) % playerCount;
+				const thatPlayer = scoreState[nextPlayerIndex];
+				const thatPlayerScore = (thatPlayer.correctCategories).length;
+				console.log(`Should ${thatPlayer.name} be next?  Their score is ${thatPlayerScore}/${neededToWin}`);	
+				if(thatPlayerScore < neededToWin) {
+					console.log(`${thatPlayer.name} is next.`)
+					return nextPlayerIndex;
+				}
+			}
+			return (current + 1) % playerCount;
+
+		}
+
+		
+		var nextPlayerIndex = nextPlayer(currentPlayerIndex, playerCount);
 		// Update the game state
 		setGamePhase({
 			currentPhase: props.phases.find(phase => phase.title === "Select"),
 			currentPlayerIndex: nextPlayerIndex
 		})
-		console.log(`============ <> Now it is ${scoreState[nextPlayerIndex].name}'s turn <> ============`);
+		console.log(`===== <> Now it is ${scoreState[nextPlayerIndex].name}'s turn <> =====`);
 	}
 
 	function updatedScore(playerIndex, categoryTag) {
@@ -75,7 +99,7 @@ export default function Question(props) {
 		// Generic gray button class
 		let classes = " text-wrap rounded py-2 my-2 border w-100 btn"
 		// If the choice is null, return a disabled button and exit
-		console.log(`Choice: ${choice}`);
+		// console.log(`Choice: ${choice}`);
 		if (choice === null) {
 			// console.log("Choice is null");
 			return (<AnswerButton

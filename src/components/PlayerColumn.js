@@ -2,9 +2,6 @@ import React from 'react';
 import CategorySelect from './CategorySelect';
 
 export default function PlayerColumn(props) {
-	const devMode = props.devMode;
-	const gamePhase = props.gamePhase;
-	// if (!devMode && (gamePhase.currentPhase.title === "Welcome")) { return null; }
 	const categoryList = props.categoryList;
 	const scoreState = props.scoreState;
 	// const gamePhase = props.gamePhase;
@@ -28,6 +25,9 @@ export default function PlayerColumn(props) {
 							players={props.players}
 							phases={props.phases} setGamePhase={setGamePhase}
 							scoreState={scoreState}
+							winners={props.winners} setWinners={props.setWinners}
+							hasWon={props.hasWon}
+							playoffs={props.playoffs} setPlayoffs={props.setPlayoffs}
 							gamePhase={props.gamePhase}
 							currentCategory={props.currentCategory}
 							currentQuestion={props.currentQuestion} setCurrentQuestion={props.setCurrentQuestion}

@@ -19,15 +19,21 @@ var players = [
   { index: 0, name: "Player 1", correctCategories: [] }
 ]
 
-// Initialize the question and answer choices
 function App(props) {
   const globals = props.globals;
+  // <> Load the globals
   const categoryList = globals.categoryList;
+  const neededToWin = globals.neededToWin;
   const phases = globals.phases;
+  // Create the states for the game
+  const [winners, setWinners] = useState([]);
+  function hasWon(playerIndex) { return winners.findIndex(element => element === playerIndex) }
+  const [playoffs, setPlayoffs] = useState([]);
   const [devMode, setDevMode] = useState(false);
   const [guessedState, setGuessedState] = useState(false);
   const [scoreState, setScoreState] = useState(players);
   const [gamePhase, setGamePhase] = useState({ currentPhase: phases[0], currentPlayerIndex: 0 });
+  // Initialize the question and answer choices
   const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
   const [currentQuestion, setCurrentQuestion] = useState({
     questionText: null,
@@ -53,9 +59,13 @@ function App(props) {
                 players={players}
                 handleGuess={props.handleGuess}
                 categoryList={categoryList}
+                neededToWin={neededToWin}
                 phases={phases}
                 gamePhase={gamePhase} setGamePhase={setGamePhase}
                 scoreState={scoreState} setScoreState={setScoreState}
+                winners={winners} setWinners={setWinners}
+                hasWon={hasWon}
+                playoffs={playoffs} setPlayoffs={setPlayoffs}
                 currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
                 currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
                 guessedState={guessedState} setGuessedState={setGuessedState}
@@ -85,6 +95,9 @@ function App(props) {
                   scoreState={scoreState}
                   phases={phases}
                   gamePhase={gamePhase} setGamePhase={setGamePhase}
+                  winners={winners} setWinners={setWinners}
+                  hasWon={hasWon}
+                  playoffs={playoffs} setPlayoffs={setPlayoffs}
                   currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
                   currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
                   guessedState={guessedState} setGuessedState={setGuessedState}

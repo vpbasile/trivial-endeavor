@@ -12,7 +12,9 @@ export default function CategorySelect(props) {
 	// const players = props.players;
 	// console.log(`Players: ${JSON.stringify(players)}`);
 	const gamePhase = props.gamePhase;
-	// const currentPlayerIndex = gamePhase.currentPlayerIndex;
+	const currentPlayerIndex = gamePhase.currentPlayerIndex;
+	const winners = props.winners;
+	const hasWon = props.hasWon;
 	const player = props.player;
 	const setGamePhase = props.setGamePhase;
 	const category = props.category;
@@ -44,21 +46,34 @@ export default function CategorySelect(props) {
 		props.setGuessedState(false);
 		props.setCurrentQuestion(tempQuestion);
 		getQuestion(queryURL);
-		
+
+	}
+
+	const spoofQuestion = {
+		"category": "History",
+		"correctAnswer": "The Wall Street Crash",
+		"incorrectAnswers": [
+			"The Hindenberg Disaster",
+			"The Assassination of John F. Kennedy",
+			"The Nazi Invasion of Poland"
+		],
+		"question": "What is the correct answer to the question?"
 	}
 
 	async function getQuestion(url) {
+		// If we're in devMode, we'll use the local copy of the API
+		// if (props.devMode) { parseReceivedQuestion(spoofQuestion) }
+		// else {
 		// Query the API for a new question and parse it	
 		fetch(url).then(response => response.json())
 			.then(data => { parseReceivedQuestion(data[0]) })
 			.catch(error => { console.log(error); });
+		// }
 	}
 
 	function parseReceivedQuestion(data) {
 		console.log(`Parsing question`);
-		// <>! Switch
-		const hideAnswers = props.devMode;
-		if (hideAnswers) {
+		if (props.devMode) {
 			// Hide the answer data so I don't learn anything while I'm debugging
 			console.log(`=====Hiding answers=====`);
 			data.correctAnswer = "Correct answer"
@@ -119,19 +134,29 @@ export default function CategorySelect(props) {
 	// Current player, not complete
 	const activeButtonCss = `${css} ${cssClass}`
 	// Other player, not complete
-	const inactiveButtonCss = `${css} btn-dark ${cssClass.replace("cat-", "text-")}`
-
-
-
 	const buttonKey = player.name + '_' + category.queryTag;
+	const inactiveButtonCss = `${css} btn-dark ${cssClass.replace("cat-", "text-")}`
+	const winner1Button = <input key={buttonKey} className={`${css} gold w-100`} type="button" value={"1st place!"} disabled={true} />
+	const winner2Button = <input key={buttonKey} className={`${css} silver w-100`} type="button" value={"2nd place!"} disabled={true} />
+	const winner3Button = <input key={buttonKey} className={`${css} bronze w-100`} type="button" value={"3rd place!"} disabled={true} />
 
 	// <> Build the button
-	console.log(JSON.stringify(gamePhase))
+	// console.log(JSON.stringify(gamePhase))
 	// During the welcome phase, all buttons should be disabled
 	if (gamePhase.currentPhase.title === "Welcome") {
 		return (<input key={buttonKey}
 			className={inactiveButtonCss} type="button" value={category.title} disabled={true} />
 		)
+	}
+	// If the player is a winner, the button should be gold.
+	let place = hasWon(player.index);
+	if (place>-1) {
+		switch (place) {
+			case 0: return (winner1Button);
+			case 1: return (winner2Button);
+			case 2: return (winner3Button);
+			default: break;
+		}
 	}
 	// If the player has already completed this category, show the category as completed, regardless of whether it that player's turn or not
 	if (player.correctCategories.includes(category.queryTag)) {
@@ -143,16 +168,8 @@ export default function CategorySelect(props) {
 		);
 	}
 	// // Else (it is not the current player's turn and they have not completed this category), show the category as not completed
-	// else {
 	return (
 		<input key={buttonKey}
 			className={inactiveButtonCss} type="button" value={category.title} disabled={true} />
 	);
-	// Return the category row
-	// return (
-	// 	<tr className={cssClass}>
-	// 		{/* <td>{category.title}</td> */}
-	// 		{playerColumns}
-	// 	</tr>
-	// );
 }

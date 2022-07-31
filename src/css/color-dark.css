@@ -77,7 +77,7 @@ body, #logo, .playerBadge{
 	border-color: var(--red-light);
 }
 
-.cat-history {
+.cat-history, .gold {
 	color: var(--yellow-light);
 	border-color: var(--yellow-light);
 	background-color: var(--yellow-dark);
@@ -109,7 +109,7 @@ body, #logo, .playerBadge{
 	color: var(--purple-light) !important;
 	border-color: var(--purple-light);
 }
-.cat-sport {
+.cat-sport, .bronze {
 	color: var(--orange-light);
 	border-color: var(--orange-light);
 	background-color: var(--orange-dark);
@@ -120,7 +120,7 @@ body, #logo, .playerBadge{
 	border-color: var(--orange-light);
 }
 
-.cat-general {
+.cat-general, .silver {
 	color: var(--gray-light);
 	border-color: var(--gray-light);
 	background-color: var(--gray-dark);
