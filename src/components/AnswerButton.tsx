@@ -1,5 +1,5 @@
 import React from "react";
-import { fixMeLater, player, category } from "../dataStructures";
+import { fixMeLater, player, category, question } from "../dataStructures";
 
 type AnswerButtonProps = {
 	categoryList: category[],
@@ -9,7 +9,7 @@ type AnswerButtonProps = {
 	disabled: boolean,
 	cssClasses: string
 	scoreState: player[], setScoreState: fixMeLater,
-	currentQuestion: fixMeLater,
+	currentQuestion: question,
 	handleGuess: fixMeLater,
 	whatsHappening: fixMeLater,
 }

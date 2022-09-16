@@ -24,7 +24,7 @@ const categoryList = [
 ]
 
 const neededToWin = categoryList.length - 1;
-console.log(`Needed to win: ${neededToWin}`);
+// console.log(`Needed to win: ${neededToWin}`);
 
 const phases = [
   { key: "00", title: "Welcome" },

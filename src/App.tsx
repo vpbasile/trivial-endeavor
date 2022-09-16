@@ -22,7 +22,6 @@ export default function App(props: AppProps): JSX.Element {
   const logo = require('./svg/trivialEndeavorLogo0.svg')
   // <> Load the globals
   const categoryList = props.categoryList;
-  const neededToWin = props.neededToWin;
   const phases = props.phases;
   // Create the states for the game
   const [winners, setWinners] = useState([]);
@@ -30,6 +29,10 @@ export default function App(props: AppProps): JSX.Element {
   const [playoffs, setPlayoffs] = useState([]);
   const [devMode, setDevMode] = useState(false);
   function toggleDevMode() { setDevMode(!devMode) }
+  function neededToWin(devMode: boolean):number {
+    if (devMode) { return 3 }
+    else { return props.neededToWin; }
+  }
   const [guessedState, setGuessedState] = useState(false);
   const [scoreState, setScoreState] = useState<player[]>(players);
   const [whatsHappening, setwhatsHappening] = useState<whatsHappening>({ currentPhase: phases[0], currentPlayerIndex: 0 });
@@ -52,7 +55,7 @@ export default function App(props: AppProps): JSX.Element {
               players={players}
               // handleGuess={props.handleGuess}
               categoryList={categoryList}
-              neededToWin={neededToWin}
+              neededToWin={neededToWin(devMode)}
               phases={phases}
               whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
               scoreState={scoreState} setScoreState={setScoreState}
@@ -74,7 +77,7 @@ export default function App(props: AppProps): JSX.Element {
               whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
               scoreState={scoreState} setScoreState={setScoreState}
               currentPlayerIndex={whatsHappening.currentPlayerIndex}
-              // devMode={devMode}
+            // devMode={devMode}
             />
           </ErrorBoundary>
           {

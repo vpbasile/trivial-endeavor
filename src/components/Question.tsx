@@ -44,10 +44,7 @@ export default function Question(props: {
 
 	var setCurrentQuestion = props.setCurrentQuestion;
 	const questionCategoryTag = currentQuestion.categoryTag;
-	console.log(`questionCategoryTag: ${questionCategoryTag}`)
-	console.log(`categoryList: ${JSON.stringify(categoryList)}`)
 	const questionCategory = categoryList.filter(category => category.queryTag === questionCategoryTag)[0];
-	console.log(`questionCategory: ${questionCategory}`)
 	const questionText = currentQuestion.questionText;
 	const choices: choices = currentQuestion.choices;
 	var tempCssClass = questionCategory.cssClass;
@@ -149,7 +146,7 @@ export default function Question(props: {
 					disabled={(currentQuestion.guessEntered === null)}
 					// handleGuess={handleGuess}
 					cssClasses={classes}
-					currentQuestion={undefined} handleGuess={handleGuess} />
+					currentQuestion={currentQuestion} handleGuess={handleGuess} />
 			);
 		}
 	});
