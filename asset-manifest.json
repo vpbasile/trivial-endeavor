@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/trivial-endeavor/static/css/main.c27e4e77.css",
-    "main.js": "/trivial-endeavor/static/js/main.c9d3f397.js",
+    "main.css": "/trivial-endeavor/static/css/main.32e67733.css",
+    "main.js": "/trivial-endeavor/static/js/main.dd424e76.js",
     "static/media/Precious.ttf": "/trivial-endeavor/static/media/Precious.265572f50024317dee95.ttf",
     "static/media/trivialEndeavorLogo0.svg": "/trivial-endeavor/static/media/trivialEndeavorLogo0.375526dbde80c1228fbe6c08dc3f803e.svg",
     "index.html": "/trivial-endeavor/index.html",
-    "main.c27e4e77.css.map": "/trivial-endeavor/static/css/main.c27e4e77.css.map",
-    "main.c9d3f397.js.map": "/trivial-endeavor/static/js/main.c9d3f397.js.map"
+    "main.32e67733.css.map": "/trivial-endeavor/static/css/main.32e67733.css.map",
+    "main.dd424e76.js.map": "/trivial-endeavor/static/js/main.dd424e76.js.map"
   },
   "entrypoints": [
-    "static/css/main.c27e4e77.css",
-    "static/js/main.c9d3f397.js"
+    "static/css/main.32e67733.css",
+    "static/js/main.dd424e76.js"
   ]
 }
