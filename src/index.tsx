@@ -7,7 +7,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 // <> Stylesheets
 import './css/bootstrap.css';
-import './css/shape-size.css';
+import './css/shape-size-font.css';
 import './css/color-dark.css';
 import './css/animation.css';
 

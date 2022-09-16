@@ -21,7 +21,7 @@ export default function DataDisplay(props: DataDisplayProps) {
 	const devMode = props.devMode;
 	const toggleDevMode = props.toggleDevMode
 
-	return (<div className="border border-success w-100 border-3 bg-black p-3">
+	return (<div className="">
 		<div className="form-check form-switch">
 			<input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" defaultChecked={devMode} onClick={toggleDevMode} />
 			<label className="form-check-label" htmlFor="flexSwitchCheckDefault">

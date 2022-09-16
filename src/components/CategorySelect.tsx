@@ -133,9 +133,9 @@ export default function CategorySelect(props: CategorySelectProps) {
 	// Other player, not complete
 	const buttonKey = player.name + '_' + category.queryTag;
 	const inactiveButtonCss = `${css} btn-dark ${cssClass.replace("cat-", "text-")}`
-	const winner1Button = <input key={buttonKey} className={`${css} gold w-100`} type="button" value={"1st place!"} disabled={true} />
-	const winner2Button = <input key={buttonKey} className={`${css} silver w-100`} type="button" value={"2nd place!"} disabled={true} />
-	const winner3Button = <input key={buttonKey} className={`${css} bronze w-100`} type="button" value={"3rd place!"} disabled={true} />
+	const winner1Button = <input key={buttonKey} className={`${css} gold bg-gradient w-100`} type="button" value={"1st place!"} disabled={true} />
+	const winner2Button = <input key={buttonKey} className={`${css} silver bg-gradient w-100`} type="button" value={"2nd place!"} disabled={true} />
+	const winner3Button = <input key={buttonKey} className={`${css} bronze bg-gradient w-100`} type="button" value={"3rd place!"} disabled={true} />
 
 	// <> Build the button
 	// console.log(JSON.stringify(whatsHappening))

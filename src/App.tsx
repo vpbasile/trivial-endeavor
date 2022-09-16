@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import logo from './svg/trivialEndeavorLogo0.svg'; 
+import logo from './svg/trivialEndeavorLogo0.svg';
 
 // Import my utility modules and data structures
 import ErrorBoundary from './components/ErrorBoundary';
@@ -19,7 +19,6 @@ var players: player[] = [
 type AppProps = { categoryList: category[], neededToWin: number, phases: fixMeLater }
 
 export default function App(props: AppProps): JSX.Element {
-  const logo = require('./svg/trivialEndeavorLogo0.svg')
   // <> Load the globals
   const categoryList = props.categoryList;
   const phases = props.phases;
@@ -29,8 +28,8 @@ export default function App(props: AppProps): JSX.Element {
   const [playoffs, setPlayoffs] = useState([]);
   const [devMode, setDevMode] = useState(false);
   function toggleDevMode() { setDevMode(!devMode) }
-  function neededToWin(devMode: boolean):number {
-    if (devMode) { return 3 }
+  function neededToWin(devMode: boolean): number {
+    if (devMode) { return 2 }
     else { return props.neededToWin; }
   }
   const [guessedState, setGuessedState] = useState(false);
@@ -45,6 +44,7 @@ export default function App(props: AppProps): JSX.Element {
     <div id="logo-div" className="row" >
       <div className="col-12 text-center" >
         <img src={logo} className="App-logo w-75 py-5" alt="Trivial Endeavor logo" />
+        <p className="fancy-font">by <a href="https://www.schmincenzo.com" target="_blank" rel="noopener noreferrer">Schmincenzo</a></p>
       </div>
     </div>
     < div className="row" >
@@ -99,13 +99,14 @@ export default function App(props: AppProps): JSX.Element {
           }
         </div>
       </ErrorBoundary>
-      < div id='credits-div' className="col-12" >
+      < div id='credits-div' className="border border-1 p-3 mt-5">
+        <h3>Links</h3>
         <Hyperlink url="https://vpbasile.github.io/trivial-endeavor" text="Live version" />
         <Hyperlink url="https://github.com/vpbasile/trivial-endeavor" text="Repository on GitHub" />
         <Hyperlink url="https://the-trivia-api.com/" text="The Trivia API by Will Fry" />
       </div>
       < ErrorBoundary >
-        <div id="dev-div" className="col-12" >
+        <div id="dev-div" className="col-12 border border-1 p-3 my-5" >
           <DataDisplay
             players={players}
             scoreState={scoreState} setScoreState={setScoreState}
