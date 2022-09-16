@@ -4,30 +4,36 @@
 // https://api.trivia.willfry.co.uk/questions?categories=food_and_drink,geography,general_knowledge,history,literature,movies,music,science,society_and_culture,sport_and_leisure&limit=1
 
 import React from "react";
+import { category, fixMeLater, player, question } from "../dataStructures";
 
-export default function CategorySelect(props) {
-	const categoryList = props.categoryList;
-	// const player = props.player;
+type CategorySelectProps = {
+	// FIXTHIS Some of these are not needed
+	key: string,
+	category: category, categoryList: category[],
+	player: player, 
+	// players: fixMeLater,
+	phases: fixMeLater, whatsHappening: fixMeLater, setwhatsHappening: fixMeLater,
+	scoreState: player[], winners: fixMeLater, setWinners: fixMeLater, hasWon: fixMeLater,
+	playoffs: fixMeLater, setPlayoffs: fixMeLater
+	currentCategory: fixMeLater, currentQuestion: fixMeLater, setCurrentQuestion: fixMeLater,
+	guessedState: fixMeLater, setGuessedState: fixMeLater,
+	devMode: boolean
+}
 
-	// const players = props.players;
-	// console.log(`Players: ${JSON.stringify(players)}`);
-	const gamePhase = props.gamePhase;
-	const currentPlayerIndex = gamePhase.currentPlayerIndex;
-	const winners = props.winners;
-	const hasWon = props.hasWon;
+export default function CategorySelect(props: CategorySelectProps) {
+	const category = props.category; const categoryList = props.categoryList;
 	const player = props.player;
-	const setGamePhase = props.setGamePhase;
-	const category = props.category;
-	const cssClass = category.cssClass + " w-100  text-wrap";
-	// const key = props.key;
+	const whatsHappening = props.whatsHappening, setwhatsHappening = props.setwhatsHappening;
+	const hasWon =props.hasWon;
+	const cssClass: string = category.cssClass + " w-100  text-wrap";
 
-	function newQuestion(currentPlayerIndex, category) {
-		setGamePhase({
-			currentPhase: props.phases.find(phase => phase.title === "Answer"),
+	function newQuestion(currentPlayerIndex: number, category: category) {
+		setwhatsHappening({
+			currentPhase: props.phases.find((phase: { title: string; }) => phase.title === "Answer"),
 			currentPlayerIndex: currentPlayerIndex
 		})
 		// console.log(`Freshly set game phase:`)
-		// console.log(`gamePhase: ${JSON.stringify(gamePhase)}`);
+		// console.log(`whatsHappening: ${JSON.stringify(whatsHappening)}`);
 		const categoryTitle = category.title
 		// const player = players[currentPlayerIndex];
 		console.log(`${player.name} requests a ${categoryTitle} question`);
@@ -36,12 +42,13 @@ export default function CategorySelect(props) {
 		// var queryURL = `https://the-trivia-api.com/questions?categories=food_and_drink&limit=1`
 		var queryURL = `https://the-trivia-api.com/api/questions?categories=${category.queryTag}&limit=1`;
 		// Create a temporary question while we wait for the API to respond
-		var tempQuestion = {
+		var tempQuestion:question = {
 			categoryTag: category.queryTag,
 			questionText: "Loading...",
 			choices: ["Loading...", "Loading...", "Loading...", "Loading..."],
 			correctAnswer: "Loading...",
-			correctIndex: 0
+			correctIndex: 0,
+			guessEntered: 0
 		}
 		props.setGuessedState(false);
 		props.setCurrentQuestion(tempQuestion);
@@ -49,18 +56,8 @@ export default function CategorySelect(props) {
 
 	}
 
-	const spoofQuestion = {
-		"category": "History",
-		"correctAnswer": "The Wall Street Crash",
-		"incorrectAnswers": [
-			"The Hindenberg Disaster",
-			"The Assassination of John F. Kennedy",
-			"The Nazi Invasion of Poland"
-		],
-		"question": "What is the correct answer to the question?"
-	}
 
-	async function getQuestion(url) {
+	async function getQuestion(url: RequestInfo | URL) {
 		// If we're in devMode, we'll use the local copy of the API
 		// if (props.devMode) { parseReceivedQuestion(spoofQuestion) }
 		// else {
@@ -71,7 +68,7 @@ export default function CategorySelect(props) {
 		// }
 	}
 
-	function parseReceivedQuestion(data) {
+	function parseReceivedQuestion(data: { correctAnswer: string; incorrectAnswers: string[]; category: fixMeLater; question: fixMeLater; }) {
 		console.log(`Parsing question`);
 		if (props.devMode) {
 			// Hide the answer data so I don't learn anything while I'm debugging
@@ -82,7 +79,7 @@ export default function CategorySelect(props) {
 
 		// Parse the received question into the game's data structure
 		// Make sure we don't have more than 4 incorrect answers
-		var incorrectAnswers = data.incorrectAnswers.slice(0, 4);
+		var incorrectAnswers: string[] = data.incorrectAnswers.slice(0, 4);
 		const choicesCount = incorrectAnswers.length + 1
 		shuffleArray(incorrectAnswers);
 		const answerIndex = Math.floor(Math.random() * (choicesCount));
@@ -94,7 +91,7 @@ export default function CategorySelect(props) {
 		}
 		const categoryName = data.category;
 		// This is where we get the category object from the list
-		const category = categoryList.filter(categoryTemp => categoryTemp.title === categoryName);
+		const category = categoryList.filter((categoryTemp: { title: any; }) => categoryTemp.title === categoryName);
 		// console.log(`category = ${JSON.stringify(category)}`);
 
 
@@ -111,7 +108,7 @@ export default function CategorySelect(props) {
 		props.setCurrentQuestion(questionArray);
 	}
 
-	function shuffleArray(array) {
+	function shuffleArray(array: string[]) {
 		let curId = array.length;
 		// There remain elements to shuffle
 		while (0 !== curId) {
@@ -141,16 +138,16 @@ export default function CategorySelect(props) {
 	const winner3Button = <input key={buttonKey} className={`${css} bronze w-100`} type="button" value={"3rd place!"} disabled={true} />
 
 	// <> Build the button
-	// console.log(JSON.stringify(gamePhase))
+	// console.log(JSON.stringify(whatsHappening))
 	// During the welcome phase, all buttons should be disabled
-	if (gamePhase.currentPhase.title === "Welcome") {
+	if (whatsHappening.currentPhase.title === "Welcome") {
 		return (<input key={buttonKey}
 			className={inactiveButtonCss} type="button" value={category.title} disabled={true} />
 		)
 	}
 	// If the player is a winner, the button should be gold.
 	let place = hasWon(player.index);
-	if (place>-1) {
+	if (place > -1) {
 		switch (place) {
 			case 0: return (winner1Button);
 			case 1: return (winner2Button);
@@ -163,13 +160,11 @@ export default function CategorySelect(props) {
 		return (<input key={buttonKey} className={completeButtonCss} type="button" value={completeString} disabled={true} />);
 	}
 	// If it's the current player's turn, show the button
-	if (player.index === gamePhase.currentPlayerIndex) {
-		return (<input className={activeButtonCss} type="button" value={category.title} onClick={() => newQuestion(player.index, category)} />
+	if (player.index === whatsHappening.currentPlayerIndex) {
+		return (<input className={activeButtonCss} type="button" value={category.title} onClick={() => newQuestion(player.index, category)
+		} />
 		);
 	}
 	// // Else (it is not the current player's turn and they have not completed this category), show the category as not completed
-	return (
-		<input key={buttonKey}
-			className={inactiveButtonCss} type="button" value={category.title} disabled={true} />
-	);
+	return (<input key={buttonKey} className={inactiveButtonCss} type="button" value={category.title} disabled={true} />);
 }

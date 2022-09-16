@@ -1,8 +1,23 @@
 import React from "react";
+import { fixMeLater, player, category } from "../dataStructures";
 
-export default function AnswerButton(props) {
+type AnswerButtonProps = {
+	categoryList: category[],
+	guessedState: fixMeLater, setGuessedState: fixMeLater,
+	key: number, index: number,
+	text: string,
+	disabled: boolean,
+	cssClasses: string
+	scoreState: player[], setScoreState: fixMeLater,
+	currentQuestion: fixMeLater,
+	handleGuess: fixMeLater,
+	whatsHappening: fixMeLater,
+}
+
+export default function AnswerButton(props: AnswerButtonProps) {
+	const whatsHappening = props.whatsHappening
 	const categoryList = props.categoryList;
-	const currentPlayerIndex = props.currentPlayerIndex;
+	const currentPlayerIndex = whatsHappening.currentPlayerIndex;
 	var currentQuestion = props.currentQuestion
 	// If the question is null, the player has not selected a question yet
 	if (currentQuestion === undefined) { return null; }
