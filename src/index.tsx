@@ -12,7 +12,7 @@ import './css/color-dark.css';
 import './css/animation.css';
 
 const categoryList = [
-  { key: "00", queryTag: "none", title: "No Category Selected", cssClass: "blackandwhite" },
+  { key: "00", queryTag: "none", title: "Select a category", cssClass: "blackandwhite" },
   { key: "01", queryTag: "food_and_drink", title: "Food & Drink", cssClass: "cat-food" },
   { key: "05", queryTag: "sport_and_leisure", title: "Sport & Leisure", cssClass: "cat-sport" },
   { key: "08", queryTag: "science", title: "Science", cssClass: "cat-science" },

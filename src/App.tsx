@@ -41,72 +41,70 @@ export default function App(props: AppProps): JSX.Element {
   const [currentQuestion, setCurrentQuestion] = useState<question>(blankQuestion);
 
   return (<div className="App container" >
-    <div id="logo-div" className="row" >
+    <div id="logo-row" className="row" >
       <div className="col-12 text-center" >
         <img src={logo} className="App-logo w-75 py-5" alt="Trivial Endeavor logo" />
         <p className="fancy-font">by <a href="https://www.schmincenzo.com" target="_blank" rel="noopener noreferrer">Schmincenzo</a></p>
       </div>
     </div>
-    < div className="row" >
+    <div id="gameBoard-row" className="row" >
       <ErrorBoundary>
-        <div id="gameBoard-div" className="row" >
-          <div className="col-12" >
-            <Question key={"currentQuestion"}
-              players={players}
-              // handleGuess={props.handleGuess}
+        <div className="col-12" >
+          <Question key={"currentQuestion"}
+            players={players}
+            // handleGuess={props.handleGuess}
+            categoryList={categoryList}
+            neededToWin={neededToWin(devMode)}
+            phases={phases}
+            whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
+            scoreState={scoreState} setScoreState={setScoreState}
+            winners={winners} setWinners={setWinners}
+            hasWon={hasWon}
+            playoffs={playoffs} setPlayoffs={setPlayoffs}
+            currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
+            currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+            guessedState={guessedState} setGuessedState={setGuessedState}
+            devMode={devMode} currentPlayerIndex={whatsHappening.currentPlayerIndex} questionCategoryTag={currentQuestion.categoryTag} />
+          <GameSetup
+            phases={phases}
+            whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
+            scoreState={scoreState} setScoreState={setScoreState}
+            currentPlayerIndex={whatsHappening.currentPlayerIndex}
+          // devMode={devMode}
+          />
+        </div>
+      </ErrorBoundary>
+    </div>
+    <div id="scoreboard-row" className="row" >
+      <ErrorBoundary>
+        {
+          scoreState.map(player => (
+            <PlayerColumn
+              key={player.name + "playerColumn"}
+              player={player}
               categoryList={categoryList}
-              neededToWin={neededToWin(devMode)}
+              scoreState={scoreState}
               phases={phases}
               whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
-              scoreState={scoreState} setScoreState={setScoreState}
               winners={winners} setWinners={setWinners}
               hasWon={hasWon}
               playoffs={playoffs} setPlayoffs={setPlayoffs}
               currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
               currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
               guessedState={guessedState} setGuessedState={setGuessedState}
-              devMode={devMode} currentPlayerIndex={whatsHappening.currentPlayerIndex} questionCategoryTag={currentQuestion.categoryTag} />
-          </div>
-        </div>
+              devMode={devMode} />))
+        }
       </ErrorBoundary>
-      < ErrorBoundary >
-        <div id="scoreboard-div" className="row" >
-          <ErrorBoundary>
-            <GameSetup
-              phases={phases}
-              whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
-              scoreState={scoreState} setScoreState={setScoreState}
-              currentPlayerIndex={whatsHappening.currentPlayerIndex}
-            // devMode={devMode}
-            />
-          </ErrorBoundary>
-          {
-            scoreState.map(player => (
-              <PlayerColumn
-                key={player.name + "playerColumn"}
-                player={player}
-                categoryList={categoryList}
-                scoreState={scoreState}
-                phases={phases}
-                whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
-                winners={winners} setWinners={setWinners}
-                hasWon={hasWon}
-                playoffs={playoffs} setPlayoffs={setPlayoffs}
-                currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
-                currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-                guessedState={guessedState} setGuessedState={setGuessedState}
-                devMode={devMode} />))
-          }
-        </div>
-      </ErrorBoundary>
-      < div id='credits-div' className="border border-1 p-3 mt-5">
+    </div>
+    <div id="footer-row" className="row">
+      < div id='credits-col' className="col-12 border border-1 p-3 mt-5">
         <h3>Links</h3>
         <Hyperlink url="https://vpbasile.github.io/trivial-endeavor" text="Live version" />
         <Hyperlink url="https://github.com/vpbasile/trivial-endeavor" text="Repository on GitHub" />
         <Hyperlink url="https://the-trivia-api.com/" text="The Trivia API by Will Fry" />
       </div>
-      < ErrorBoundary >
-        <div id="dev-div" className="col-12 border border-1 p-3 my-5" >
+      <div id="dev-col" className="col-12 border border-1 p-3 my-5" >
+        < ErrorBoundary >
           <DataDisplay
             players={players}
             scoreState={scoreState} setScoreState={setScoreState}
@@ -118,8 +116,9 @@ export default function App(props: AppProps): JSX.Element {
             devMode={devMode} toggleDevMode={toggleDevMode}
             categoryList={categoryList}
           />
-        </div>
-      </ErrorBoundary>
+        </ErrorBoundary>
+
+      </div>
     </div>
   </div >
   );
