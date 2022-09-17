@@ -4,7 +4,7 @@ export type category = { key: string, queryTag: categoryTag, title: string, cssC
 export type fixMeLater = any
 export type phaseDefinition = {key:string, title:string, index:number}
 export type whatsHappening = { currentPhase: phaseDefinition, currentPlayerIndex: number }
-export type choices = [string, string, string, string] | [null, null, null, null]
+export type choices = string[]
 export type question = {
   questionText: string | null, choices: choices,
   correctAnswer: string | null,
@@ -12,3 +12,11 @@ export type question = {
   categoryTag: categoryTag,
   guessEntered: number
 }
+
+// {
+//   questionText: string;
+//   choices: (string | undefined)[];
+//   correctAnswer: string;
+//   correctIndex: number;
+//   categoryTag: string;
+// }

@@ -17,13 +17,13 @@ type PlayerColumnProps = {
 	devMode: boolean;
 	categoryList: category[],
 	scoreState: player[]
-	setwhatsHappening:fixMeLater,
+	setwhatsHappening: fixMeLater,
 	player: player,
-	phases:fixMeLater,
-	setCurrentCategory:fixMeLater
+	phases: fixMeLater,
+	setCurrentCategory: fixMeLater
 }
 
-export default function PlayerColumn(props:PlayerColumnProps) {
+export default function PlayerColumn(props: PlayerColumnProps) {
 	const categoryList = props.categoryList;
 	const scoreState = props.scoreState;
 	// const whatsHappening = props.whatsHappening;
@@ -41,19 +41,26 @@ export default function PlayerColumn(props:PlayerColumnProps) {
 					return (
 						<CategorySelect
 							key={category.key}
-							category={category}
-							categoryList={categoryList}
-							player={player}
-							phases={props.phases} setwhatsHappening={setwhatsHappening}
+							// <><><> Dev mode stuff
+							devMode={props.devMode}
+							// <><><> What's happening
+							whatsHappening={props.whatsHappening} setwhatsHappening={setwhatsHappening}
+							currentQuestion={props.currentQuestion} setCurrentQuestion={props.setCurrentQuestion}
 							scoreState={scoreState}
+							guessedState={props.guessedState} setGuessedState={props.setGuessedState}
+							// <><><> Winning
+							playoffs={props.playoffs} setPlayoffs={props.setPlayoffs}
 							winners={props.winners} setWinners={props.setWinners}
 							hasWon={props.hasWon}
-							playoffs={props.playoffs} setPlayoffs={props.setPlayoffs}
-							whatsHappening={props.whatsHappening}
-							currentCategory={props.currentCategory}
-							currentQuestion={props.currentQuestion} setCurrentQuestion={props.setCurrentQuestion}
-							guessedState={props.guessedState} setGuessedState={props.setGuessedState}
-							devMode={props.devMode}
+							// <><><> Game Globals
+							categoryList={categoryList}
+							phases={props.phases}
+							// <><><> Question Globals
+							// <><><> Player and category we're iterating on 
+							category={category}
+							player={player}
+
+							// <><><> Derivative values
 						/>
 					);
 				} else { return null; }

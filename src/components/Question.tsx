@@ -1,63 +1,67 @@
 import React from "react";
-import { category, phaseDefinition, fixMeLater, categoryTag, player, question, choices } from "../dataStructures";
+import { category, phaseDefinition, fixMeLater, categoryTag, player, question, choices, whatsHappening } from "../dataStructures";
 import { nextPlayer } from './helpers'
 import AnswerButton from './AnswerButton';
 
-export default function Question(props: {
-	devMode: fixMeLater,
-	phases: phaseDefinition[],
-	neededToWin: number,
-	whatsHappening: fixMeLater,
-	categoryList: category[],
-	scoreState: player[],
-	players: player[]
-	// playerCount: fixMeLater, // FIXTHIS: DOn't pass it donw, calculate when it's needed.
-	// handleGuess: ()=>void,
-	setScoreState: fixMeLater,
-	winners: fixMeLater,
-	hasWon: fixMeLater,
-	setWinners: fixMeLater,
-	setwhatsHappening: fixMeLater,
-	currentPlayerIndex: fixMeLater,
-	// setCurrentPlayerIndex: fixMeLater,
-	currentQuestion: question,
-	currentCategory: category, setCurrentCategory: fixMeLater,
-	guessedState: fixMeLater, setGuessedState: fixMeLater,
-	setCurrentQuestion: fixMeLater,
-	questionCategoryTag: fixMeLater,
-	playoffs: fixMeLater,
-	setPlayoffs: fixMeLater,
+type QuestionProps = {
+	// <><><> Dev mode stuff	
+	devMode: boolean;
+	neededToWin: number;
+	// <><><> What's happening
+	whatsHappening: whatsHappening;
+	setwhatsHappening: fixMeLater;
+	currentQuestion: question;
+	setCurrentQuestion: fixMeLater;
+	questionCategoryTag: fixMeLater;
+	scoreState: player[];
+	setScoreState: fixMeLater;
+	guessedState: boolean;
+	setGuessedState: fixMeLater;
+	// <><><> Winning
+	winners: fixMeLater;
+	setWinners: fixMeLater;
+	hasWon: fixMeLater;
+	// <><><> Game Globals
+	categoryList: category[];
+	phases: phaseDefinition[];
+};
 
-}) {
+export default function Question(props: QuestionProps): JSX.Element | null {
+	
+	// <><><> Dev mode stuff
 	const devMode = props.devMode;
+	const neededToWin = props.neededToWin;
+	// <><><> What's happening
 	const whatsHappening = props.whatsHappening;
+	const setwhatsHappening = props.setwhatsHappening;
+	// ====== Pause to check if we need to render
 	if (!devMode && (whatsHappening.currentPhase.title === "Welcome")) { return null; }
-
-	const categoryList = props.categoryList;
-	const scoreState = props.scoreState; let playerCount = scoreState.length;
-	const setScoreState = props.setScoreState;
+	// <><><> Continue with the What's happening
+	let currentQuestion = props.currentQuestion
+	let setCurrentQuestion = props.setCurrentQuestion;
+	const questionCategoryTag = currentQuestion.categoryTag;
+	const scoreState = props.scoreState; const setScoreState = props.setScoreState;
+	const guessedState = props.guessedState; const setGuessedState = props.setGuessedState;
+	// <><><> Winning
 	const winners = props.winners;
 	const setWinners = props.setWinners;
-	const setwhatsHappening = props.setwhatsHappening;
-	var currentQuestion = props.currentQuestion
-	const guessedState = props.guessedState; const setGuessedState = props.setGuessedState;
-
-	var setCurrentQuestion = props.setCurrentQuestion;
-	const questionCategoryTag = currentQuestion.categoryTag;
-	const questionCategory = categoryList.filter(category => category.queryTag === questionCategoryTag)[0];
+	// <><><> Game Globals
+	const categoryList = props.categoryList;
+	const phases = props.phases;
+	
+	// <><><> Question Globals
 	const questionText = currentQuestion.questionText;
 	const choices: choices = currentQuestion.choices;
-	var tempCssClass = questionCategory.cssClass;
-	const phases = props.phases;
-
-	// const neededToWin = 2; // This is great for testing purposes
-	const neededToWin = props.neededToWin;
-
+	
+	// <><><> Derivative values
+	let playerCount = scoreState.length; // THis should be a const, maybe FIXTHIS
+	const questionCategory = categoryList.filter(category => category.queryTag === questionCategoryTag)[0];
+	let tempCssClass = questionCategory.cssClass;
+	
 	function handleGuess(guess: fixMeLater, currentPlayerIndex: number, questionCategoryTag: string): void {
-		currentPlayerIndex = whatsHappening.currentPlayerIndex;
 		const currentPlayer = scoreState[currentPlayerIndex];
 		console.log(`${currentPlayer.name} guesses ${guess}`);
-		var tempQuestionState = currentQuestion
+		let tempQuestionState = currentQuestion
 		tempQuestionState.guessEntered = guess
 		setCurrentQuestion(tempQuestionState)
 		setwhatsHappening({
@@ -81,7 +85,7 @@ export default function Question(props: {
 			console.log(`Incorrect!  The correct answer was: ${correctChoice} ${question.choices[correctChoice]}`);
 		}
 		// Now that feedback has been given, move to the next player
-		var nextPlayerIndex = nextPlayer(currentPlayerIndex, playerCount,neededToWin,scoreState);
+		let nextPlayerIndex = nextPlayer(currentPlayerIndex, playerCount, neededToWin, scoreState);
 		// Update the game state
 		setwhatsHappening({
 			currentPhase: props.phases.find(phase => phase.title === "Select"),
@@ -144,7 +148,6 @@ export default function Question(props: {
 					index={buttonIndex++}
 					text={choice}
 					disabled={(currentQuestion.guessEntered === null)}
-					// handleGuess={handleGuess}
 					cssClasses={classes}
 					currentQuestion={currentQuestion} handleGuess={handleGuess} />
 			);

@@ -1,25 +1,19 @@
 import React from 'react';
-import { fixMeLater, phaseDefinition, player } from '../dataStructures';
+import { fixMeLater, phaseDefinition, player, whatsHappening } from '../dataStructures';
 
 export default function GameSetup(props: {
+	// <><><> What's happening
+	whatsHappening: whatsHappening, setwhatsHappening: fixMeLater,
+	scoreState: player[], setScoreState: fixMeLater,
+	// <><><> Game Globals
 	phases: phaseDefinition[],
-	whatsHappening: fixMeLater,
-	setwhatsHappening: fixMeLater,
-	scoreState: player[],
-	setScoreState: fixMeLater,
-	currentPlayerIndex: fixMeLater,
 }) {
 	const whatsHappening = props.whatsHappening;
 	const setwhatsHappening = props.setwhatsHappening;
-	const currentPlayerIndex = props.currentPlayerIndex;
+	const currentPlayerIndex = whatsHappening.currentPlayerIndex;
 	const scoreState = props.scoreState;
 	const setScoreState = props.setScoreState;
 	const phases = props.phases;
-
-	// const playerCount = scoreState.length;
-	// const columnSize = 12 / playerCount;
-
-	// console.log("whatsHappening: " + JSON.stringify(whatsHappening));
 
 	let namefields = scoreState.map(player => {
 		return (

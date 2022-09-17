@@ -12,7 +12,7 @@ import DataDisplay from './components/DataDisplay';
 import PlayerColumn from './components/PlayerColumn';
 import Hyperlink from './components/Hyperink';
 
-var players: player[] = [
+let players: player[] = [
   { index: 0, name: "Player 1", correctCategories: [] }
 ]
 
@@ -37,7 +37,7 @@ export default function App(props: AppProps): JSX.Element {
   const [whatsHappening, setwhatsHappening] = useState<whatsHappening>({ currentPhase: phases[0], currentPlayerIndex: 0 });
   // Initialize the question and answer choices
   const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
-  const blankQuestion: question = { questionText: null, choices: [null, null, null, null], correctAnswer: null, correctIndex: 0, categoryTag: categoryList[0].queryTag, guessEntered: 0 };
+  const blankQuestion: question = { questionText: null, choices: ["", "", "", ""], correctAnswer: null, correctIndex: 0, categoryTag: categoryList[0].queryTag, guessEntered: 0 };
   const [currentQuestion, setCurrentQuestion] = useState<question>(blankQuestion);
 
   return (<div className="App container" >
@@ -51,26 +51,29 @@ export default function App(props: AppProps): JSX.Element {
       <ErrorBoundary>
         <div className="col-12" >
           <Question key={"currentQuestion"}
-            players={players}
-            // handleGuess={props.handleGuess}
-            categoryList={categoryList}
+            // <><><> Dev mode stuff
+            devMode={devMode}
             neededToWin={neededToWin(devMode)}
-            phases={phases}
+            // <><><> What's happening
             whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
+            currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
+            questionCategoryTag={currentQuestion.categoryTag}
             scoreState={scoreState} setScoreState={setScoreState}
+            guessedState={guessedState} setGuessedState={setGuessedState}
+            // <><><> Winning
             winners={winners} setWinners={setWinners}
             hasWon={hasWon}
-            playoffs={playoffs} setPlayoffs={setPlayoffs}
-            currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
-            currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-            guessedState={guessedState} setGuessedState={setGuessedState}
-            devMode={devMode} currentPlayerIndex={whatsHappening.currentPlayerIndex} questionCategoryTag={currentQuestion.categoryTag} />
-          <GameSetup
+            // <><><> Game Globals
+            categoryList={categoryList}
             phases={phases}
+          />
+          <GameSetup
+            // <><><> What's happening
             whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
             scoreState={scoreState} setScoreState={setScoreState}
-            currentPlayerIndex={whatsHappening.currentPlayerIndex}
-          // devMode={devMode}
+            
+            // <><><> Game Globals
+            phases={phases}
           />
         </div>
       </ErrorBoundary>

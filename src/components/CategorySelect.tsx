@@ -4,45 +4,68 @@
 // https://api.trivia.willfry.co.uk/questions?categories=food_and_drink,geography,general_knowledge,history,literature,movies,music,science,society_and_culture,sport_and_leisure&limit=1
 
 import React from "react";
-import { category, fixMeLater, player, question } from "../dataStructures";
+import { category, choices, fixMeLater, player, question } from "../dataStructures";
 
 type CategorySelectProps = {
-	// FIXTHIS Some of these are not needed
 	key: string,
-	category: category, categoryList: category[],
-	player: player, 
-	// players: fixMeLater,
-	phases: fixMeLater, whatsHappening: fixMeLater, setwhatsHappening: fixMeLater,
-	scoreState: player[], winners: fixMeLater, setWinners: fixMeLater, hasWon: fixMeLater,
-	playoffs: fixMeLater, setPlayoffs: fixMeLater
-	currentCategory: fixMeLater, currentQuestion: fixMeLater, setCurrentQuestion: fixMeLater,
-	guessedState: fixMeLater, setGuessedState: fixMeLater,
+	// <><><> Dev mode stuff
 	devMode: boolean
+	// <><><> What's happening
+	whatsHappening: fixMeLater, setwhatsHappening: fixMeLater,
+	currentQuestion: fixMeLater, setCurrentQuestion: fixMeLater,
+	scoreState: player[],
+	guessedState: fixMeLater, setGuessedState: fixMeLater,
+	// <><><> Winning
+	playoffs: fixMeLater, setPlayoffs: fixMeLater
+	winners: fixMeLater, setWinners: fixMeLater, hasWon: fixMeLater,
+	// <><><> Game Globals
+	categoryList: category[],
+	phases: fixMeLater,
+	// <><><> Question Globals
+	// <><><> Player and category we're iterating on 
+	category: category,
+	player: player,
+	// <><><> Derivative values
+
+
+	// ???????????????????
+	// currentCategory: fixMeLater,
 }
 
 export default function CategorySelect(props: CategorySelectProps) {
-	const category = props.category; const categoryList = props.categoryList;
-	const player = props.player;
+	// <><><> Dev mode stuff
+	const devMode = props.devMode;
+	// <><><> What's happening
 	const whatsHappening = props.whatsHappening, setwhatsHappening = props.setwhatsHappening;
-	const hasWon =props.hasWon;
+	const setCurrentQuestion = props.setCurrentQuestion;
+	const setGuessedState = props.setGuessedState;
+	// <><><> Winning
+	const hasWon = props.hasWon;
+	// <><><> Game Globals
+	const categoryList = props.categoryList;
+	const phases = props.phases;
+	// <><><> Question Globals
+	// <><><> Player and category we're iterating on 
+	const player = props.player;
+	const category = props.category;
+	// <><><> Derivative values
 	const cssClass: string = category.cssClass + " w-100  text-wrap";
 
 	function newQuestion(currentPlayerIndex: number, category: category) {
 		setwhatsHappening({
-			currentPhase: props.phases.find((phase: { title: string; }) => phase.title === "Answer"),
+			currentPhase: phases.find((phase: { title: string; }) => phase.title === "Answer"),
 			currentPlayerIndex: currentPlayerIndex
 		})
 		// console.log(`Freshly set game phase:`)
 		// console.log(`whatsHappening: ${JSON.stringify(whatsHappening)}`);
 		const categoryTitle = category.title
-		// const player = players[currentPlayerIndex];
 		console.log(`${player.name} requests a ${categoryTitle} question`);
 		// Old formats of the API request:
-		// var queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
-		// var queryURL = `https://the-trivia-api.com/questions?categories=food_and_drink&limit=1`
-		var queryURL = `https://the-trivia-api.com/api/questions?categories=${category.queryTag}&limit=1`;
+		// let queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
+		// let queryURL = `https://the-trivia-api.com/questions?categories=food_and_drink&limit=1`
+		let queryURL = `https://the-trivia-api.com/api/questions?categories=${category.queryTag}&limit=1`;
 		// Create a temporary question while we wait for the API to respond
-		var tempQuestion:question = {
+		const tempQuestion: question = {
 			categoryTag: category.queryTag,
 			questionText: "Loading...",
 			choices: ["Loading...", "Loading...", "Loading...", "Loading..."],
@@ -50,66 +73,75 @@ export default function CategorySelect(props: CategorySelectProps) {
 			correctIndex: 0,
 			guessEntered: 0
 		}
-		props.setGuessedState(false);
-		props.setCurrentQuestion(tempQuestion);
+		setGuessedState(false);
+		setCurrentQuestion(tempQuestion);
 		getQuestion(queryURL);
-
 	}
-
-
 	async function getQuestion(url: RequestInfo | URL) {
 		// If we're in devMode, we'll use the local copy of the API
-		// if (props.devMode) { parseReceivedQuestion(spoofQuestion) }
+		// if (devMode) { parseReceivedQuestion(spoofQuestion) }
 		// else {
 		// Query the API for a new question and parse it	
 		fetch(url).then(response => response.json())
-			.then(data => { parseReceivedQuestion(data[0]) })
+			.then(data => { console.log(JSON.stringify(data)); parseReceivedQuestion(data[0]) })
 			.catch(error => { console.log(error); });
 		// }
 	}
 
-	function parseReceivedQuestion(data: { correctAnswer: string; incorrectAnswers: string[]; category: fixMeLater; question: fixMeLater; }) {
+	type questionFromAPI = {
+		correctAnswer: string;
+		incorrectAnswers: string[];
+		category: string;
+		question: string;
+	}
+
+	function parseReceivedQuestion(data: questionFromAPI) {
 		console.log(`Parsing question`);
-		if (props.devMode) {
+		if (devMode) {
 			// Hide the answer data so I don't learn anything while I'm debugging
 			console.log(`=====Hiding answers=====`);
 			data.correctAnswer = "Correct answer"
 			data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
 		}
-
 		// Parse the received question into the game's data structure
 		// Make sure we don't have more than 4 incorrect answers
-		var incorrectAnswers: string[] = data.incorrectAnswers.slice(0, 4);
+		let incorrectAnswers: string[] = data.incorrectAnswers.slice(0, 4);
 		const choicesCount = incorrectAnswers.length + 1
 		shuffleArray(incorrectAnswers);
 		const answerIndex = Math.floor(Math.random() * (choicesCount));
-		var choices = []
+		let choices: choices = ["", "", "", ""]
 		choices[answerIndex] = data.correctAnswer;
-		for (var i = 0; i < choicesCount; i++) {
+		for (let i = 0; i < choicesCount; i++) {
 			if (i === answerIndex) { choices[i] = data.correctAnswer; }
-			else { choices[i] = incorrectAnswers.pop(); }
+			else {
+				let x = incorrectAnswers.pop()
+				if (x !== undefined) { choices[i] = x; }
+			}
 		}
-		const categoryName = data.category;
+		const categoryName: string = data.category;
 		// This is where we get the category object from the list
-		const category = categoryList.filter((categoryTemp: { title: any; }) => categoryTemp.title === categoryName);
-		// console.log(`category = ${JSON.stringify(category)}`);
+		const category: category[] = categoryList.filter((categoryTemp) => {
+			console.log(`Filtering Categories ${JSON.stringify(categoryTemp)}, looking for ${categoryName}`);
+			return categoryTemp.title === categoryName;
+		});
 
+		const categoryTag: string = category[0].queryTag;
 
-		const categoryTag = category[0].queryTag;
-		var questionArray = {
+		let questionArray: question = {
 			// <><> Here's the data structure
 			questionText: data.question,
 			choices: choices,
 			correctAnswer: data.correctAnswer,
 			correctIndex: answerIndex,
-			categoryTag: categoryTag
+			categoryTag: categoryTag,
+			guessEntered: 0
 		}
 		// Update the game state with the new question
-		props.setCurrentQuestion(questionArray);
+		setCurrentQuestion(questionArray);
 	}
 
-	function shuffleArray(array: string[]) {
-		let curId = array.length;
+	function shuffleArray(array: string[]): string[] {
+		let curId: number = array.length;
 		// There remain elements to shuffle
 		while (0 !== curId) {
 			// Pick a remaining element
