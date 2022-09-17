@@ -7,12 +7,13 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 // <> Stylesheets
 import './css/bootstrap.css';
-import './css/shape-size.css';
+import './css/shape-size-font.css';
 import './css/color-dark.css';
 import './css/animation.css';
+import { phaseDefinition } from './dataStructures';
 
 const categoryList = [
-  { key: "00", queryTag: "none", title: "No Category Selected", cssClass: "blackandwhite" },
+  { key: "00", queryTag: "none", title: "Select a category", cssClass: "blackandwhite" },
   { key: "01", queryTag: "food_and_drink", title: "Food & Drink", cssClass: "cat-food" },
   { key: "05", queryTag: "sport_and_leisure", title: "Sport & Leisure", cssClass: "cat-sport" },
   { key: "08", queryTag: "science", title: "Science", cssClass: "cat-science" },
@@ -24,15 +25,15 @@ const categoryList = [
 ]
 
 const neededToWin = categoryList.length - 1;
-console.log(`Needed to win: ${neededToWin}`);
+// console.log(`Needed to win: ${neededToWin}`);
 
-const phases = [
-  { key: "00", title: "Welcome" },
+const phases:phaseDefinition[] = [
+  { key: "00", title: "Welcome", index: 1 },
   { key: "02", title: "Select", index: 2 },
   { key: "04", title: "Question", index: 4 },
   { key: "06", title: "Answer", index: 6 },
   { key: "08", title: "Score", index: 8 },
-  { key: "10", title: "End" }
+  { key: "10", title: "End", index: 10 }
 ]
 
 // <> Do the thing
@@ -41,13 +42,8 @@ console.log(`Beginning rendering of Trivial Endeavor`);
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App globals={{ categoryList: categoryList, neededToWin: neededToWin, phases: phases }} />
+      <App categoryList={categoryList} neededToWin={neededToWin} phases={phases} />
     </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();

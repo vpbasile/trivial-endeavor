@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 #custom ignores
-/ignoreStuff
+/ignores
 src/svg/trivialEndeavorLogo.svg
 src/components/Collapse.js
 # src/css/animation.css

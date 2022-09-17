@@ -1,18 +1,19 @@
-import React from 'react';
+import React, {Dispatch} from 'react';
+import { phaseDefinition, player, whatsHappening } from '../dataStructures';
 
-export default function GameSetup(props) {
-	const gamePhase = props.gamePhase;
-	const setGamePhase = props.setGamePhase;
-	const currentPlayerIndex = props.currentPlayerIndex;
+export default function GameSetup(props: {
+	// <><><> What's happening
+	whatsHappening: whatsHappening, setwhatsHappening: Dispatch<whatsHappening>,
+	scoreState: player[], setScoreState: Dispatch<player[]>,
+	// <><><> Game Globals
+	phases: phaseDefinition[],
+}) {
+	const whatsHappening = props.whatsHappening;
+	const setwhatsHappening = props.setwhatsHappening;
+	const currentPlayerIndex = whatsHappening.currentPlayerIndex;
 	const scoreState = props.scoreState;
 	const setScoreState = props.setScoreState;
 	const phases = props.phases;
-	const devMode = props.devMode;
-
-	const playerCount = scoreState.length;
-	const columnSize = 12 / playerCount;
-
-	// console.log("gamePhase: " + JSON.stringify(gamePhase));
 
 	let namefields = scoreState.map(player => {
 		return (
@@ -46,13 +47,15 @@ export default function GameSetup(props) {
 	let startButton =
 		<button className={`rounded py-2 my-2 border btn btn-light w-100`} type="button" onClick={() => {
 			console.log("Begin game");
-			setGamePhase({
-				currentPhase: phases.find(phase => phase.title === "Select"),
+			const z = phases.find(phase => phase.title === "Select");
+			if(z){setwhatsHappening({
+				// FIXTHIS Neet to make this safer
+				currentPhase: z,
 				currentPlayerIndex: currentPlayerIndex
-			});
+			});}
 		}}>Begin Game</button>
 
-	if (gamePhase.currentPhase.title === "Welcome") {
+	if (whatsHappening.currentPhase.title === "Welcome") {
 		return (<div className='row py-5 bg-dark bg-opacity-50'>
 			<div id="playerList-div" className="col-md-6 text-center">
 				<h2 id="display-category">You can play with up to 4 teams.</h2>
