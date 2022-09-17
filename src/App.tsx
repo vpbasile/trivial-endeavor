@@ -3,7 +3,7 @@ import logo from './svg/trivialEndeavorLogo0.svg';
 
 // Import my utility modules and data structures
 import ErrorBoundary from './components/ErrorBoundary';
-import { fixMeLater, category, player, whatsHappening, question } from './dataStructures';
+import { category, player, whatsHappening, question, phaseDefinition } from './dataStructures';
 
 // <> Import my modules
 import GameSetup from './components/GameSetup';
@@ -16,16 +16,14 @@ let players: player[] = [
   { index: 0, name: "Player 1", correctCategories: [] }
 ]
 
-type AppProps = { categoryList: category[], neededToWin: number, phases: fixMeLater }
+type AppProps = { categoryList: category[], neededToWin: number, phases: phaseDefinition[] }
 
 export default function App(props: AppProps): JSX.Element {
-  // <> Load the globals
+  
+  // <><><> Game Globals
   const categoryList = props.categoryList;
   const phases = props.phases;
-  // Create the states for the game
-  const [winners, setWinners] = useState([]);
-  function hasWon(playerIndex: number) { return winners.findIndex(element => element === playerIndex) }
-  const [playoffs, setPlayoffs] = useState([]);
+  // <><><> Dev mode stuff
   const [devMode, setDevMode] = useState(false);
   function toggleDevMode() {
     setDevMode(!devMode)
@@ -35,13 +33,23 @@ export default function App(props: AppProps): JSX.Element {
     if (devMode) { return 2 }
     else { return props.neededToWin; }
   }
-  const [guessedState, setGuessedState] = useState(false);
-  const [scoreState, setScoreState] = useState<player[]>(players);
+  // <><><> What's happening
   const [whatsHappening, setwhatsHappening] = useState<whatsHappening>({ currentPhase: phases[0], currentPlayerIndex: 0 });
-  // Initialize the question and answer choices
-  const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
   const blankQuestion: question = { questionText: null, choices: ["", "", "", ""], correctAnswer: null, correctIndex: 0, categoryTag: categoryList[0].queryTag, guessEntered: 0 };
   const [currentQuestion, setCurrentQuestion] = useState<question>(blankQuestion);
+  // <><><> Winning
+  const [winners, setWinners] = useState<number[]>([]);
+  function hasWon(playerIndex: number):number { return winners.findIndex(element => element === playerIndex) }
+  // <><><> Question Globals
+  // <><><> Button-specific Globals
+  // <><><> Player and category we're iterating on
+  // <><><> Derivative values
+  // <> Load the globals
+  // Create the states for the game
+  const [guessedState, setGuessedState] = useState(false);
+  const [scoreState, setScoreState] = useState<player[]>(players);
+  // Initialize the question and answer choices
+  // const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
 
   return (<div className="App container" >
     <div id="logo-row" className="row" >
@@ -94,8 +102,6 @@ export default function App(props: AppProps): JSX.Element {
               whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
               winners={winners} setWinners={setWinners}
               hasWon={hasWon}
-              playoffs={playoffs} setPlayoffs={setPlayoffs}
-              currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
               currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
               guessedState={guessedState} setGuessedState={setGuessedState}
               devMode={devMode} />))
@@ -113,14 +119,9 @@ export default function App(props: AppProps): JSX.Element {
         < ErrorBoundary >
           <DataDisplay
             players={players}
-            scoreState={scoreState} setScoreState={setScoreState}
-            phases={phases}
-            whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
-            currentCategory={currentCategory} setCurrentCategory={setCurrentCategory}
-            currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
-            guessedState={guessedState} setGuessedState={setGuessedState}
+            scoreState={scoreState}
+            whatsHappening={whatsHappening}
             devMode={devMode} toggleDevMode={toggleDevMode}
-            categoryList={categoryList}
           />
         </ErrorBoundary>
 

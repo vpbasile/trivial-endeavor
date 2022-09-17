@@ -3,25 +3,24 @@
 
 // https://api.trivia.willfry.co.uk/questions?categories=food_and_drink,geography,general_knowledge,history,literature,movies,music,science,society_and_culture,sport_and_leisure&limit=1
 
-import React from "react";
-import { category, choices, fixMeLater, player, question } from "../dataStructures";
+import React, { Dispatch } from "react";
+import { category, choices, phaseDefinition, player, question, whatsHappening } from "../dataStructures";
 
 type CategorySelectProps = {
 	key: string,
 	// <><><> Dev mode stuff
 	devMode: boolean
 	// <><><> What's happening
-	whatsHappening: fixMeLater, setwhatsHappening: fixMeLater,
-	currentQuestion: fixMeLater, setCurrentQuestion: fixMeLater,
+	whatsHappening: whatsHappening, setwhatsHappening: Dispatch<whatsHappening>,
+	currentQuestion: question, setCurrentQuestion: Dispatch<question>,
 	scoreState: player[],
-	guessedState: fixMeLater, setGuessedState: fixMeLater,
+	guessedState: boolean, setGuessedState: Dispatch<boolean>,
 	// <><><> Winning
-	playoffs: fixMeLater, setPlayoffs: fixMeLater
-	winners: fixMeLater, setWinners: fixMeLater, hasWon: fixMeLater,
+	winners: number[], setWinners: Dispatch<number[]>,
+	hasWon: (playerIndex: number) => {},
 	// <><><> Game Globals
 	categoryList: category[],
-	phases: fixMeLater,
-	// <><><> Question Globals
+	phases: phaseDefinition[],
 	// <><><> Player and category we're iterating on 
 	category: category,
 	player: player,
@@ -48,10 +47,14 @@ export default function CategorySelect(props: CategorySelectProps) {
 	const cssClass: string = category.cssClass + " w-100  text-wrap";
 
 	function newQuestion(currentPlayerIndex: number, category: category) {
-		setwhatsHappening({
-			currentPhase: phases.find((phase: { title: string; }) => phase.title === "Answer"),
-			currentPlayerIndex: currentPlayerIndex
-		})
+		const temp = phases.find((phase: { title: string; }) => phase.title === "Answer");
+		// FIXTHIS Need to error handle
+		if (temp) {
+			setwhatsHappening({
+				currentPhase: temp,
+				currentPlayerIndex: currentPlayerIndex
+			})
+		}
 		// console.log(`Freshly set game phase:`)
 		// console.log(`whatsHappening: ${JSON.stringify(whatsHappening)}`);
 		const categoryTitle = category.title

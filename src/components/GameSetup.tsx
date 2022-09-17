@@ -1,10 +1,10 @@
-import React from 'react';
-import { fixMeLater, phaseDefinition, player, whatsHappening } from '../dataStructures';
+import React, {Dispatch} from 'react';
+import { phaseDefinition, player, whatsHappening } from '../dataStructures';
 
 export default function GameSetup(props: {
 	// <><><> What's happening
-	whatsHappening: whatsHappening, setwhatsHappening: fixMeLater,
-	scoreState: player[], setScoreState: fixMeLater,
+	whatsHappening: whatsHappening, setwhatsHappening: Dispatch<whatsHappening>,
+	scoreState: player[], setScoreState: Dispatch<player[]>,
 	// <><><> Game Globals
 	phases: phaseDefinition[],
 }) {
@@ -47,10 +47,12 @@ export default function GameSetup(props: {
 	let startButton =
 		<button className={`rounded py-2 my-2 border btn btn-light w-100`} type="button" onClick={() => {
 			console.log("Begin game");
-			setwhatsHappening({
-				currentPhase: phases.find(phase => phase.title === "Select"),
+			const z = phases.find(phase => phase.title === "Select");
+			if(z){setwhatsHappening({
+				// FIXTHIS Neet to make this safer
+				currentPhase: z,
 				currentPlayerIndex: currentPlayerIndex
-			});
+			});}
 		}}>Begin Game</button>
 
 	if (whatsHappening.currentPhase.title === "Welcome") {

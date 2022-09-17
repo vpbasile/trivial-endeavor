@@ -1,25 +1,26 @@
 import React from "react";
-import { category, fixMeLater, phaseDefinition, player, whatsHappening } from "../dataStructures"
+import { player, whatsHappening } from "../dataStructures"
 
 type DataDisplayProps = {
+	// <><><> Dev mode stuff
+	devMode: boolean, toggleDevMode: ()=>void,
+	// <><><> What's happening
+	whatsHappening: whatsHappening, 
+	scoreState: player[],
+	// <><><> Derivative values
 	players: player[],
-	scoreState: player[], setScoreState: fixMeLater,
-	phases: phaseDefinition[]
-	whatsHappening: whatsHappening, setwhatsHappening: fixMeLater,
-	currentCategory: category, setCurrentCategory: fixMeLater,
-	currentQuestion: fixMeLater, setCurrentQuestion: fixMeLater,
-	guessedState: fixMeLater, setGuessedState: fixMeLater,
-	devMode: fixMeLater, toggleDevMode: fixMeLater,
-	categoryList: fixMeLater
 }
 
 export default function DataDisplay(props: DataDisplayProps) {
+	// <><><> Dev mode stuff
+	const devMode = props.devMode; const toggleDevMode = props.toggleDevMode
+	// <><><> What's happening
 	const whatsHappening = props.whatsHappening;
-	const currentPlayerIndex = whatsHappening.currentPlayerIndex;
 	const scoreState = props.scoreState;
+	
+	// <><><> Derivative values
+	const currentPlayerIndex = whatsHappening.currentPlayerIndex;
 	const currentPlayer = scoreState[currentPlayerIndex];
-	const devMode = props.devMode;
-	const toggleDevMode = props.toggleDevMode
 
 	return (<div className="">
 		<div className="form-check form-switch">

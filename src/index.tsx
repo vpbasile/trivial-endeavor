@@ -10,6 +10,7 @@ import './css/bootstrap.css';
 import './css/shape-size-font.css';
 import './css/color-dark.css';
 import './css/animation.css';
+import { phaseDefinition } from './dataStructures';
 
 const categoryList = [
   { key: "00", queryTag: "none", title: "Select a category", cssClass: "blackandwhite" },
@@ -26,13 +27,13 @@ const categoryList = [
 const neededToWin = categoryList.length - 1;
 // console.log(`Needed to win: ${neededToWin}`);
 
-const phases = [
-  { key: "00", title: "Welcome" },
+const phases:phaseDefinition[] = [
+  { key: "00", title: "Welcome", index: 1 },
   { key: "02", title: "Select", index: 2 },
   { key: "04", title: "Question", index: 4 },
   { key: "06", title: "Answer", index: 6 },
   { key: "08", title: "Score", index: 8 },
-  { key: "10", title: "End" }
+  { key: "10", title: "End", index: 10 }
 ]
 
 // <> Do the thing
@@ -41,9 +42,7 @@ console.log(`Beginning rendering of Trivial Endeavor`);
 ReactDOM.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App categoryList={categoryList} neededToWin={neededToWin} phases={phases} 
-      // handleGuess={undefined}
-       />
+      <App categoryList={categoryList} neededToWin={neededToWin} phases={phases} />
     </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
