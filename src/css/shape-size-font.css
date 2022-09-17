@@ -6,9 +6,16 @@
   font-style: normal;
 }
 
-#logo {
-  font-size: 15vw;
-	font-family: 'precious';
+#root {
+  border: 0.25em double white;
+  margin: 0.25em;
+ } 
+
+#logo, .fancy-font {
+  /* font-size: 15vw; */
+	font-family: 'courier new';
+  font-weight: 900;
+  /* letter-spacing: 0.5rem; */
 }
 
 body {
