@@ -26,10 +26,6 @@ type CategorySelectProps = {
 	category: category,
 	player: player,
 	// <><><> Derivative values
-
-
-	// ???????????????????
-	// currentCategory: fixMeLater,
 }
 
 export default function CategorySelect(props: CategorySelectProps) {
@@ -83,7 +79,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 		// else {
 		// Query the API for a new question and parse it	
 		fetch(url).then(response => response.json())
-			.then(data => { console.log(JSON.stringify(data)); parseReceivedQuestion(data[0]) })
+			.then(data => { parseReceivedQuestion(data[0]) })
 			.catch(error => { console.log(error); });
 		// }
 	}
@@ -121,7 +117,6 @@ export default function CategorySelect(props: CategorySelectProps) {
 		const categoryName: string = data.category;
 		// This is where we get the category object from the list
 		const category: category[] = categoryList.filter((categoryTemp) => {
-			console.log(`Filtering Categories ${JSON.stringify(categoryTemp)}, looking for ${categoryName}`);
 			return categoryTemp.title === categoryName;
 		});
 

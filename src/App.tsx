@@ -27,7 +27,10 @@ export default function App(props: AppProps): JSX.Element {
   function hasWon(playerIndex: number) { return winners.findIndex(element => element === playerIndex) }
   const [playoffs, setPlayoffs] = useState([]);
   const [devMode, setDevMode] = useState(false);
-  function toggleDevMode() { setDevMode(!devMode) }
+  function toggleDevMode() {
+    setDevMode(!devMode)
+    devMode ? console.log("Dev mode off") : console.log("Dev mode on")
+  }
   function neededToWin(devMode: boolean): number {
     if (devMode) { return 2 }
     else { return props.neededToWin; }
@@ -71,7 +74,7 @@ export default function App(props: AppProps): JSX.Element {
             // <><><> What's happening
             whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
             scoreState={scoreState} setScoreState={setScoreState}
-            
+
             // <><><> Game Globals
             phases={phases}
           />
