@@ -40,16 +40,9 @@ export default function App(props: AppProps): JSX.Element {
   // <><><> Winning
   const [winners, setWinners] = useState<number[]>([]);
   function hasWon(playerIndex: number):number { return winners.findIndex(element => element === playerIndex) }
-  // <><><> Question Globals
-  // <><><> Button-specific Globals
-  // <><><> Player and category we're iterating on
-  // <><><> Derivative values
-  // <> Load the globals
-  // Create the states for the game
+  // <> Create the states for the game
   const [guessedState, setGuessedState] = useState(false);
   const [scoreState, setScoreState] = useState<player[]>(players);
-  // Initialize the question and answer choices
-  // const [currentCategory, setCurrentCategory] = useState(categoryList[0]);
 
   return (<div className="App container" >
     <div id="logo-row" className="row" >
