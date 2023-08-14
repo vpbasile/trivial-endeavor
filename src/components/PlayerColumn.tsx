@@ -12,7 +12,7 @@ type PlayerColumnProps = {
 	guessedState: boolean; setGuessedState: Dispatch<boolean>;
 	// <><><> Winning
 	winners: number[]; setWinners: Dispatch<number[]>;
-	hasWon: (playerIndex: number)=>{};
+	hasWon: number;
 	// <><><> Game Globals
 	categoryList: category[],
 	phases: phaseDefinition[],
@@ -31,7 +31,7 @@ export default function PlayerColumn(props: PlayerColumnProps) {
 	const guessedState = props.guessedState; const setGuessedState = props.setGuessedState;
 	// <><><> Winning
 	const winners = props.winners; const setWinners = props.setWinners;
-	const hasWon = props.hasWon;
+	const hasWon:number = props.hasWon;
 	// <><><> Game Globals
 	const categoryList = props.categoryList;
 	const phases = props.phases;

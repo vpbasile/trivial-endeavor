@@ -17,7 +17,7 @@ type CategorySelectProps = {
 	guessedState: boolean, setGuessedState: Dispatch<boolean>,
 	// <><><> Winning
 	winners: number[], setWinners: Dispatch<number[]>,
-	hasWon: (playerIndex: number) => {},
+	hasWon: number,
 	// <><><> Game Globals
 	categoryList: category[],
 	phases: phaseDefinition[],
@@ -35,7 +35,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 	const setCurrentQuestion = props.setCurrentQuestion;
 	const setGuessedState = props.setGuessedState;
 	// <><><> Winning
-	const hasWon = props.hasWon;
+	const hasWon:number = props.hasWon;
 	// <><><> Game Globals
 	const categoryList = props.categoryList;
 	const phases = props.phases;
@@ -176,7 +176,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 		)
 	}
 	// If the player is a winner, the button should be gold.
-	let place = hasWon(player.index);
+	let place:number = hasWon;
 	if (place > -1) {
 		switch (place) {
 			case 0: return (winner1Button);

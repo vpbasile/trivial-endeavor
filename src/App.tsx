@@ -19,7 +19,7 @@ let players: player[] = [
 type AppProps = { categoryList: category[], neededToWin: number, phases: phaseDefinition[] }
 
 export default function App(props: AppProps): JSX.Element {
-  
+
   // <><><> Game Globals
   const categoryList = props.categoryList;
   const phases = props.phases;
@@ -39,7 +39,11 @@ export default function App(props: AppProps): JSX.Element {
   const [currentQuestion, setCurrentQuestion] = useState<question>(blankQuestion);
   // <><><> Winning
   const [winners, setWinners] = useState<number[]>([]);
-  function hasWon(playerIndex: number):number { return winners.findIndex(element => element === playerIndex) }
+  function hasWon(playerIndex: number): number {
+    const index = winners.findIndex(element => element === playerIndex);
+    if (index) return index
+    else return -1
+  }
   // <> Create the states for the game
   const [guessedState, setGuessedState] = useState(false);
   const [scoreState, setScoreState] = useState<player[]>(players);
@@ -85,7 +89,7 @@ export default function App(props: AppProps): JSX.Element {
     <div id="scoreboard-row" className="row" >
       <ErrorBoundary>
         {
-          scoreState.map(player => (
+          scoreState.map((player,index) => (
             <PlayerColumn
               key={player.name + "playerColumn"}
               player={player}
@@ -94,7 +98,7 @@ export default function App(props: AppProps): JSX.Element {
               phases={phases}
               whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
               winners={winners} setWinners={setWinners}
-              hasWon={hasWon}
+              hasWon={hasWon(index)}
               currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
               guessedState={guessedState} setGuessedState={setGuessedState}
               devMode={devMode} />))
