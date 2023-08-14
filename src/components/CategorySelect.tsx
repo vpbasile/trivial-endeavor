@@ -4,7 +4,7 @@
 // https://api.trivia.willfry.co.uk/questions?categories=food_and_drink,geography,general_knowledge,history,literature,movies,music,science,society_and_culture,sport_and_leisure&limit=1
 
 import React, { Dispatch } from "react";
-import { category, choices, phaseDefinition, player, question, whatsHappening } from "../dataStructures";
+import { category, choices, phaseDefinition, player, questionInternal, whatsHappening } from "../dataStructures";
 
 type CategorySelectProps = {
 	key: string,
@@ -12,7 +12,7 @@ type CategorySelectProps = {
 	devMode: boolean
 	// <><><> What's happening
 	whatsHappening: whatsHappening, setwhatsHappening: Dispatch<whatsHappening>,
-	currentQuestion: question, setCurrentQuestion: Dispatch<question>,
+	currentQuestion: questionInternal, setCurrentQuestion: Dispatch<questionInternal>,
 	scoreState: player[],
 	guessedState: boolean, setGuessedState: Dispatch<boolean>,
 	// <><><> Winning
@@ -64,7 +64,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 		// let queryURL = `https://the-trivia-api.com/questions?categories=food_and_drink&limit=1`
 		let queryURL = `https://the-trivia-api.com/api/questions?categories=${category.queryTag}&limit=1`;
 		// Create a temporary question while we wait for the API to respond
-		const tempQuestion: question = {
+		const tempQuestion: questionInternal = {
 			categoryTag: category.queryTag,
 			questionText: "Loading...",
 			choices: ["Loading...", "Loading...", "Loading...", "Loading..."],
@@ -125,7 +125,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 
 		const categoryTag: string = category[0].queryTag;
 
-		let questionArray: question = {
+		let questionArray: questionInternal = {
 			// <><> Here's the data structure
 			questionText: data.question,
 			choices: choices,

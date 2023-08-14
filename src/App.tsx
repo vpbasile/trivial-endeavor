@@ -3,7 +3,7 @@ import logo from './svg/trivialEndeavorLogo0.svg';
 
 // Import my utility modules and data structures
 import ErrorBoundary from './components/ErrorBoundary';
-import { category, player, whatsHappening, question, phaseDefinition } from './dataStructures';
+import { category, player, whatsHappening, questionInternal, phaseDefinition } from './dataStructures';
 
 // <> Import my modules
 import GameSetup from './components/GameSetup';
@@ -35,8 +35,8 @@ export default function App(props: AppProps): JSX.Element {
   }
   // <><><> What's happening
   const [whatsHappening, setwhatsHappening] = useState<whatsHappening>({ currentPhase: phases[0], currentPlayerIndex: 0 });
-  const blankQuestion: question = { questionText: null, choices: ["", "", "", ""], correctAnswer: null, correctIndex: 0, categoryTag: categoryList[0].queryTag, guessEntered: 0 };
-  const [currentQuestion, setCurrentQuestion] = useState<question>(blankQuestion);
+  const blankQuestion: questionInternal = { questionText: null, choices: ["", "", "", ""], correctAnswer: null, correctIndex: 0, categoryTag: categoryList[0].queryTag, guessEntered: 0 };
+  const [currentQuestion, setCurrentQuestion] = useState<questionInternal>(blankQuestion);
   // <><><> Winning
   const [winners, setWinners] = useState<number[]>([]);
   function hasWon(playerIndex: number): number {

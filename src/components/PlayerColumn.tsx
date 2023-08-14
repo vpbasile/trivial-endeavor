@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react';
-import { category, phaseDefinition, player, question, whatsHappening } from '../dataStructures';
+import { category, phaseDefinition, player, questionInternal, whatsHappening } from '../dataStructures';
 import CategorySelect from './CategorySelect';
 
 type PlayerColumnProps = {
@@ -7,7 +7,7 @@ type PlayerColumnProps = {
 	devMode: boolean;
 	// <><><> What's happening
 	whatsHappening: whatsHappening; setwhatsHappening: Dispatch<whatsHappening>,
-	currentQuestion: question; setCurrentQuestion: Dispatch<question>;
+	currentQuestion: questionInternal; setCurrentQuestion: Dispatch<questionInternal>;
 	scoreState: player[]
 	guessedState: boolean; setGuessedState: Dispatch<boolean>;
 	// <><><> Winning

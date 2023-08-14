@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { category, phaseDefinition, categoryTag, player, question, choices, whatsHappening } from "../dataStructures";
+import { category, phaseDefinition, categoryTag, player, questionInternal, choices, whatsHappening } from "../dataStructures";
 import { nextPlayer } from './helpers'
 import AnswerButton from './AnswerButton';
 
@@ -9,7 +9,7 @@ type QuestionProps = {
 	neededToWin: number;
 	// <><><> What's happening
 	whatsHappening: whatsHappening; setwhatsHappening: Dispatch<whatsHappening>;
-	currentQuestion: question; setCurrentQuestion: Dispatch<question>;
+	currentQuestion: questionInternal; setCurrentQuestion: Dispatch<questionInternal>;
 	questionCategoryTag: string;
 	scoreState: player[]; setScoreState: Dispatch<SetStateAction<player[]>>;
 	guessedState: boolean; setGuessedState: Dispatch<boolean>;
