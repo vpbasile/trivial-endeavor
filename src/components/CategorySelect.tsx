@@ -35,7 +35,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 	const setCurrentQuestion = props.setCurrentQuestion;
 	const setGuessedState = props.setGuessedState;
 	// <><><> Winning
-	const hasWon:number = props.hasWon;
+	const hasWon: number = props.hasWon;
 	// <><><> Game Globals
 	const categoryList = props.categoryList;
 	const phases = props.phases;
@@ -96,13 +96,13 @@ export default function CategorySelect(props: CategorySelectProps) {
 
 	function parseReceivedQuestion(data: questionFromAPI) {
 		console.log(`Parsing question`);
-		if (devMode) {
-			// Hide the answer data so I don't learn anything while I'm debugging
-			console.log(`=====Hiding answers=====`);
-			data.correctAnswer = "Correct answer"
-			data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
-		}
-		// Parse the received question into the game's data structure
+		// if (devMode) {
+		// 	// Hide the answer data so I don't learn anything while I'm debugging
+		// 	console.log(`=====Hiding answers=====`);
+		// 	data.correctAnswer = "Correct answer"
+		// 	data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
+		// }
+		// <> Parse the received question into the game's data structure
 		// Make sure we don't have more than 4 incorrect answers
 		let incorrectAnswers: string[] = data.incorrectAnswers.slice(0, 4);
 		const choicesCount = incorrectAnswers.length + 1
@@ -125,8 +125,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 
 		const categoryTag: string = category[0].queryTag;
 
-		let questionArray: questionInternal = {
-			// <><> Here's the data structure
+		let questionObject: questionInternal = {
 			questionText: data.question,
 			choices: choices,
 			correctAnswer: data.correctAnswer,
@@ -134,8 +133,32 @@ export default function CategorySelect(props: CategorySelectProps) {
 			categoryTag: categoryTag,
 			guessEntered: 0
 		}
+		// Send the question to the database to be saved
+		console.log(`Attempting to save question`)
+		try {
+			fetch("http://localhost:8000/trivia/save/question	", {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(questionObject),
+			});
+		} catch (error: any) {
+			console.log("Error encountered.")
+			console.error(error.message);
+		}
+		if (devMode) {
+			// Hide the answer data so I don't learn anything while I'm debugging
+			console.log(`=====Hiding answers=====`);
+			let choiceCount = 0;
+			choices.forEach(() => {
+				if (choiceCount === questionObject.correctIndex) questionObject.choices[choiceCount] = "Correct answer"
+				else questionObject.choices[choiceCount] = "Incorrect answer"
+				choiceCount++;
+			})
+		}
 		// Update the game state with the new question
-		setCurrentQuestion(questionArray);
+		setCurrentQuestion(questionObject);
 	}
 
 	function shuffleArray(array: string[]): string[] {
@@ -176,7 +199,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 		)
 	}
 	// If the player is a winner, the button should be gold.
-	let place:number = hasWon;
+	let place: number = hasWon;
 	if (place > -1) {
 		switch (place) {
 			case 0: return (winner1Button);
