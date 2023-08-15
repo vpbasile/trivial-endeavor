@@ -95,12 +95,6 @@ export default function CategorySelect(props: CategorySelectProps) {
 
 	function parseReceivedQuestion(data: questionFromAPI) {
 		console.log(`Parsing question`);
-		// if (devMode) {
-		// 	// Hide the answer data so I don't learn anything while I'm debugging
-		// 	console.log(`=====Hiding answers=====`);
-		// 	data.correctAnswer = "Correct answer"
-		// 	data.incorrectAnswers = ["Incorrect answer 1", "Incorrect answer 2", "Incorrect answer 3"]
-		// }
 		// <> Parse the received question into the game's data structure
 		// Make sure we don't have more than 4 incorrect answers
 		let incorrectAnswers: string[] = data.incorrectAnswers.slice(0, 4);
@@ -198,7 +192,6 @@ export default function CategorySelect(props: CategorySelectProps) {
 	}
 	// If the player is a winner, the button should be gold.
 	const hasWon = player.wonPlace;
-	console.log(`hasWon:${hasWon}`)
 	if (hasWon) {
 		switch (hasWon) {
 			case 1: return (buttonGold);
