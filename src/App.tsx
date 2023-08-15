@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import logo from './svg/trivialEndeavorLogo0.svg';
+import logo from "./svg/trivialEndeavorLogo0.svg";
 
 // Import my utility modules and data structures
 import ErrorBoundary from './components/ErrorBoundary';
-import { category, player, whatsHappening, question, phaseDefinition } from './dataStructures';
+import { category, player, whatsHappening, questionInternal, phaseDefinition, winners } from './dataStructures';
 
 // <> Import my modules
 import GameSetup from './components/GameSetup';
@@ -13,13 +13,13 @@ import PlayerColumn from './components/PlayerColumn';
 import Hyperlink from './components/Hyperink';
 
 let players: player[] = [
-  { index: 0, name: "Player 1", correctCategories: [] }
+  { index: 0, name: "Player 1", correctCategories: [], wonPlace: 0 }
 ]
 
 type AppProps = { categoryList: category[], neededToWin: number, phases: phaseDefinition[] }
 
 export default function App(props: AppProps): JSX.Element {
-  
+
   // <><><> Game Globals
   const categoryList = props.categoryList;
   const phases = props.phases;
@@ -35,11 +35,10 @@ export default function App(props: AppProps): JSX.Element {
   }
   // <><><> What's happening
   const [whatsHappening, setwhatsHappening] = useState<whatsHappening>({ currentPhase: phases[0], currentPlayerIndex: 0 });
-  const blankQuestion: question = { questionText: null, choices: ["", "", "", ""], correctAnswer: null, correctIndex: 0, categoryTag: categoryList[0].queryTag, guessEntered: 0 };
-  const [currentQuestion, setCurrentQuestion] = useState<question>(blankQuestion);
+  const blankQuestion: questionInternal = { questionText: null, choices: ["", "", "", ""], correctAnswer: null, correctIndex: 0, categoryTag: categoryList[0].queryTag, guessEntered: 0 };
+  const [currentQuestion, setCurrentQuestion] = useState<questionInternal>(blankQuestion);
   // <><><> Winning
-  const [winners, setWinners] = useState<number[]>([]);
-  function hasWon(playerIndex: number):number { return winners.findIndex(element => element === playerIndex) }
+  const [vyingForPlace, SETvyingForPlace] = useState<winners>(1);
   // <> Create the states for the game
   const [guessedState, setGuessedState] = useState(false);
   const [scoreState, setScoreState] = useState<player[]>(players);
@@ -65,8 +64,7 @@ export default function App(props: AppProps): JSX.Element {
             scoreState={scoreState} setScoreState={setScoreState}
             guessedState={guessedState} setGuessedState={setGuessedState}
             // <><><> Winning
-            winners={winners} setWinners={setWinners}
-            hasWon={hasWon}
+            vyingForPlace={vyingForPlace} SETvyingForPlace={SETvyingForPlace}
             // <><><> Game Globals
             categoryList={categoryList}
             phases={phases}
@@ -85,7 +83,7 @@ export default function App(props: AppProps): JSX.Element {
     <div id="scoreboard-row" className="row" >
       <ErrorBoundary>
         {
-          scoreState.map(player => (
+          scoreState.map((player, index) => (
             <PlayerColumn
               key={player.name + "playerColumn"}
               player={player}
@@ -93,8 +91,7 @@ export default function App(props: AppProps): JSX.Element {
               scoreState={scoreState}
               phases={phases}
               whatsHappening={whatsHappening} setwhatsHappening={setwhatsHappening}
-              winners={winners} setWinners={setWinners}
-              hasWon={hasWon}
+              vyingForPlace={vyingForPlace} SETvyingForPlace={SETvyingForPlace}
               currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion}
               guessedState={guessedState} setGuessedState={setGuessedState}
               devMode={devMode} />))
@@ -115,7 +112,10 @@ export default function App(props: AppProps): JSX.Element {
             scoreState={scoreState}
             whatsHappening={whatsHappening}
             devMode={devMode} toggleDevMode={toggleDevMode}
-          />
+          >
+            <p>'Needed to win' is set to 2 when in dev mode</p>
+            <p>Vying for place: {vyingForPlace}</p>
+          </DataDisplay>
         </ErrorBoundary>
 
       </div>

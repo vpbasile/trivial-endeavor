@@ -1,11 +1,11 @@
 import React, { Dispatch } from "react";
-import { player, category, question, whatsHappening } from "../dataStructures";
+import { player, category, questionInternal, whatsHappening } from "../dataStructures";
 
 type AnswerButtonProps = {
 	key: number, index: number,
 	// <><><> What's happening
 	whatsHappening: whatsHappening,
-	currentQuestion: question,
+	currentQuestion: questionInternal,
 	scoreState: player[], setScoreState: Dispatch<player[]>,
 	guessedState: boolean, setGuessedState: Dispatch<boolean>,
 	// <><><> Game Globals

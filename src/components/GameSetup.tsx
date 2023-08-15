@@ -32,7 +32,7 @@ export default function GameSetup(props: {
 			// Add another player to the scoreState array
 			[...scoreState, {
 				index: scoreState.length, name: "Player " + (scoreState.length + 1),
-				correctCategories: []
+				correctCategories: [], wonPlace: 0
 			}]
 		)}>Add another team</button>
 
