@@ -1,5 +1,7 @@
 # Trivial Endeavor
 
+To install a local dev version, download the code and run "npm i" at the command line.  To see it live, check out the link to the project page (right sidebar on the repository page).
+
 A trivia game using [The Trivia API](https://the-trivia-api.com/) by Will Fry
 
 
