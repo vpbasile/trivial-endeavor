@@ -4,7 +4,7 @@
 // https://api.trivia.willfry.co.uk/questions?categories=food_and_drink,geography,general_knowledge,history,literature,movies,music,science,society_and_culture,sport_and_leisure&limit=1
 
 import React, { Dispatch } from "react";
-import { category, choices, phaseDefinition, player, questionInternal, whatsHappening } from "../dataStructures";
+import { category, choices, phaseDefinition, player, questionInternal, whatsHappening, winners } from "../dataStructures";
 
 type CategorySelectProps = {
 	key: string,
@@ -16,8 +16,7 @@ type CategorySelectProps = {
 	scoreState: player[],
 	guessedState: boolean, setGuessedState: Dispatch<boolean>,
 	// <><><> Winning
-	winners: number[], setWinners: Dispatch<number[]>,
-	hasWon: number,
+	vyingForPlace: winners;
 	// <><><> Game Globals
 	categoryList: category[],
 	phases: phaseDefinition[],
@@ -35,7 +34,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 	const setCurrentQuestion = props.setCurrentQuestion;
 	const setGuessedState = props.setGuessedState;
 	// <><><> Winning
-	const hasWon: number = props.hasWon;
+	const vyingForPlace = props.vyingForPlace;
 	// <><><> Game Globals
 	const categoryList = props.categoryList;
 	const phases = props.phases;
@@ -59,7 +58,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 		// console.log(`whatsHappening: ${JSON.stringify(whatsHappening)}`);
 		const categoryTitle = category.title
 		console.log(`${player.name} requests a ${categoryTitle} question`);
-		// Old formats of the API request:
+		// <> Old formats of the API request:
 		// let queryURL = `https://api.trivia.willfry.co.uk/questions?categories=${category.queryTag}&limit=1`
 		// let queryURL = `https://the-trivia-api.com/questions?categories=food_and_drink&limit=1`
 		let queryURL = `https://the-trivia-api.com/api/questions?categories=${category.queryTag}&limit=1`;
@@ -136,7 +135,7 @@ export default function CategorySelect(props: CategorySelectProps) {
 		// Send the question to the database to be saved
 		console.log(`Attempting to save question`)
 		try {
-			fetch("http://localhost:8000/trivia/save/question	", {
+			fetch("http://localhost:8000/trivia/save/", {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -186,12 +185,11 @@ export default function CategorySelect(props: CategorySelectProps) {
 	// Other player, not complete
 	const buttonKey = player.name + '_' + category.queryTag;
 	const inactiveButtonCss = `${css} btn-dark ${cssClass.replace("cat-", "text-")}`
-	const winner1Button = <input key={buttonKey} className={`${css} gold bg-gradient w-100`} type="button" value={"1st place!"} disabled={true} />
-	const winner2Button = <input key={buttonKey} className={`${css} silver bg-gradient w-100`} type="button" value={"2nd place!"} disabled={true} />
-	const winner3Button = <input key={buttonKey} className={`${css} bronze bg-gradient w-100`} type="button" value={"3rd place!"} disabled={true} />
+	const buttonGold = <input key={buttonKey} className={`${css} gold bg-gradient w-100`} type="button" value={"1st place!"} disabled={true} />
+	const buttonSilver = <input key={buttonKey} className={`${css} silver bg-gradient w-100`} type="button" value={"2nd place!"} disabled={true} />
+	const buttonBronze = <input key={buttonKey} className={`${css} bronze bg-gradient w-100`} type="button" value={"3rd place!"} disabled={true} />
 
 	// <> Build the button
-	// console.log(JSON.stringify(whatsHappening))
 	// During the welcome phase, all buttons should be disabled
 	if (whatsHappening.currentPhase.title === "Welcome") {
 		return (<input key={buttonKey}
@@ -199,13 +197,13 @@ export default function CategorySelect(props: CategorySelectProps) {
 		)
 	}
 	// If the player is a winner, the button should be gold.
-	let place: number = hasWon;
-	if (place > -1) {
-		switch (place) {
-			case 0: return (winner1Button);
-			case 1: return (winner2Button);
-			case 2: return (winner3Button);
-			default: break;
+	const hasWon = player.wonPlace;
+	console.log(`hasWon:${hasWon}`)
+	if (hasWon) {
+		switch (hasWon) {
+			case 1: return (buttonGold);
+			case 2: return (buttonSilver);
+			case 3: return (buttonBronze);
 		}
 	}
 	// If the player has already completed this category, show the category as completed, regardless of whether it that player's turn or not

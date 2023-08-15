@@ -3,12 +3,14 @@ import { player, whatsHappening } from "../dataStructures"
 
 type DataDisplayProps = {
 	// <><><> Dev mode stuff
-	devMode: boolean, toggleDevMode: ()=>void,
+	devMode: boolean, toggleDevMode: () => void,
 	// <><><> What's happening
-	whatsHappening: whatsHappening, 
+	whatsHappening: whatsHappening,
 	scoreState: player[],
 	// <><><> Derivative values
 	players: player[],
+	// <><> Children
+	children?: any
 }
 
 export default function DataDisplay(props: DataDisplayProps) {
@@ -17,7 +19,7 @@ export default function DataDisplay(props: DataDisplayProps) {
 	// <><><> What's happening
 	const whatsHappening = props.whatsHappening;
 	const scoreState = props.scoreState;
-	
+
 	// <><><> Derivative values
 	const currentPlayerIndex = whatsHappening.currentPlayerIndex;
 	const currentPlayer = scoreState[currentPlayerIndex];
@@ -33,6 +35,7 @@ export default function DataDisplay(props: DataDisplayProps) {
 				<h3>Player: {currentPlayer.name}</h3>
 				<h3>Phase: {whatsHappening.currentPhase.title}</h3>
 				<p>Choosing a category with development mode on will hide the values of the answer choices and will instead display which is the correct choice.</p>
+				{props.children}
 			</div>) : null}
 		</div>
 	</div>)

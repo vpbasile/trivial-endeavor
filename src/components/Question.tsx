@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { category, phaseDefinition, categoryTag, player, questionInternal, choices, whatsHappening } from "../dataStructures";
+import { category, phaseDefinition, categoryTag, player, questionInternal, choices, whatsHappening, winners } from "../dataStructures";
 import { nextPlayer } from './helpers'
 import AnswerButton from './AnswerButton';
 
@@ -14,8 +14,7 @@ type QuestionProps = {
 	scoreState: player[]; setScoreState: Dispatch<SetStateAction<player[]>>;
 	guessedState: boolean; setGuessedState: Dispatch<boolean>;
 	// <><><> Winning
-	winners: number[]; setWinners: Dispatch<number[]>;
-	hasWon: (playerIndex: number) => {};
+	vyingForPlace: winners; SETvyingForPlace: Dispatch<winners>;
 	// <><><> Game Globals
 	categoryList: category[];
 	phases: phaseDefinition[];
@@ -38,8 +37,7 @@ export default function Question(props: QuestionProps): JSX.Element | null {
 	const scoreState = props.scoreState; const setScoreState = props.setScoreState;
 	const guessedState = props.guessedState; const setGuessedState = props.setGuessedState;
 	// <><><> Winning
-	const winners = props.winners;
-	const setWinners = props.setWinners;
+	const vyingForPlace = props.vyingForPlace;
 	// <><><> Game Globals
 	const categoryList = props.categoryList;
 	const phases = props.phases;
@@ -73,10 +71,11 @@ export default function Question(props: QuestionProps): JSX.Element | null {
 			console.log(`Correct! ${currentPlayer.name} has completed the ${questionCategory.title} category`);
 			let winCheck = updatedScore(currentPlayerIndex, questionCategoryTag);
 			console.log(`${currentPlayer.name}'s score: ${JSON.stringify(winCheck)}/${neededToWin}`);
-			let tempWinners = Array.from(winners);
+			// let tempWinners = Array.from(winners);
 			if (winCheck >= neededToWin) {
-				tempWinners.push(currentPlayerIndex)
-				setWinners(tempWinners);
+				console.log(`${scoreState[currentPlayerIndex].name} has gotten enough points!`)
+				scoreState[currentPlayerIndex].wonPlace = vyingForPlace;
+				props.SETvyingForPlace(vyingForPlace + 1)
 			}
 		} else {
 			// If the player was incorrect
@@ -84,6 +83,7 @@ export default function Question(props: QuestionProps): JSX.Element | null {
 		}
 		// Now that feedback has been given, move to the next player
 		let nextPlayerIndex = nextPlayer(currentPlayerIndex, playerCount, neededToWin, scoreState);
+		// Every time i use this find, I should be using a map instead
 		const y = props.phases.find(phase => phase.title === "Select");
 		// Update the game state
 		if (y) {

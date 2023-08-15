@@ -1,5 +1,5 @@
 import React, { Dispatch } from 'react';
-import { category, phaseDefinition, player, questionInternal, whatsHappening } from '../dataStructures';
+import { category, phaseDefinition, player, questionInternal, whatsHappening, winners } from '../dataStructures';
 import CategorySelect from './CategorySelect';
 
 type PlayerColumnProps = {
@@ -11,8 +11,7 @@ type PlayerColumnProps = {
 	scoreState: player[]
 	guessedState: boolean; setGuessedState: Dispatch<boolean>;
 	// <><><> Winning
-	winners: number[]; setWinners: Dispatch<number[]>;
-	hasWon: number;
+	vyingForPlace: winners, SETvyingForPlace: Dispatch<winners>;
 	// <><><> Game Globals
 	categoryList: category[],
 	phases: phaseDefinition[],
@@ -26,12 +25,11 @@ export default function PlayerColumn(props: PlayerColumnProps) {
 	const devMode = props.devMode;
 	// <><><> What's happening
 	const whatsHappening = props.whatsHappening; const setwhatsHappening = props.setwhatsHappening;
-	const currentQuestion = props.currentQuestion;const setCurrentQuestion = props.setCurrentQuestion;
+	const currentQuestion = props.currentQuestion; const setCurrentQuestion = props.setCurrentQuestion;
 	const scoreState = props.scoreState;
 	const guessedState = props.guessedState; const setGuessedState = props.setGuessedState;
 	// <><><> Winning
-	const winners = props.winners; const setWinners = props.setWinners;
-	const hasWon:number = props.hasWon;
+	const vyingForPlace = props.vyingForPlace; const SETvyingForPlace = props.SETvyingForPlace;
 	// <><><> Game Globals
 	const categoryList = props.categoryList;
 	const phases = props.phases;
@@ -57,9 +55,7 @@ export default function PlayerColumn(props: PlayerColumnProps) {
 							scoreState={scoreState}
 							guessedState={guessedState} setGuessedState={setGuessedState}
 							// <><><> Winning
-							// playoffs={props.playoffs} setPlayoffs={props.setPlayoffs}
-							winners={winners} setWinners={setWinners}
-							hasWon={hasWon}
+							vyingForPlace={vyingForPlace}
 							// <><><> Game Globals
 							categoryList={categoryList}
 							phases={phases}
