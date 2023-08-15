@@ -1,15 +1,15 @@
 {
-  "files": {
-    "main.css": "/trivial-endeavor/static/css/main.32e67733.css",
-    "main.js": "/trivial-endeavor/static/js/main.7f50cc50.js",
-    "static/media/Precious.ttf": "/trivial-endeavor/static/media/Precious.265572f50024317dee95.ttf",
-    "static/media/trivialEndeavorLogo0.svg": "/trivial-endeavor/static/media/trivialEndeavorLogo0.375526dbde80c1228fbe6c08dc3f803e.svg",
-    "index.html": "/trivial-endeavor/index.html",
-    "main.32e67733.css.map": "/trivial-endeavor/static/css/main.32e67733.css.map",
-    "main.7f50cc50.js.map": "/trivial-endeavor/static/js/main.7f50cc50.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.32e67733.css",
-    "static/js/main.7f50cc50.js"
-  ]
+  "main.css": "/trivial-endeavor/static/css/main.95cf221b.chunk.css",
+  "main.js": "/trivial-endeavor/static/js/main.08f04556.chunk.js",
+  "main.js.map": "/trivial-endeavor/static/js/main.08f04556.chunk.js.map",
+  "static/js/1.a1a3b12e.chunk.js": "/trivial-endeavor/static/js/1.a1a3b12e.chunk.js",
+  "static/js/1.a1a3b12e.chunk.js.map": "/trivial-endeavor/static/js/1.a1a3b12e.chunk.js.map",
+  "runtime~main.js": "/trivial-endeavor/static/js/runtime~main.653de659.js",
+  "runtime~main.js.map": "/trivial-endeavor/static/js/runtime~main.653de659.js.map",
+  "static/media/trivialEndeavorLogo0.svg": "/trivial-endeavor/static/media/trivialEndeavorLogo0.1c763c09.svg",
+  "static/media/shape-size-font.css": "/trivial-endeavor/static/media/Precious.17693b07.ttf",
+  "static/css/main.95cf221b.chunk.css.map": "/trivial-endeavor/static/css/main.95cf221b.chunk.css.map",
+  "index.html": "/trivial-endeavor/index.html",
+  "precache-manifest.443b182bb4733c770a3af5bc6aa1ad90.js": "/trivial-endeavor/precache-manifest.443b182bb4733c770a3af5bc6aa1ad90.js",
+  "service-worker.js": "/trivial-endeavor/service-worker.js"
 }
